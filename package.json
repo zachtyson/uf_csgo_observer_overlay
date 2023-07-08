@@ -1,0 +1,36 @@
+{
+  "name": "csgo_observer_overlay_v2",
+  "version": "0.0.1",
+  "description": "Remake of UF CSGO Observer Overlay",
+  "main": "index.js",
+  "scripts": {
+    "backend:build": "tsc --project backend",
+    "backend:start": "cd backend && npm run start",
+    "backend:test": "jest backend/tests",
+    "frontend:build": "cd frontend && npm run build",
+    "frontend:start": "cd frontend && npm run start",
+    "frontend:test": "cd frontend && npm run test",
+    "build": "npm run backend:build && npm run frontend:build",
+    "start": "concurrently \"npm run backend:start\" \"npm run frontend:start\"",
+    "test": "concurrently \"npm run backend:test\" \"npm run frontend:test\"",
+    "dev": "concurrently \"npm run backend:start \" \"npm run frontend:start\"",
+    "install": "cd frontend && npm install && cd ../backend && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zachtyson/csgo_observer_overlay_v2.git"
+  },
+  "keywords": [
+    "csgo",
+    "uf"
+  ],
+  "author": "Zachary Tyson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zachtyson/csgo_observer_overlay_v2/issues"
+  },
+  "homepage": "https://github.com/zachtyson/csgo_observer_overlay_v2#readme",
+  "dependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
