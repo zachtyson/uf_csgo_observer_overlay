@@ -86,10 +86,16 @@ export interface AllPlayers {
     [steamid: string]: Player;
 }
 
+export interface PhaseCountdowns {
+    phase: string;
+    phase_ends_in: string; // number of seconds as a string e.g. "68.4"
+}
+
 export interface RootObject {
     provider: Provider;
     player: Player;
     map: Map;
     round: Round;
     allplayers: AllPlayers;
+    phase_countdowns: PhaseCountdowns;
 }
