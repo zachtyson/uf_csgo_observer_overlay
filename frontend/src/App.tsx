@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { io, Socket } from "socket.io-client";
-import Scoreboard from "./Scoreboard";
+import Scoreboard from "./scoreboard/Scoreboard";
 const ENDPOINT = "http://localhost:25566"; // replace with your server's address and port
 
 const App: React.FC = () => {
