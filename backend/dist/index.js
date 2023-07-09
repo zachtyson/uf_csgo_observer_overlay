@@ -14,16 +14,8 @@ app.use((req, res) => {
  * Set global vars for later use
  * @type {{game_mode: boolean, map: boolean, round: number, players: Array, player_ids: Array, bombtime: number, bombtimer: boolean}}
  */
-let general_data = {
-    game_mode: false,
-    map: false,
-    round: 0,
-    players: [],
-    player_ids: [],
-    bombtime: config.csgo.bombtime,
-    bombtimer: false,
-};
 var all_data;
+console.log("Starting CS:GO Gamestate Server");
 const server = http.createServer((req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (req.method == "POST") {

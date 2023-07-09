@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { io, Socket } from "socket.io-client";
-const ENDPOINT = "http://localhost:5001"; // replace with your server's address and port
+const ENDPOINT = "http://localhost:25566"; // replace with your server's address and port
 
 const App: React.FC = () => {
   const [response, setResponse] = useState<any>(null);

@@ -20,9 +20,10 @@ app.use((req:any, res:any) => {
 
 var all_data:any;
 
+console.log("Starting CS:GO Gamestate Server");
+
 const server = http.createServer((req:any, res:any) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
-
     if (req.method == "POST") {
         res.writeHead(200, { "Content-Type": "text/html" });
         log.trace("Handling POST Request");
