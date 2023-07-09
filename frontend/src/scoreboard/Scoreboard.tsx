@@ -1,6 +1,6 @@
 import React from 'react';
 import {RootObject} from "../data_interface";
-import './Scoreboard.css';
+import './Scoreboard.scss';
 import {FlashingBomb, Bomb, Defuse } from "../assets/Icons";
 
 interface ScoreboardProps {
@@ -50,12 +50,11 @@ const Scoreboard: React.FC<ScoreboardProps> = (props) => {
     let leftCT = true;
     // Use the data object in your component
     if(!data) return (<div>Loading...</div>);
-    console.log(data);
     const [team_ct, team_t] = [data.map.team_ct, data.map.team_t];
     return (
         <div className="scoreboard">
             <div className="TeamLeft">
-                <p className={leftCT ? "ct-score" : "tscore"}>
+                <p className={leftCT ? "defender-score" : "attacker-score"}>
                     {leftCT ? team_ct.score : team_t.score}
                 </p>
             </div>
@@ -64,7 +63,7 @@ const Scoreboard: React.FC<ScoreboardProps> = (props) => {
                 {printRound(data.map.round,team_ct.score,team_t.score)}
             </div>
             <div className="TeamRight">
-                <p className={leftCT ? "tscore" : "ct-score"}>
+                <p className={leftCT ? "attacker-score" : "defender-score"}>
                     {leftCT ? team_t.score : team_ct.score}
                 </p>
             </div>
