@@ -23,10 +23,9 @@ const App: React.FC = () => {
     }
   }, []);
 
-  console.log(response);
   return (
       <div>
-        <Scoreboard endpoint={response} />
+        <Scoreboard data={response} /> {/* Pass the object as a prop */}
       </div>
   );
 }
