@@ -1,6 +1,6 @@
 const express = require("express");
 const fs = require("fs");
-const config = require("./config");
+const config = require("./config.json");
 const log = require("simple-node-logger").createSimpleFileLogger("csgo-gamestate.log");
 const http = require("http");
 const socketIo = require("socket.io");
@@ -21,6 +21,7 @@ app.use((req:any, res:any) => {
 var all_data:any;
 
 console.log("Starting CS:GO Gamestate Server");
+console.log(config.csgo);
 
 const server = http.createServer((req:any, res:any) => {
     res.setHeader("Access-Control-Allow-Origin", "*");

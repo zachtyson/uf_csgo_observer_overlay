@@ -1,0 +1,10 @@
+{
+  "application": {
+    "logLevel": "info",
+    "port": 25566,
+    "host": "127.0.0.1"
+  },
+  "csgo": {
+    "bombTime": 40
+  }
+}
