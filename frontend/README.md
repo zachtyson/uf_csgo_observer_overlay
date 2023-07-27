@@ -44,3 +44,16 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Electron Packaging
+
+I used electron and electron-builder to package the app into an executable.
+
+For future reference (since I'm going to forget how to do this):
+
+1. npm install electron -g
+2. npm install electron-builder --save-dev
+3. npm install electron --save-dev
+4. npm run build
+5. npm run start-electron (to make sure it works)
+6. npm run package
