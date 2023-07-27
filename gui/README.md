@@ -32,7 +32,9 @@ Frontend:
 6. npm run package
 
 GUI:
-1. Build the Main.java into a jar
-2. Use Launch4j to package the jar into an exe
+1. cd /gui/src
+2. javac Main.java
+3. java Main (to make sure it works)
+4. Launch4j to package it into an exe
 
 
