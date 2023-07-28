@@ -14,7 +14,8 @@
     "start": "concurrently \"npm run backend:start\" \"npm run frontend:start\"",
     "test": "concurrently \"npm run backend:test\" \"npm run frontend:test\"",
     "dev": "concurrently \"npm run backend:start \" \"npm run frontend:start\"",
-    "install": "cd frontend && npm install && cd ../backend && npm install"
+    "install": "cd frontend && npm install && cd ../backend && npm install",
+    "build-gui": "cd gui/src && javac -source 15 -target 15 Main.java && jar cfm .\\Main.jar .\\manifest.txt *.class"
   },
   "repository": {
     "type": "git",
