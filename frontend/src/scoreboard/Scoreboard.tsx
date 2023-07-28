@@ -2,6 +2,8 @@ import React from 'react';
 import {RootObject} from "../data_interface";
 import './Scoreboard.scss';
 import {FlashingBomb, Bomb, Defuse } from "../assets/Icons";
+import CTLogo from '../assets/images/testUFBlueIcon.png';
+import TLogo from '../assets/images/testUFOrangeIcon.png';
 
 interface ScoreboardProps {
     data: RootObject; // Update the type according to your data structure
@@ -45,30 +47,37 @@ function printTime(phase_countdowns:RootObject["phase_countdowns"]){
     return <div id="time">{phase_countdowns.phase_ends_in}</div>;
 }
 
-const Scoreboard: React.FC<ScoreboardProps> = (props) => {
-    const { data } = props; // Access the data prop
-    let leftCT = true;
-    // Use the data object in your component
-    if(!data) return (<div>Loading...</div>);
-    const [team_ct, team_t] = [data.map.team_ct, data.map.team_t];
+const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
+    if (!data) return <div>Loading...</div>;
+
+    const { team_ct, team_t } = data.map;
+    const isLeftCT = true; // Replace with your logic to determine leftCT
+
     return (
-        <div className="scoreboard">
-            <div className="TeamLeft">
-                <p className={leftCT ? "defender-score" : "attacker-score"}>
-                    {leftCT ? team_ct.score : team_t.score}
+        <div className="scoreBoard">
+            <div className="teamImage">
+                <img src={CTLogo} alt="CT Logo" />
+            </div>
+            <div className="teamScore">
+                <p className={isLeftCT ? "defender-score" : "attacker-score"}>
+                    {isLeftCT ? team_ct.score : team_t.score}
                 </p>
             </div>
-            <div className="Match_info">
+            <div className="matchInfo">
                 {printTime(data.phase_countdowns)}
-                {printRound(data.map.round,team_ct.score,team_t.score)}
+                {printRound(data.map.round, team_ct.score, team_t.score)}
             </div>
-            <div className="TeamRight">
-                <p className={leftCT ? "attacker-score" : "defender-score"}>
-                    {leftCT ? team_t.score : team_ct.score}
+            <div className="teamScore">
+                <p className={isLeftCT ? "attacker-score" : "defender-score"}>
+                    {isLeftCT ? team_t.score : team_ct.score}
                 </p>
+            </div>
+            <div className="teamImage">
+                <img src={TLogo} alt="T Logo" />
             </div>
         </div>
     );
-}
+};
+
 
 export default Scoreboard;
