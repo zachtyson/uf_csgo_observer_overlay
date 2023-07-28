@@ -13,28 +13,3 @@ Ideally modifying the config within the GUI will modify the config file for the 
 doesn't have to manually edit the config files and can just use the GUI.
 
 Why Java Swing? Why not literally anything else? Laziness.
-
-For future Zach: 
-
-Backend: 
-1. npm install pkg -g
-2. cd backend
-3. npm run build
-4. cd dist
-5. pkg .\index.js
-
-Frontend:
-1. npm install electron -g
-2. npm install electron-builder --save-dev
-3. npm install electron --save-dev
-4. npm run build
-5. npm run start-electron (to make sure it works)
-6. npm run package
-
-GUI:
-1. cd gui/src
-2. javac -source 15 -target 15 Main.java
-3. jar cfm .\Main.jar .\manifest.txt *.class
-4. Use Launch4j to package it into an exe using overlay_launch4j.xml
-
-
