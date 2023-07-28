@@ -2,9 +2,10 @@ import React from 'react';
 import {RootObject} from "../data_interface";
 import './Scoreboard.scss';
 import {FlashingBomb, Bomb, Defuse } from "../assets/Icons";
-import CTLogo from '../assets/images/testUFBlueIcon.png';
-import TLogo from '../assets/images/testUFOrangeIcon.png';
+import { teamOneLogo, teamTwoLogo, teamOneName, teamTwoName, } from "../teamInfo.js"
 
+let swap = 0;
+let startingSide = 'ct';
 interface ScoreboardProps {
     data: RootObject; // Update the type according to your data structure
 }
@@ -27,6 +28,7 @@ function printRound(num:number,CTScore:number,TScore:number) {
 }
 
 function printTime(phase_countdowns:RootObject["phase_countdowns"]){
+
     if (phase_countdowns.phase === "bomb") {
         return <FlashingBomb className="bombImage" />
     }
@@ -40,11 +42,46 @@ function printTime(phase_countdowns:RootObject["phase_countdowns"]){
         phase_ends_in = 0;
     }
 
+    //todo: truncate to integer and only show decmials if time < 10s
+
     if (phase_ends_in < 10 && phase_countdowns.phase === "live") {
-        return <div id="timelow">{phase_countdowns.phase_ends_in}</div>;
+        return <div id="timelow">{phase_ends_in}</div>;
     }
 
-    return <div id="time">{phase_countdowns.phase_ends_in}</div>;
+    return <div id="time">{phase_ends_in}</div>;
+}
+
+function printTeamLogo(side:boolean) {
+    if (side) {
+        if(swap === 0){
+            return teamOneLogo;
+        } else {
+            return teamTwoLogo;
+        }
+    } else {
+        if(swap === 0) {
+            return teamTwoLogo;
+        } else {
+            return teamOneLogo;
+        }
+    }
+}
+
+
+function printCTWinLogo(){
+    if(swap) {
+        return teamTwoLogo;
+    } else {
+        return teamOneLogo;
+    }
+}
+
+function printTWinLogo(){
+    if(swap) {
+        return teamOneLogo;
+    } else {
+        return teamTwoLogo;
+    }
 }
 
 const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
@@ -53,10 +90,12 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
     const { team_ct, team_t } = data.map;
     const isLeftCT = true; // Replace with your logic to determine leftCT
 
+    const allPlayers = data.allplayers;
+    console.log(typeof allPlayers);
     return (
         <div className="scoreBoard">
             <div className="teamImage">
-                <img src={CTLogo} alt="CT Logo" />
+                <img src={teamOneLogo} alt="CT Logo" />
             </div>
             <div className="teamScore">
                 <p className={isLeftCT ? "defender-score" : "attacker-score"}>
@@ -73,7 +112,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
                 </p>
             </div>
             <div className="teamImage">
-                <img src={TLogo} alt="T Logo" />
+                <img src={teamTwoLogo} alt="T Logo" />
             </div>
         </div>
     );
