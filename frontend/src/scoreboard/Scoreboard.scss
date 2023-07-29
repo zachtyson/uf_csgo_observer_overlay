@@ -4,7 +4,7 @@
 [class*="defender-score"] {
   display: table-cell;
   vertical-align: middle;
-  font-size: 48px;
+  font-size: 3vw;
   background-color: $CT-color;
   height: 100%;
   margin: 0;
@@ -13,7 +13,7 @@
 [class*="attacker-score"] {
   display: table-cell;
   vertical-align: middle;
-  font-size: 48px;
+  font-size: 3vw;
   background-color: $T-color;
   height: 100%;
   margin: 0;
@@ -243,7 +243,6 @@ body {
   text-align: center;
   height: 100%;
   width: 20%;
-  min-width: 100px;
 }
 
 .teamImage {

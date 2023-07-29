@@ -42,8 +42,13 @@ function printTime(phase_countdowns:RootObject["phase_countdowns"]){
         phase_ends_in = 0;
     }
 
-    if (phase_ends_in < 10 && phase_countdowns.phase === "live") {
-        return <div className="time low">{phase_ends_in}</div>;
+    if (phase_ends_in < 10) {
+        if(phase_countdowns.phase === "live") {
+            return <div className="time low">{phase_ends_in}</div>;
+        }
+        if(phase_countdowns.phase === "over") {
+            return <div className="time">{phase_ends_in}</div>;
+        }
     }
     phase_ends_in = Math.floor(phase_ends_in);
     const minutes = Math.floor(phase_ends_in / 60);
@@ -93,7 +98,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
     const isLeftCT = true; // Replace with your logic to determine leftCT
 
     const allPlayers = data.allplayers;
-    console.log(typeof allPlayers);
+    console.log(data);
     return (
         <div className="scoreBoard">
             <div className="teamImage">
