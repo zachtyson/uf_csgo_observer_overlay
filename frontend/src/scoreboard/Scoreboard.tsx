@@ -1,8 +1,8 @@
- import React from 'react';
+import React from 'react';
 import {RootObject} from "../data_interface";
 import './Scoreboard.scss';
-import {FlashingBomb, Bomb, Defuse } from "../assets/Icons";
-import { teamOneLogo, teamTwoLogo, teamOneName, teamTwoName, } from "../teamInfo.js"
+import {Defuse, FlashingBomb} from "../assets/Icons";
+import {teamOneLogo, teamOneName, teamTwoLogo, teamTwoName,} from "../teamInfo.js"
 
 let swap = 0;
 let startingSide = 'ct';
@@ -91,6 +91,22 @@ function printTWinLogo(){
     }
 }
 
+function printTeamName(side:string){
+    //team one is always at left
+    //team one should start ct, if they don't, press 0
+    if(side === "R") {
+        if(startingSide === 't') {
+            return teamOneName;
+        }
+        return teamTwoName
+    } else {
+        if(startingSide === 't') {
+            return teamTwoName;
+        }
+        return teamOneName
+    }
+}
+
 const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
     if (!data) return <div>Loading...</div>;
 
@@ -100,26 +116,38 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
     const allPlayers = data.allplayers;
     console.log(data);
     return (
-        <div className="scoreBoard">
-            <div className="teamImage">
-                <img src={teamOneLogo} alt="CT Logo" />
-            </div>
-            <div className="teamScore">
-                <p className={isLeftCT ? "defender-score" : "attacker-score"}>
-                    {isLeftCT ? team_ct.score : team_t.score}
+        <div className="parent">
+            <div className="TeamName">
+                <p className="teamLeftName">
+                    {printTeamName("L")}
                 </p>
             </div>
-            <div className="matchInfo">
-                {printTime(data.phase_countdowns)}
-                {printRound(data.map.round, team_ct.score, team_t.score)}
+            <div className="scoreBoard">
+                <div className="teamImage">
+                    <img src={teamOneLogo} alt="CT Logo" />
+                </div>
+                <div className="teamScore">
+                    <p className={isLeftCT ? "defender-score" : "attacker-score"}>
+                        {isLeftCT ? team_ct.score : team_t.score}
+                    </p>
+                </div>
+                <div className="matchInfo">
+                    {printTime(data.phase_countdowns)}
+                    {printRound(data.map.round, team_ct.score, team_t.score)}
+                </div>
+                <div className="teamScore">
+                    <p className={isLeftCT ? "attacker-score" : "defender-score"}>
+                        {isLeftCT ? team_t.score : team_ct.score}
+                    </p>
+                </div>
+                <div className="teamImage">
+                    <img src={teamTwoLogo} alt="T Logo" />
+                </div>
             </div>
-            <div className="teamScore">
-                <p className={isLeftCT ? "attacker-score" : "defender-score"}>
-                    {isLeftCT ? team_t.score : team_ct.score}
+            <div className="TeamName">
+                <p className="teamRightName">
+                    {printTeamName("R")}
                 </p>
-            </div>
-            <div className="teamImage">
-                <img src={teamTwoLogo} alt="T Logo" />
             </div>
         </div>
     );
