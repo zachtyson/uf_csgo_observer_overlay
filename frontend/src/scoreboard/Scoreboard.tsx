@@ -117,7 +117,11 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
     console.log(data);
     return (
         <div className="parent">
-            <div className="TeamName">
+            <div className="TeamName"
+                 {...(data.map.phase !== "freezetime"
+                     ? { id:"hidden" }
+                     : {})}
+            >
                 <p className="teamLeftName">
                     {printTeamName("L")}
                 </p>
@@ -144,7 +148,11 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
                     <img src={teamTwoLogo} alt="T Logo" />
                 </div>
             </div>
-            <div className="TeamName">
+            <div className="TeamName"
+                 {...(data.map.phase !== "freezetime"
+                     ? { id:"hidden" }
+                     : {})}
+            >
                 <p className="teamRightName">
                     {printTeamName("R")}
                 </p>
