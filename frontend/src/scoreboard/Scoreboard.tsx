@@ -1,14 +1,32 @@
 import React from 'react';
-import {RootObject} from "../data_interface";
+import {RootObject, AllPlayers, Player} from "../data_interface";
 import './Scoreboard.scss';
 import {Defuse, FlashingBomb} from "../assets/Icons";
-import {teamOneLogo, teamOneName, teamTwoLogo, teamTwoName,} from "../teamInfo.js"
+import {teamOneLogo, teamOneName, teamTwoLogo, teamTwoName, teamOneStartingSide} from "../teamInfo.js"
 
 let swap = 0;
-let startingSide = 'ct';
+let teamOneSide = teamOneStartingSide;
 interface ScoreboardProps {
     data: RootObject; // Update the type according to your data structure
 }
+
+window.addEventListener("keydown", (event) => {
+    if(event.key === "`") {
+        if(swap === 0) {
+            swap = 1
+        } else {
+            swap = 0
+        }
+    }
+    if(event.key === "0") {
+        if(teamOneSide === 'CT') {
+            teamOneSide = 'T'
+        } else {
+            teamOneSide = 'CT'
+        }
+    }
+});
+
 function printRound(num:number,CTScore:number,TScore:number) {
     if(num <= 29) {
         return <div> ROUND {num + 1}/30 </div>
@@ -102,30 +120,35 @@ function printTeamName(side:string){
     //team one is always at left
     //team one should start ct, if they don't, press 0
     if(side === "R") {
-        if(startingSide === 't') {
+        if(teamOneSide === 'T') {
             return teamOneName;
         }
         return teamTwoName
     } else {
-        if(startingSide === 't') {
+        if(teamOneSide === 'T') {
             return teamTwoName;
         }
         return teamOneName
     }
 }
 
+function hasCTPlayerOnSlots1To5(allPlayers:AllPlayers): boolean {
+    return Object.values(allPlayers).some(
+        (player: Player) => player.team === 'CT' && player.observer_slot >= 1 && player.observer_slot <= 5
+    );
+}
+
 const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
     if (!data) return <div>Loading...</div>;
 
     const { team_ct, team_t } = data.map;
-    const isLeftCT = true; // Replace with your logic to determine leftCT
-
-    const allPlayers = data.allplayers;
     console.log(data);
+
+    const isLeftCT: boolean = hasCTPlayerOnSlots1To5(data.allplayers);
     return (
         <div className="parent">
             <div className="TeamName"
-                 {...(data.map.phase !== "freezetime"
+                 {...(data.phase_countdowns.phase !== "freezetime"
                      ? { id:"hidden" }
                      : {})}
             >
@@ -135,7 +158,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
             </div>
             <div className="scoreBoard">
                 <div className="teamImage">
-                    <img src={teamOneLogo} alt="CT Logo" />
+                    <img src={printTeamLogo(isLeftCT)} alt="CT Logo" />
                 </div>
                 <div className="teamScore">
                     <p className={isLeftCT ? "defender-score" : "attacker-score"}>
@@ -152,11 +175,11 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
                     </p>
                 </div>
                 <div className="teamImage">
-                    <img src={teamTwoLogo} alt="T Logo" />
+                    <img src={printTeamLogo(!isLeftCT)} alt="T Logo" />
                 </div>
             </div>
             <div className="TeamName"
-                 {...(data.map.phase !== "freezetime"
+                 {...(data.phase_countdowns.phase !== "freezetime"
                      ? { id:"hidden" }
                      : {})}
             >
