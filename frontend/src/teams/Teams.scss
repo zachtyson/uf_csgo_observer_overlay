@@ -9,6 +9,7 @@
     opacity: 100%;
     bottom: 25px;
     left: 25px;
+    color:white;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     /* Players on the left side of the hud */
 
@@ -118,6 +119,7 @@
     bottom: 25px;
     right: 25px;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color:white;
     /* Players on the right side of the hud */
 
     .RplayerBlock {
@@ -218,7 +220,7 @@
 }
 
 #spec {
-    border: 5px inset white;
+    box-shadow: white 0 0 0 5px;
     /* Player being currently viewed */
 }
 
