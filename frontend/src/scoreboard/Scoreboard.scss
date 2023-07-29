@@ -30,6 +30,7 @@
   width: 1000px;
   opacity: 100%;
   transition: opacity 1s linear;
+  color: white;
 
   .teamLeftName {
     display: table-cell;
@@ -37,7 +38,6 @@
     vertical-align: middle;
     text-align: right;
     font-size: 36px;
-    color: rgb(255, 255, 255);
   }
 
   .teamRightName {
@@ -46,7 +46,6 @@
     vertical-align: middle;
     text-align: left;
     font-size: 36px;
-    color: rgb(255, 255, 255);
   }
 }
 
