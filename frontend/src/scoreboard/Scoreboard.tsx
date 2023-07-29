@@ -142,7 +142,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
     if (!data) return <div>Loading...</div>;
 
     const { team_ct, team_t } = data.map;
-    console.log(data);
+    //console.log(data);
 
     const isLeftCT: boolean = hasCTPlayerOnSlots1To5(data.allplayers);
     return (
