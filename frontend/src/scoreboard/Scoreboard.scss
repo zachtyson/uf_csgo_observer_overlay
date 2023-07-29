@@ -272,7 +272,7 @@ body {
   align-self: center;
   align-content: center;
   margin: 0 auto;
-  min-width: 25%;
+  width: 25%;
   height: 100%;
   background-color: $Background-solid;
 
@@ -292,7 +292,7 @@ body {
 
   .time {
     padding-top: 5px;
-    font-size: 36px;
+    font-size: 2vw;
   }
 
   .low {
