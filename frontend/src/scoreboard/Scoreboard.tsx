@@ -53,7 +53,14 @@ function printTime(phase_countdowns:RootObject["phase_countdowns"]){
     phase_ends_in = Math.floor(phase_ends_in);
     const minutes = Math.floor(phase_ends_in / 60);
     const seconds = phase_ends_in % 60;
-    const formattedSeconds = `${minutes} : ${seconds}`;
+    let formattedSeconds:string;
+    if (seconds < 10) {
+        formattedSeconds = `${minutes} : 0${seconds}`;
+    }
+    else {
+        formattedSeconds = `${minutes} : ${seconds}`;
+    }
+
 
     return <div className="time">{formattedSeconds}</div>;
 }
