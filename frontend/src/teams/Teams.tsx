@@ -102,7 +102,7 @@ function printTeam(team:Player[],side:string,p:Player) {
                             <Skull className="skull" />
                         )}
                     </div>
-                    <div className="playerInfo">
+                    <div>
                         <div className={side === "L" ? "LplayerInfo" : "RplayerInfo"}>
                             <div className="healthBarText">
                                 <div>{getPrimaryWeapon(side, player)}</div>
