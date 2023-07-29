@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import {RootObject} from "../data_interface";
 import './Scoreboard.scss';
 import {FlashingBomb, Bomb, Defuse } from "../assets/Icons";
@@ -42,13 +42,15 @@ function printTime(phase_countdowns:RootObject["phase_countdowns"]){
         phase_ends_in = 0;
     }
 
-    //todo: truncate to integer and only show decmials if time < 10s
-
     if (phase_ends_in < 10 && phase_countdowns.phase === "live") {
-        return <div id="timelow">{phase_ends_in}</div>;
+        return <div className="time low">{phase_ends_in}</div>;
     }
+    phase_ends_in = Math.floor(phase_ends_in);
+    const minutes = Math.floor(phase_ends_in / 60);
+    const seconds = phase_ends_in % 60;
+    const formattedSeconds = `${minutes} : ${seconds}`;
 
-    return <div id="time">{phase_ends_in}</div>;
+    return <div className="time">{formattedSeconds}</div>;
 }
 
 function printTeamLogo(side:boolean) {
