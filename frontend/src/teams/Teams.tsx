@@ -83,22 +83,80 @@ function printHealthBar(player:Player,side:string) {
     }
     return <div className={x + "Chart"}>{<div className={x + "bar-D"} />}</div>;
 }
+function printTeam(team:Player[],side:string,p:Player) {
+    return (
+        <div className={side === "L" ? "Lplayers" : "Rplayers"}>
+            {team?.map((player: Player, index: number) => (
+                <div
+                    className={
+                        (player.state.health === 0 ? "dead " : "alive ") +
+                        (side === "L" ? "LplayerBlock" : "RplayerBlock")
+                    }
+                    key={player.observer_slot}
+                    id={player.observer_slot === p.observer_slot ? "spec" : ""}
+                >
+                    <div className={side === "L" ? "LArmor" : "RArmor"}>
+                        {player.state.health > 0 ? (
+                            <div>{printArmorKitHealth(player, side)}</div>
+                        ) : (
+                            <Skull className="skull" />
+                        )}
+                    </div>
+                    <div className="playerInfo">
+                        <div className={side === "L" ? "LplayerInfo" : "RplayerInfo"}>
+                            <div className="healthBarText">
+                                <div>{getPrimaryWeapon(side, player)}</div>
+
+                                {side === "L" ? (
+                                    <p className="pLeft">
+                                        {player.observer_slot} | {player.name}{" "}
+                                    </p>
+                                ) : (
+                                    <p className="pRight">
+                                        {player.name} | {player.observer_slot}{" "}
+                                    </p>
+                                )}
+                            </div>
+                            {printHealthBar(player,side)}
+                        </div>
+
+                        <div className={side === "L" ? "subTextLeft" : "subTextRight"}>
+                            <div className="secondary">{getSecondaryWeapon(side, player)}</div>
+                            <div className="Nades">{getNades(side, player)}</div>
+                            <div className="playerStats">
+                                <p>
+                                    {player.match_stats.kills} / {player.match_stats.assists} /{" "}
+                                    {player.match_stats.deaths}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+}
 
 const Teams: React.FC<TeamProps> = ({ data }) => {
     if(!data) {
         return <div></div>;
     }
+
     let leftTeam: Player[] = Object.values(data.allplayers).filter((p: Player) => p.observer_slot < 6 && p.observer_slot !== 0);
     let rightTeam: Player[] = Object.values(data.allplayers).filter((p: Player) => p.observer_slot >= 6 || p.observer_slot === 0);
 
-    const player: Player | null = data.allplayers[data.player.steamid] || null;
-
-
-    console.log(data);
+    const player: Player | null = data.player;
 
     if(!leftTeam && !rightTeam) {
         return <div></div>;
     }
-    return <div/>;
+
+    return (
+        <div>
+            {printTeam(leftTeam,"L",player)}
+            {printTeam(rightTeam,"R",player)}
+        </div>
+
+    );
 };
 export default Teams;
