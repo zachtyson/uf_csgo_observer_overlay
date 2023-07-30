@@ -87,14 +87,14 @@ function Grenades(player:Player) {
 }
 function getAmmo(player:Player,weapon:Weapon) {
     if(!player) {
-        return;
+        return <div/>;
     }
     if(weapon == null) {
-        return
+        return <div/>;
     }
 
-    if(weapon.type === "Knife" || weapon.type === "Grenade") {
-        return <div/>
+    if(weapon.type === "Knife" || weapon.type === "Grenade" || weapon.type === "C4") {
+        return <div/>;
     }
     return (weapon ? <div className="ammo">
                 <Bullets className="icon" />
