@@ -157,7 +157,10 @@ const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data }) => {
                 <div className="playerBlock">
                     <div className="playerInfoTop">
                         <div className="playerVitals">
-                            <div className="health"> <HealthFull className="icon" style={{fill:'white'}}/> <div className = "vitalNum"> {player.state.health} </div> </div>
+                            <div className="health">
+                                <HealthFull className="icon" style={{fill:'white'}}/>
+                                <div className = "vitalNum"> {player.state.health} </div>
+                            </div>
                             <div className="armor">
                                 {player.state.helmet ? <ArmorHelmet className="icon" /> : player.state.armor > 0 ? <ArmorFull className="icon" /> : <ArmorNone className="icon" />}
                                 <div className = "vitalNum"> {player.state.armor} </div>

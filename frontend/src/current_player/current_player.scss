@@ -34,7 +34,6 @@ body {
     margin-left: auto;
     margin-right: auto;
     height: 30%;
-    background-color: rgba(60, 5, 155, 0.557);
 
     .playerVitals {
         display: flex;
@@ -44,7 +43,7 @@ body {
         align-items: stretch;
 
         height: 100%;
-        width: 37%;
+        width: 40%;
         font-size: x-large;
         background-color: $Background-solid;
 
@@ -56,7 +55,6 @@ body {
             align-self: center;
             align-content: center;
             margin: 0 auto;
-
             //text-align: left;
             //background-color: green;
 
@@ -85,8 +83,8 @@ body {
 
         .icon {
             width: 30%;
-            margin-top: 7%;
-            margin-left: 2.5%;
+            margin-top: 5%;
+            margin-left: 5%;
             padding-right: 5%;
             height: 20%;
             //background-color: purple;
@@ -100,7 +98,7 @@ body {
         float: left;
         margin-left: auto;
         margin-right: auto;
-        width: 63%;
+        width: 60%;
         text-align: left;
         background-color: $Background-solid;
 
@@ -193,7 +191,7 @@ $totalColumns: 101;
 
     .team {
         height: 100%;
-        width: 37%;
+        width: 40%;
         position: relative;
         background-color: #212a34e7;
 
@@ -217,7 +215,7 @@ $totalColumns: 101;
         text-align: left;
         //align-self: center; // vertical centering
         height: 100%;
-        width: 63%;
+        width: 60%;
         background-color: $Background-opacity;
 
         .player-score {
