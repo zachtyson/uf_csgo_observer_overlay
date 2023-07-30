@@ -143,7 +143,6 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
 
     const { team_ct, team_t } = data.map;
     //console.log(data);
-    console.log(data.phase_countdowns.phase);
     const isLeftCT: boolean = hasCTPlayerOnSlots1To5(data.allplayers);
     return (
         <div className="parent">
