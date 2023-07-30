@@ -7,6 +7,11 @@ import {RootObject, AllPlayers, Player} from "../data_interface";
 
 interface TeamProps {
     data: RootObject; // Update the type according to your data structure
+    teamOneLogo: any;
+    teamOneName: string;
+    teamTwoLogo: any
+    teamTwoName: string;
+    teamOneStartingSide: string;
 }
 
 function printArmorKitHealth(player:Player, side:string) {
@@ -137,7 +142,7 @@ function printTeam(team:Player[],side:string,p:Player) {
     );
 }
 
-const Teams: React.FC<TeamProps> = ({ data }) => {
+const Teams: React.FC<TeamProps> = ({ data,teamOneLogo,teamOneName,teamTwoLogo,teamTwoName,teamOneStartingSide }) => {
     if(!data) {
         return <div></div>;
     }

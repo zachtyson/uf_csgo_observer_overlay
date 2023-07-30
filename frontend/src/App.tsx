@@ -4,6 +4,8 @@ import Scoreboard from "./scoreboard/Scoreboard";
 import Teams from "./teams/Teams";
 import CurrentPlayer from "./current_player/current_player";
 const ENDPOINT = "http://localhost:25566"; // replace with your server's address and port
+import {teamOneLogo, teamOneName, teamTwoLogo, teamTwoName, teamOneStartingSide} from "./teamInfo.js"
+
 
 const App: React.FC = () => {
   const [response, setResponse] = useState<any>(null);
@@ -27,9 +29,28 @@ const App: React.FC = () => {
 
   return (
       <div>
-        <Scoreboard data={response} /> {/* Pass the object as a prop */}
-        <Teams data={response} /> {/* Pass the object as a prop */}
-        <CurrentPlayer data={response} /> {/* Pass the object as a prop */}
+        <Scoreboard
+            data={response}
+            teamOneLogo={teamOneLogo}
+            teamOneName={teamOneName}
+            teamTwoLogo={teamTwoLogo}
+            teamTwoName={teamTwoName}
+            teamOneStartingSide={teamOneStartingSide}
+        />
+        <Teams data={response}
+               teamOneLogo={teamOneLogo}
+               teamOneName={teamOneName}
+               teamTwoLogo={teamTwoLogo}
+               teamTwoName={teamTwoName}
+               teamOneStartingSide={teamOneStartingSide}
+        /> {/* Pass the object as a prop */}
+        <CurrentPlayer data={response}
+                       teamOneLogo={teamOneLogo}
+                       teamOneName={teamOneName}
+                       teamTwoLogo={teamTwoLogo}
+                       teamTwoName={teamTwoName}
+                       teamOneStartingSide={teamOneStartingSide}
+        /> {/* Pass the object as a prop */}
       </div>
   );
 }

@@ -2,13 +2,19 @@ import React from 'react';
 import {RootObject, AllPlayers, Player} from "../data_interface";
 import './Scoreboard.scss';
 import {Defuse, FlashingBomb} from "../assets/Icons";
-import {teamOneLogo, teamOneName, teamTwoLogo, teamTwoName, teamOneStartingSide} from "../teamInfo.js"
+import * as string_decoder from "string_decoder";
 
+let teamOneSide:string= 'CT';
 let swap = 0;
-let teamOneSide = teamOneStartingSide;
 interface ScoreboardProps {
     data: RootObject; // Update the type according to your data structure
+    teamOneLogo: any;
+    teamOneName: string;
+    teamTwoLogo: any
+    teamTwoName: string;
+    teamOneStartingSide: string;
 }
+
 
 window.addEventListener("keydown", (event) => {
     if(event.key === "`") {
@@ -83,7 +89,7 @@ function printTime(phase_countdowns:RootObject["phase_countdowns"]){
     return <div className="time">{formattedSeconds}</div>;
 }
 
-function printTeamLogo(side:boolean) {
+function printTeamLogo(side:boolean, teamOneLogo:any, teamTwoLogo:any) {
     if (side) {
         if(swap === 0){
             return teamOneLogo;
@@ -100,7 +106,7 @@ function printTeamLogo(side:boolean) {
 }
 
 
-function printCTWinLogo(){
+function printCTWinLogo(teamOneLogo:any, teamTwoLogo:any) {
     if(swap) {
         return teamTwoLogo;
     } else {
@@ -108,7 +114,7 @@ function printCTWinLogo(){
     }
 }
 
-function printTWinLogo(){
+function printTWinLogo(teamOneLogo:any, teamTwoLogo:any){
     if(swap) {
         return teamOneLogo;
     } else {
@@ -116,7 +122,7 @@ function printTWinLogo(){
     }
 }
 
-function printTeamName(side:string){
+function printTeamName(side:string, teamOneName:string, teamTwoName:string){
     //team one is always at left
     //team one should start ct, if they don't, press 0
     if(side === "R") {
@@ -138,8 +144,10 @@ function hasCTPlayerOnSlots1To5(allPlayers:AllPlayers): boolean {
     );
 }
 
-const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
+const Scoreboard: React.FC<ScoreboardProps> = ({ data,teamOneLogo,teamOneName,teamTwoLogo,teamTwoName,teamOneStartingSide }) => {
     if (!data) return <div>Loading...</div>;
+    teamOneSide = teamOneStartingSide;
+
 
     const { team_ct, team_t } = data.map;
     //console.log(data);
@@ -148,12 +156,12 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
         <div className="parent">
             <div className="TeamName" id={data.phase_countdowns.phase === "live" ? "hidden" : ""}>
                 <p className="teamLeftName">
-                    {printTeamName("L")}
+                    {printTeamName("L", teamOneName, teamTwoName)}
                 </p>
             </div>
             <div className="scoreBoard">
                 <div className="teamImage">
-                    <img src={printTeamLogo(isLeftCT)} alt="CT Logo" />
+                    <img src={printTeamLogo(isLeftCT,teamOneLogo,teamTwoLogo)} alt="CT Logo" />
                 </div>
                 <div className="teamScore">
                     <p className={isLeftCT ? "defender-score" : "attacker-score"}>
@@ -170,12 +178,12 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
                     </p>
                 </div>
                 <div className="teamImage">
-                    <img src={printTeamLogo(!isLeftCT)} alt="T Logo" />
+                    <img src={printTeamLogo(!isLeftCT,teamOneLogo,teamTwoLogo)} alt="T Logo" />
                 </div>
             </div>
             <div className="TeamName" id={data.phase_countdowns.phase === "live" ? "hidden" : ""}>
                 <p className="teamRightName">
-                    {printTeamName("R")}
+                    {printTeamName("R", teamOneName, teamTwoName)}
                 </p>
             </div>
         </div>
