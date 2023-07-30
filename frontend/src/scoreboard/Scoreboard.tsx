@@ -143,15 +143,11 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
 
     const { team_ct, team_t } = data.map;
     //console.log(data);
-
+    console.log(data.phase_countdowns.phase);
     const isLeftCT: boolean = hasCTPlayerOnSlots1To5(data.allplayers);
     return (
         <div className="parent">
-            <div className="TeamName"
-                 {...(data.phase_countdowns.phase !== "freezetime"
-                     ? { id:"hidden" }
-                     : {})}
-            >
+            <div className="TeamName" id={data.phase_countdowns.phase === "live" ? "hidden" : ""}>
                 <p className="teamLeftName">
                     {printTeamName("L")}
                 </p>
@@ -178,11 +174,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data }) => {
                     <img src={printTeamLogo(!isLeftCT)} alt="T Logo" />
                 </div>
             </div>
-            <div className="TeamName"
-                 {...(data.phase_countdowns.phase !== "freezetime"
-                     ? { id:"hidden" }
-                     : {})}
-            >
+            <div className="TeamName" id={data.phase_countdowns.phase === "live" ? "hidden" : ""}>
                 <p className="teamRightName">
                     {printTeamName("R")}
                 </p>
