@@ -27,10 +27,10 @@
 .TeamName {
   text-align: left;
   display: table;
-  width: 1000px;
   opacity: 100%;
   transition: opacity 1s linear;
   color: white;
+  overflow: visible;
 
   .teamLeftName {
     display: table-cell;
