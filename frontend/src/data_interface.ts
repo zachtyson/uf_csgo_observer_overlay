@@ -20,6 +20,7 @@ export interface PlayerState {
     round_killhs: number;
     round_totaldmg: number;
     equip_value: number;
+    defusekit?: boolean;
 }
 
 export interface PlayerStats {
