@@ -1,10 +1,9 @@
 import "./current_player.scss";
-import React, { useEffect, useState } from "react";
-import io from "socket.io-client";
+import React from "react";
 import { HealthFull, ArmorNone, ArmorFull, ArmorHelmet, Defuse,SmallBomb, Bullets } from '../assets/Icons';
 import {teamOneLogo, teamTwoLogo} from "../teamInfo";
 import { gunMap, nadeOrder } from "../assets/Weapons";
-import {RootObject, AllPlayers, Player, Weapon} from "../data_interface";
+import {RootObject, Player, Weapon} from "../data_interface";
 let swap = 0
 
 interface CurrentPlayerProps {
@@ -36,10 +35,106 @@ function printTeamLogo(side:string) {
     }
 }
 
+function hasKitOrBomb(player:Player) {
+    if (player.state.defusekit === true) {
+        return <Defuse />;
+    } else {
+        let bomb = [...Object.values(player.weapons)].find(w => w.name === "weapon_c4");
+        if (bomb) return <SmallBomb />
+    }
+    return false;
+}
+
+function Grenades(player:Player) {
+    if (!player || !player.weapons) return <div/>
+    let x = '';
+    let gun;
+    let nades = Array(4).fill("");
+    let spot = 0;
+    Object.keys(player.weapons).forEach(function (key) {
+        gun = player.weapons[key];
+        if (gun.type === "Grenade") {
+            x = gun.name;
+            nades[spot] = x;
+            spot++;
+        }
+    });
+    if(nades[0] === "" && !hasKitOrBomb(player)){
+        return (
+            <div className="Nades">
+                <p>NO UTILITY</p>
+            </div>
+        )
+    }
+
+    for (const nade in nades) {
+        if (nades[nade] !== "") {
+            nades[nade] = nadeOrder.get(nades[nade]);
+        }
+    }
+    nades.sort();
+    nades.reverse();
+
+    return (
+        <div className="Nades">
+            <img alt="Nade" className={`Nade ${nades[3]}`} src={gunMap.get(nades[3])} />
+            <img alt="Nade" className={`Nade ${nades[2]}`} src={gunMap.get(nades[2])} />
+            <img alt="Nade" className={`Nade ${nades[1]}`} src={gunMap.get(nades[1])} />
+            <img alt="Nade" className={`Nade ${nades[0]}`} src={gunMap.get(nades[0])} />
+            {hasKitOrBomb(player)}
+        </div>
+    )
+}
+function getAmmo(player:Player,weapon:Weapon) {
+    if(!player) {
+        return;
+    }
+    if(weapon == null) {
+        return
+    }
+
+    if(weapon.type === "Knife" || weapon.type === "Grenade") {
+        return <div/>
+    }
+    return (weapon ? <div className="ammo">
+                <Bullets className="icon" />
+                <div className="ammo-clip">{weapon.ammo_clip}</div> /{weapon.ammo_reserve}</div>
+            :
+            <div/>
+    )
+}
+
+function printHealthBar(side:string, player:Player) {
+    let x ;
+    if (side === "left") {
+        x = "L";
+    } else {
+        x = "R";
+    }
+    let y;
+    if (player.team === "CT") {
+        y = "CT";
+    } else {
+        y = "T";
+    }
+    if (player.state.health > 0) {
+        return (<div className={x + "Chart"}>
+            {
+                (<div className={side === 'left' ? 'Lbar' + y + '-' + player.state.health : 'Rbar' + y + '-' + player.state.health} />)
+            }
+        </div>);
+    }
+    return (<div className={x + "Chart"}>
+        {(
+            <div className={x + 'bar-D'} />
+        )}
+    </div>);
+}
+
 const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data }) => {
     if(!data) return <div/>
     const player = data.player;
-    let weapon:Weapon;
+    let weapon:Weapon|null = null;
     //Iterate over the weapon object to a weapon where weapons.state == active
     for(let i = 0; i < Object.keys(data.player.weapons).length; i++) {
         if(data.player.weapons[Object.keys(data.player.weapons)[i]].state === "active") {
@@ -47,101 +142,13 @@ const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data }) => {
             break;
         }
     }
-
-    function hasKitOrBomb(player:Player) {
-        if (player.state.defusekit === true) {
-            return <Defuse />;
-        } else {
-            let bomb = [...Object.values(player.weapons)].find(w => w.name === "weapon_c4");
-            if (bomb) return <SmallBomb />
+    if(!weapon) {
+        weapon = {
+            name: "weapon_knife",
+            type: "Knife",
+            state: "active",
+            paintkit: "default",
         }
-        return false;
-    }
-
-    function Grenades(player:Player) {
-        if (!player || !player.weapons) return <div/>
-        let x = '';
-        let gun;
-        let nades = Array(4).fill("");
-        let spot = 0;
-        Object.keys(player.weapons).forEach(function (key) {
-            gun = player.weapons[key];
-            if (gun.type === "Grenade") {
-                x = gun.name;
-                nades[spot] = x;
-                spot++;
-            }
-        });
-        if(nades[0] === "" && !hasKitOrBomb(player)){
-            return (
-                <div className="Nades">
-                    <p>NO UTILITY</p>
-                </div>
-            )
-        }
-
-        for (const nade in nades) {
-            if (nades[nade] !== "") {
-                nades[nade] = nadeOrder.get(nades[nade]);
-            }
-        }
-        nades.sort();
-        nades.reverse();
-
-        return (
-            <div className="Nades">
-                <img alt="Nade" className={`Nade ${nades[3]}`} src={gunMap.get(nades[3])} />
-                <img alt="Nade" className={`Nade ${nades[2]}`} src={gunMap.get(nades[2])} />
-                <img alt="Nade" className={`Nade ${nades[1]}`} src={gunMap.get(nades[1])} />
-                <img alt="Nade" className={`Nade ${nades[0]}`} src={gunMap.get(nades[0])} />
-                {hasKitOrBomb(player)}
-            </div>
-        )
-    }
-    function getAmmo(player:Player) {
-        if(!player) {
-            return;
-        }
-        if(weapon == null) {
-            return
-        }
-
-        if(weapon.type === "Knife" || weapon.type === "Grenade") {
-            return <div/>
-        }
-        return (weapon ? <div className="ammo">
-                    <Bullets className="icon" />
-                    <div className="ammo-clip">{weapon.ammo_clip}</div> /{weapon.ammo_reserve}</div>
-                :
-                <div/>
-        )
-    }
-
-    function printHealthBar(side:string, player:Player) {
-        let x ;
-        if (side === "left") {
-            x = "L";
-        } else {
-            x = "R";
-        }
-        let y;
-        if (player.team === "CT") {
-            y = "CT";
-        } else {
-            y = "T";
-        }
-        if (player.state.health > 0) {
-            return (<div className={x + "Chart"}>
-                {
-                    (<div className={side === 'left' ? 'Lbar' + y + '-' + player.state.health : 'Rbar' + y + '-' + player.state.health} />)
-                }
-            </div>);
-        }
-        return (<div className={x + "Chart"}>
-            {(
-                <div className={x + 'bar-D'} />
-            )}
-        </div>);
     }
 
     if (player) {
@@ -189,7 +196,7 @@ const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data }) => {
                                     {Grenades(player)}
                                 </div>
                                 <div style={{ height : '50%'}}>
-                                    {getAmmo(player)}
+                                    {getAmmo(player,weapon)}
                                 </div>
                             </div>
 
