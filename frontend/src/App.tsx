@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { io, Socket } from "socket.io-client";
 import Scoreboard from "./scoreboard/Scoreboard";
 import Teams from "./teams/Teams";
+import CurrentPlayer from "./current_player/current_player";
 const ENDPOINT = "http://localhost:25566"; // replace with your server's address and port
 
 const App: React.FC = () => {
@@ -28,6 +29,7 @@ const App: React.FC = () => {
       <div>
         <Scoreboard data={response} /> {/* Pass the object as a prop */}
         <Teams data={response} /> {/* Pass the object as a prop */}
+        <CurrentPlayer data={response} /> {/* Pass the object as a prop */}
       </div>
   );
 }
