@@ -2,7 +2,37 @@
 
 Custom overlay for CSGO Casters and Observers which uses an Express API and a React Frontend
 
-## Project Setup
+## Setup
+
+- The Java Runtime Environment (JRE) is required to run the GUI and can be downloaded [here](https://www.java.com/en/download/)
+- Place ```gamestate_integration_uf.cfg``` in your CSGO cfg folder (```C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\cfg```)
+- Download the latest release
+- Extract the zip file
+- Run ```Main.exe```
+- Select ```Run Backend``` and ```Run Frontend```
+- Open CSGO and join a match as a spectator
+- Run ```cl_draw_only_deathnotices 1``` in console to get rid of default HUD
+- Open OBS and add a Browser Source with URL ```http://localhost:3000/``` and width/height ```1920x1080```
+
+## Startup
+
+- Launch CSGO
+- In root directory:
+  - ```npm run dev``` (Runs client and server concurrently in same terminal)
+  - **OR**
+  - ```npm run backend:start``` & ```npm run frontend:start``` (Each command in a separate terminal, easier to keep track of console logging)
+- Join CSGO match as spectator
+  - Run ```cl_draw_only_deathnotices 1``` in console to get rid of default HUD
+
+## OBS Setup
+
+- Make Browser Source for Custom HUD with URL ```http://localhost:3000/``` and width/height ```1920x1080```.
+- Make Game Capture for CSGO
+
+<!--- At halftime, when teams switch, click on the browser source, select 'interact' and press tilde ` to switch the sides and logos if needed --->
+
+
+## Development Setup
 
 - Install Node.js
 - Install npm
@@ -11,26 +41,9 @@ Custom overlay for CSGO Casters and Observers which uses an Express API and a Re
 - Install the latest version of Java
 - Clone repo
 - In root directory:
-    - ```npm install```
-    - ```npm run install```
+  - ```npm install```
+  - ```npm run install```
 - Put ```gamestate_integration_uf.cfg``` in your CSGO cfg folder
-
-## Startup
-
-- Launch CSGO
-- In root directory:
-    - ```npm run dev``` (Runs client and server concurrently in same terminal)
-    - **OR**
-    - ```npm run backend:start``` & ```npm run frontend:start``` (Each command in a separate terminal, easier to keep track of console logging)
-- Join CSGO match as spectator
-    - Run ```cl_draw_only_deathnotices 1``` in console to get rid of default HUD
-
-## OBS Setup
-
-- Make Browser Source for Custom HUD with URL ```http://localhost:3000/``` and width/height ```1920x1080```.
-- Make Game Capture for CSGO
-
-<!--- At halftime, when teams switch, click on the browser source, select 'interact' and press tilde ` to switch the sides and logos if needed --->
 
 ## For future me
 
