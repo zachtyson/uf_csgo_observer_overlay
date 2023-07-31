@@ -3,16 +3,13 @@ import {RootObject, AllPlayers, Player} from "../data_interface";
 import './Scoreboard.scss';
 import {Defuse, FlashingBomb} from "../assets/Icons";
 import * as string_decoder from "string_decoder";
+import {ConfigData} from "../config_interface";
 
 let teamOneSide:string= 'CT';
 let swap = 0;
 interface ScoreboardProps {
     data: RootObject; // Update the type according to your data structure
-    teamOneLogo: any;
-    teamOneName: string;
-    teamTwoLogo: any
-    teamTwoName: string;
-    teamOneStartingSide: string;
+    config: ConfigData|null;
 }
 
 
@@ -144,9 +141,10 @@ function hasCTPlayerOnSlots1To5(allPlayers:AllPlayers): boolean {
     );
 }
 
-const Scoreboard: React.FC<ScoreboardProps> = ({ data,teamOneLogo,teamOneName,teamTwoLogo,teamTwoName,teamOneStartingSide }) => {
+const Scoreboard: React.FC<ScoreboardProps> = ({ data,config }) => {
     if (!data) return <div>Loading...</div>;
-    teamOneSide = teamOneStartingSide;
+    if (!config) return <div>Loading...</div>;
+    teamOneSide = config.teamOneStartingSide;
 
 
     const { team_ct, team_t } = data.map;
@@ -156,12 +154,12 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data,teamOneLogo,teamOneName,te
         <div className="parent">
             <div className="TeamName" id={data.phase_countdowns.phase === "live" ? "hidden" : ""}>
                 <p className="teamLeftName">
-                    {printTeamName("L", teamOneName, teamTwoName)}
+                    {printTeamName("L", config.teamOneName, config.teamTwoName)}
                 </p>
             </div>
             <div className="scoreBoard">
                 <div className="teamImage">
-                    <img src={printTeamLogo(isLeftCT,teamOneLogo,teamTwoLogo)} alt="CT Logo" />
+                    <img src={printTeamLogo(isLeftCT,config.teamOneLogo,config.teamTwoLogo)} alt="CT Logo" />
                 </div>
                 <div className="teamScore">
                     <p className={isLeftCT ? "defender-score" : "attacker-score"}>
@@ -178,12 +176,12 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data,teamOneLogo,teamOneName,te
                     </p>
                 </div>
                 <div className="teamImage">
-                    <img src={printTeamLogo(!isLeftCT,teamOneLogo,teamTwoLogo)} alt="T Logo" />
+                    <img src={printTeamLogo(!isLeftCT,config.teamOneLogo,config.teamTwoLogo)} alt="T Logo" />
                 </div>
             </div>
             <div className="TeamName" id={data.phase_countdowns.phase === "live" ? "hidden" : ""}>
                 <p className="teamRightName">
-                    {printTeamName("R", teamOneName, teamTwoName)}
+                    {printTeamName("R", config.teamOneName, config.teamTwoName)}
                 </p>
             </div>
         </div>
