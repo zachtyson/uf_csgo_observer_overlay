@@ -5,7 +5,9 @@ import Teams from "./teams/Teams";
 import CurrentPlayer from "./current_player/current_player";
 import {teamOneLogo, teamOneName, teamTwoLogo, teamTwoName, teamOneStartingSide} from "./teamInfo.js"
 import {ConfigData} from "./config_interface";
-import fs from "fs";
+import * as electron from "electron";
+const ipcRenderer = electron.ipcRenderer
+
 const ENDPOINT = "http://localhost:25566"; // replace with your server's address and port
 const backupTeamOneLogo = require("./config/teamOneLogo.png");
 const backupTeamTwoLogo = require("./config/teamTwoLogo.png");
@@ -30,20 +32,31 @@ const App: React.FC = () => {
         }
     }, []);
     useEffect(() => {
+        ipcRenderer.on('config', (event:any, arg:any) => {
+            console.log(arg) // prints "Hello from renderer process"
+        })
+    },[])
+    useEffect(() => {
         // Read the config data from window.electronConfig
-        const electronConfig = (window as any).electronConfig;
+        let electronConfig:any = null;
+
         if (electronConfig) {
             setConfig(electronConfig);
+            let imageSrc = 'data:image/png;base64,' + config?.teamOneLogo;
+            let imageSrc2 = 'data:image/png;base64,' + config?.teamTwoLogo;
+            if(config) {
+                config.teamOneLogo = imageSrc;
+                config.teamTwoLogo = imageSrc2;
+            }
+        }
+        // If the config data is not available, use the backup data
+        if(!config) {
+            const configData = backupConfig();
+            setConfig(configData);
+
         }
     }, []);
-
-    if(!config) {
-
-        const configData = backupConfig();
-        setConfig(configData);
-
-    }
-
+    if (!response || !config) return <div>Loading...</div>;
     return (
         <div>
             <Scoreboard data={response} config={config}/>
