@@ -20,15 +20,12 @@ app.use((req:any, res:any) => {
 
 var all_data:any;
 
-console.log("Starting CS:GO Gamestate Server");
-console.log(config.csgo);
-
+console.log("Starting CS:GO Gamestate Server",config.application.port);
 const server = http.createServer((req:any, res:any) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (req.method == "POST") {
         res.writeHead(200, { "Content-Type": "text/html" });
         log.trace("Handling POST Request");
-
         req.on("data", (data:any) => {
             try {
                 let jsonData;
@@ -50,13 +47,33 @@ const server = http.createServer((req:any, res:any) => {
             }
         });
 
+        req.on("ping", (data:any) => {
+            console.log("hello!")
+        });
+
         req.on("end", () => {
             res.end("");
         });
-    } else {
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end(JSON.stringify(all_data));
+    } else if (req.method === "GET") {
+        // Handle the GET request here
+        res.writeHead(200, { "Content-Type": "application/json" });
+        // Assume you have some data to send as a response (for example, an object named responseData)
+        const configData = {
+            "teamOneName": "Team One",
+            "teamTwoName": "Team Two",
+            "teamOneLogo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII",
+            "teamTwoLogo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII",
+            "teamOneStartingSide": "CT"
+        }
+        // Convert the responseData to JSON format and send it as the response
+        res.end(JSON.stringify(configData));
+        // Emit the pingR event to the socket connection
     }
+    req.on("ping", (data:any) => {
+        console.log("hello!")
+    });
+
+
 });
 
 const io = socketIo(server, {
@@ -69,6 +86,7 @@ var connectionCount = 0;
 //Whenever someone connects this gets executed
 io.on("connection", (socket:any) => {
     log.info("A user connected");
+    console.log("A user connected");
     connectionCount++;
     //
     // Emit the 'Connected' event with the variable and set the flag to true
@@ -78,6 +96,7 @@ io.on("connection", (socket:any) => {
         log.info("A user disconnected");
         connectionCount--;
     });
+
 });
 
 
