@@ -3,28 +3,83 @@ import { io, Socket } from "socket.io-client";
 import Scoreboard from "./scoreboard/Scoreboard";
 import Teams from "./teams/Teams";
 import CurrentPlayer from "./current_player/current_player";
-import {teamOneLogo, teamOneName, teamTwoLogo, teamTwoName, teamOneStartingSide} from "./teamInfo.js"
 import {ConfigData} from "./config_interface";
 
-const ENDPOINT = "http://localhost:25566"; // replace with your server's address and port
-const backupTeamOneLogo = require("./config/teamOneLogo.png");
-const backupTeamTwoLogo = require("./config/teamTwoLogo.png");
+interface AppProps {
+    appConfiguration: ConfigData|null;
+}
 
-const App: React.FC = () => {
+const ENDPOINT = "http://localhost:25566/"; // replace with your server's address and port
+const backupTeamOneLogo = require("./config/teamOneBackup.png");
+const backupTeamTwoLogo = require("./config/teamTwoBackup.png");
+
+
+
+
+function base64ToImg(base64String: string) {
+    // Create a new image element
+    const img = new Image();
+
+    // Set the base64 string as the image source
+    img.src = `data:image;base64,${base64String}`;
+
+    // Append the image element to the body (you can choose another element if needed)
+    document.body.appendChild(img);
+    return img;
+}
+
+
+interface ImageProps {
+    base64String: string;
+}
+
+const Base64Image: React.FC<ImageProps> = ({ base64String }) => {
+    // const imageSrc = `${base64String}`;
+    //
+    // return <img src={imageSrc} alt="Base64 Image" />;
+    return backupTeamOneLogo;
+};
+function getBackupConfig() {
+    //Read image data local file
+    const configData = {
+        "teamOneName": "Team One",
+        "teamTwoName": "Team Two",
+        "teamOneLogo": backupTeamOneLogo,
+        "teamTwoLogo": backupTeamTwoLogo,
+        "teamOneStartingSide": "CT"
+    }
+    return configData as ConfigData;
+}
+
+const App: React.FC<AppProps> = ({ appConfiguration }) => {
     const [response, setResponse] = useState<any>(null);
-    const [config, setConfig] = useState<ConfigData | null>(null); // State to store the config data
+    const [config,setConfig] = useState<any>(null);
+
+    useEffect(() => {
+        if(appConfiguration) {
+            const configData = {
+                "teamOneName": appConfiguration.teamOneName,
+                "teamTwoName": appConfiguration.teamTwoName,
+                "teamOneLogo": appConfiguration.teamOneLogo,
+                "teamTwoLogo": appConfiguration.teamTwoLogo,
+                "teamOneStartingSide": "CT"
+            }
+            setConfig(configData);
+        } else {
+            const configData = getBackupConfig();
+            setConfig(configData);
+        }
+    },[])
+
+    const backupConfig = getBackupConfig();
+
+
     useEffect(() => {
         let socket: Socket;
-
-        // Connect and setup event listener
         socket = io(ENDPOINT);
+        // Connect and setup event listener
         socket.on("data", (data: any) => {
             setResponse(data);
-        });
-
-        socket.on("Connected", (message: string) => {
-            console.log("Connected to server.");
-            console.log("Server says:", message);
         });
 
         // Cleanup the effect
@@ -34,68 +89,14 @@ const App: React.FC = () => {
             socket.disconnect();
         }
     }, []);
-    // useEffect(() => {
-    //     // Read the config data from window.electronConfig
-    //     let electronConfig:any = null;
-    //
-    //     if (electronConfig) {
-    //         setConfig(electronConfig);
-    //         let imageSrc = 'data:image/png;base64,' + config?.teamOneLogo;
-    //         let imageSrc2 = 'data:image/png;base64,' + config?.teamTwoLogo;
-    //         if(config) {
-    //             config.teamOneLogo = imageSrc;
-    //             config.teamTwoLogo = imageSrc2;
-    //         }
-    //     }
-    //     // If the config data is not available, use the backup data
-    //     if(!config) {
-    //         const configData = backupConfig();
-    //         setConfig(configData);
-    //
-    //     }
-    // }, []);
-    // if (!response || !config) return <div>Loading...</div>;
-    // useEffect(() => {
-    //
-    // }, []);
-    // useEffect(() => {
-    //     const electron = (window as any).electron;
-    //     electron.receive('channel', (data:any) => {
-    //         console.log(data); // prints { foo: 'bar' }
-    //         //convert base64 to image
-    //         let imageSrc = 'data:image/png;base64,' + data.teamOneLogo;
-    //         let imageSrc2 = 'data:image/png;base64,' + data.teamTwoLogo;
-    //         data.teamOneLogo = imageSrc;
-    //         data.teamTwoLogo = imageSrc2;
-    //         setConfig(data);
-    //     });
-    // }, []);
 
-    // electron.receive('receive', (data:any) => {
-    //     console.log(data); // prints { foo: 'bar' }
-    // });
     return (
         <div>
-            hello
-            <Scoreboard data={response} config={config}/>
-            <Teams data={response} config={config}/> {/* Pass the object as a prop */}
-            <CurrentPlayer data={response} config={config}/> {/* Pass the object as a prop */}
+            <Scoreboard data={response} config={config} /> {/* Pass the object as a prop */}
+            <Teams data={response} config={config} /> {/* Pass the object as a prop */}
+            <CurrentPlayer data={response} config={config} /> {/* Pass the object as a prop */}
         </div>
     );
 }
 
-
-function backupConfig() {
-    //Read image data local file
-    const imageDataOne= backupTeamOneLogo
-    const imageDataTwo = backupTeamTwoLogo
-    const configData = {
-        "teamOneName": "Iowa State",
-        "teamTwoName": "Gator Esports",
-        "teamOneLogo": imageDataOne,
-        "teamTwoLogo": imageDataTwo,
-        "teamOneStartingSide": "CT"
-    }
-    return configData as ConfigData;
-}
 export default App;
