@@ -22,6 +22,11 @@ const App: React.FC = () => {
             setResponse(data);
         });
 
+        socket.on("Connected", (message: string) => {
+            console.log("Connected to server.");
+            console.log("Server says:", message);
+        });
+
         // Cleanup the effect
         return () => {
             // Before the component is destroyed
@@ -53,18 +58,18 @@ const App: React.FC = () => {
     // useEffect(() => {
     //
     // }, []);
-    useEffect(() => {
-        const electron = (window as any).electron;
-        electron.receive('channel', (data:any) => {
-            console.log(data); // prints { foo: 'bar' }
-            //convert base64 to image
-            let imageSrc = 'data:image/png;base64,' + data.teamOneLogo;
-            let imageSrc2 = 'data:image/png;base64,' + data.teamTwoLogo;
-            data.teamOneLogo = imageSrc;
-            data.teamTwoLogo = imageSrc2;
-            setConfig(data);
-        });
-    }, []);
+    // useEffect(() => {
+    //     const electron = (window as any).electron;
+    //     electron.receive('channel', (data:any) => {
+    //         console.log(data); // prints { foo: 'bar' }
+    //         //convert base64 to image
+    //         let imageSrc = 'data:image/png;base64,' + data.teamOneLogo;
+    //         let imageSrc2 = 'data:image/png;base64,' + data.teamTwoLogo;
+    //         data.teamOneLogo = imageSrc;
+    //         data.teamTwoLogo = imageSrc2;
+    //         setConfig(data);
+    //     });
+    // }, []);
 
     // electron.receive('receive', (data:any) => {
     //     console.log(data); // prints { foo: 'bar' }

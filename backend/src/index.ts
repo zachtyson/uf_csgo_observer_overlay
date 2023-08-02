@@ -70,14 +70,15 @@ var connectionCount = 0;
 io.on("connection", (socket:any) => {
     log.info("A user connected");
     connectionCount++;
+    //
+    // Emit the 'Connected' event with the variable and set the flag to true
+    // io.emit("Connected", "Hello, client!");
     //Whenever someone disconnects this piece of code executed
     socket.on("disconnect", () => {
         log.info("A user disconnected");
         connectionCount--;
     });
 });
-
-
 
 
 server.listen(config.application.port, config.application.host);
