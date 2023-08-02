@@ -6,6 +6,7 @@
   "scripts": {
     "test": "npx jest",
     "start": "tsc && node dist/index.js",
+    "build": "tsc",
     "dev": "nodemon"
   },
   "author": "Zachary Tyson",
