@@ -3,102 +3,12 @@ const path = require('path');
 const url = require('url');
 const express = require('express');
 const fs = require('fs');
-// Import parts of electron to use
 const {app, BrowserWindow} = require('electron');
 
-//
-// let server;
-// let mainWindow;
-//
-//
-//
-// async function readConfigFile() {
-//     try {
-//         const configFileContent = fs.readFileSync(path.join(__dirname, 'config.json'), 'utf8');
-//         const config = JSON.parse(configFileContent);
-//         return config;
-//     } catch (err) {
-//         console.error('Error reading config file:', err);
-//         return null;
-//     }
-// }
-//
-// async function storeImageAsVariable(filePath) {
-//     try {
-//         const imageData= await fs.promises.readFile(filePath);
-//         return imageData.toString('base64');
-//     } catch (error) {
-//         console.error('Error reading the image file:', error);
-//         return null;
-//     }
-// }
-//
-// async function getConfigData() {
-//     let config = await readConfigFile();
-//     const teamOneLogo = storeImageAsVariable(path.join(__dirname, config.teamOneLogo));
-//     const teamTwoLogo = storeImageAsVariable(path.join(__dirname, config.teamTwoLogo));
-//     const teamOneName = config.teamOne;
-//     const teamTwoName = config.teamTwo;
-//     const teamOneStartingSide = config.teamOneStartingSide;
-//     const ConfigData = {
-//         teamOneLogo: await teamOneLogo,
-//         teamOneName,
-//         teamTwoLogo: await teamTwoLogo,
-//         teamTwoName,
-//         teamOneStartingSide,
-//     };
-//     return ConfigData;
-// }
-//
-// app.on('ready', async function () {
-//
-//     // Start express app
-//     const reactApp = express();
-//     reactApp.use('/', express.static(path.join(__dirname, './build'))); // Serve your static React build
-//     server = reactApp.listen(3000, () => console.log('React App on localhost:3000'));
-//
-//     // Create new browser window
-//     mainWindow = new BrowserWindow({
-//         width: 1024,
-//         height: 768,
-//         webPreferences: {
-//             nodeIntegration: true,
-//             contextIsolation: true,
-//             preload: path.join(__dirname, './preload.js'),
-//         }
-//     });
-//
-//     mainWindow.on('closed', function () {
-//         mainWindow = null;
-//         server.close(); // Close express app when electron app is closed
-//     });
-// });
-//
-// app.on('window-all-closed', function () {
-//     if (process.platform !== 'darwin') app.quit();
-// });
-//
-// app.on('activate', function () {
-//     if (mainWindow === null) createWindow();
-// });
-//
-// app.whenReady().then(() => {
-//     /* Here is where you send the message which you have to recive from
-//        your preload file, the first arg is the name by which you will\
-//        identify it and the second is the message itself */
-//     ipcMain.handle('config', getConfigData);
-//     app.on('activate', function () {
-//         if (BrowserWindow.getAllWindows().length === 0) mainWindow()
-//     })
-// })
 
 
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-// Keep a reference for dev mode
 let dev = false;
 if ( process.defaultApp || /[\\/]electron-prebuilt[\\/]/.test(process.execPath) || /[\\/]electron[\\/]/.test(process.execPath) ) {
     dev = true;
@@ -143,6 +53,7 @@ async function getConfigData() {
 }
 
 function createWindow() {
+
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 1024,
@@ -156,9 +67,10 @@ function createWindow() {
 
     // and load the index.html of the app.
     let indexPath;
+    let server;
     const reactApp = express();
     reactApp.use('/', express.static(path.join(__dirname, './build'))); // Serve your static React build
-    let server = reactApp.listen(3000, () => console.log('React App on localhost:3000'));
+    server = reactApp.listen(3000, () => console.log('React App on localhost:3000'));
     if ( dev && process.argv.indexOf('--noDevServer') === -1 ) {
         indexPath = url.format({
             protocol: 'http:',
