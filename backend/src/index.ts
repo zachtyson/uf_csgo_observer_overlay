@@ -1,3 +1,4 @@
+import * as path from "path";
 const express = require("express");
 const fs = require("fs");
 const config = require("../config.json");
@@ -18,7 +19,44 @@ app.use((req:any, res:any) => {
  * @type {{game_mode: boolean, map: boolean, round: number, players: Array, player_ids: Array, bombtime: number, bombtimer: boolean}}
  */
 
-var all_data:any;
+const directoryPath = __dirname; // This will get the current directory path
+
+const logoOneName = 'logoOne.png';
+const logoTwoName = 'logoTwo.jpg';
+
+async function readImages(logoName: string) {
+    const fileExtension = path.extname(logoName);
+    let base64 = 'data:image/' + fileExtension.slice(1) + ';base64,'; // .slice(1) is used to remove the dot from extension
+    try {
+        const files = await fs.promises.readdir(directoryPath);
+        if (files.includes(logoName)) {
+            const filePath = path.join(directoryPath, logoName);
+            const data = await fs.promises.readFile(filePath);
+
+            base64 += data.toString('base64');
+        } else {
+            return '';
+        }
+    } catch (err) {
+        return '';
+    }
+    return base64;
+}
+
+async function getImages(logoNameOne:string, logoNameTwo:string):Promise<any> {
+    return new Promise(async (resolve, reject) => {
+        let fileOneBase64:string|null = await readImages(logoNameOne);
+        let fileTwoBase64:string|null = await readImages(logoNameTwo);
+        if(!fileOneBase64) {
+            fileOneBase64 = null;
+        }
+        if(!fileTwoBase64) {
+            fileTwoBase64 = null;
+        }
+        resolve([fileOneBase64, fileTwoBase64]);
+    });
+}
+
 
 console.log("Starting CS:GO Gamestate Server",config.application.port);
 const server = http.createServer((req:any, res:any) => {
@@ -58,15 +96,23 @@ const server = http.createServer((req:any, res:any) => {
         // Handle the GET request here
         res.writeHead(200, { "Content-Type": "application/json" });
         // Assume you have some data to send as a response (for example, an object named responseData)
-        const configData = {
-            "teamOneName": "Team One",
-            "teamTwoName": "Team Two",
-            "teamOneLogo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII",
-            "teamTwoLogo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII",
-            "teamOneStartingSide": "CT"
-        }
+        let teamOneBase64 = '';
+        let teamTwoBase64 = '';
+        getImages(logoOneName,logoTwoName).then(r => {
+            teamOneBase64 = r[0];
+            teamTwoBase64 = r[1];
+            const configData = {
+                teamOneName: 'Team One',
+                teamTwoName: 'Team Two',
+                teamOneLogo: teamOneBase64,
+                teamTwoLogo: teamTwoBase64,
+                teamOneStartingSide: 'CT',
+            };
+            res.end(JSON.stringify(configData));
+        })
+
+
         // Convert the responseData to JSON format and send it as the response
-        res.end(JSON.stringify(configData));
         // Emit the pingR event to the socket connection
     }
     req.on("ping", (data:any) => {
