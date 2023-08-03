@@ -7,10 +7,11 @@
   "csgo": {
     "bombTime": 40
   },
-  "teamOneName": "Devin",
-  "teamTwoName": "Zach",
-  "teamOneLogo": "logoOne.png",
-  "teamTwoLogo": "logoTwo.jpg",
-  "teamOneStartingSide": "CT"
-
+  "team_data": {
+    "teamOneName": "Devin",
+    "teamTwoName": "Zach",
+    "teamOneLogo": "logoOne.png",
+    "teamTwoLogo": "logoTwo.jpg",
+    "teamOneStartingSide": "CT"
+  }
 }
