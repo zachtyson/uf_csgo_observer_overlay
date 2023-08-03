@@ -20,10 +20,6 @@ app.use((req:any, res:any) => {
  */
 
 const directoryPath = __dirname; // This will get the current directory path
-
-const logoOneName = 'logoOne.png';
-const logoTwoName = 'logoTwo.jpg';
-
 async function readImages(logoName: string) {
     const fileExtension = path.extname(logoName);
     let base64 = 'data:image/' + fileExtension.slice(1) + ';base64,'; // .slice(1) is used to remove the dot from extension
@@ -57,6 +53,32 @@ async function getImages(logoNameOne:string, logoNameTwo:string):Promise<any> {
     });
 }
 
+function getConfig():Promise<any> {
+    return new Promise(async (resolve, reject) => {
+        //read config.json
+        try {
+            const c = fs.readFileSync('config.json', 'utf8');
+            const config = JSON.parse(c);
+            const logoOneName = config.teamOneLogo;
+            const logoTwoName = config.teamTwoLogo;
+            // const teamOneBase64 = await readImages(logoOneName);
+            // const teamTwoBase64 = await readImages(logoTwoName);
+            const [teamOneBase64, teamTwoBase64] = await getImages(logoOneName, logoTwoName);
+            const configData = {
+                teamOneName: config.teamOneName,
+                teamTwoName: config.teamTwoName,
+                teamOneLogo: teamOneBase64,
+                teamTwoLogo: teamTwoBase64,
+                teamOneStartingSide: config.teamOneStartingSide,
+            };
+            resolve(configData);
+        } catch (err) {
+            console.error('Error reading config.json:', err);
+            reject(err);
+        }
+    });
+}
+
 
 console.log("Starting CS:GO Gamestate Server",config.application.port);
 const server = http.createServer((req:any, res:any) => {
@@ -84,36 +106,15 @@ const server = http.createServer((req:any, res:any) => {
                 log.error(`[WEBDATA] Error retrieving data from API: ${e}`);
             }
         });
-
-        req.on("ping", (data:any) => {
-            console.log("hello!")
-        });
-
         req.on("end", () => {
             res.end("");
         });
     } else if (req.method === "GET") {
         // Handle the GET request here
         res.writeHead(200, { "Content-Type": "application/json" });
-        // Assume you have some data to send as a response (for example, an object named responseData)
-        let teamOneBase64 = '';
-        let teamTwoBase64 = '';
-        getImages(logoOneName,logoTwoName).then(r => {
-            teamOneBase64 = r[0];
-            teamTwoBase64 = r[1];
-            const configData = {
-                teamOneName: 'Team One',
-                teamTwoName: 'Team Two',
-                teamOneLogo: teamOneBase64,
-                teamTwoLogo: teamTwoBase64,
-                teamOneStartingSide: 'CT',
-            };
+        getConfig().then((configData:any) => {
             res.end(JSON.stringify(configData));
-        })
-
-
-        // Convert the responseData to JSON format and send it as the response
-        // Emit the pingR event to the socket connection
+        });
     }
     req.on("ping", (data:any) => {
         console.log("hello!")
@@ -128,19 +129,14 @@ const io = socketIo(server, {
     },
 });
 
-var connectionCount = 0;
-//Whenever someone connects this gets executed
+let connectionCount = 0;
 io.on("connection", (socket:any) => {
-    log.info("A user connected");
-    console.log("A user connected");
     connectionCount++;
-    //
-    // Emit the 'Connected' event with the variable and set the flag to true
-    // io.emit("Connected", "Hello, client!");
-    //Whenever someone disconnects this piece of code executed
+    log.info("A user connected, total connections: " + connectionCount);
     socket.on("disconnect", () => {
-        log.info("A user disconnected");
         connectionCount--;
+        log.info("A user disconnected, total connections: " + connectionCount);
+
     });
 
 });
