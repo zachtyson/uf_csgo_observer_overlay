@@ -49,8 +49,6 @@ async function getConfig():Promise<any> {
             let config = JSON.parse(c);
             const logoOneName = config.team_data.teamOneLogo;
             const logoTwoName = config.team_data.teamTwoLogo;
-            // const teamOneBase64 = await readImage(logoOneName);
-            // const teamTwoBase64 = await readImage(logoTwoName);
             const [teamOneBase64, teamTwoBase64] = await getImages(logoOneName, logoTwoName);
             config.team_data.teamOneLogo = teamOneBase64;
             config.team_data.teamTwoLogo = teamTwoBase64;
