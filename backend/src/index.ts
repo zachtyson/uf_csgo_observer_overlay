@@ -7,7 +7,7 @@ const socketIo = require("socket.io");
 
 const directoryPath = __dirname; // This will get the current directory path
 
-async function readImages(logoName: string) {
+async function readImage(logoName: string):Promise<string|null> {
     const fileExtension = path.extname(logoName);
     let base64 = 'data:image/' + fileExtension.slice(1) + ';base64,'; // .slice(1) is used to remove the dot from extension
     try {
@@ -18,18 +18,19 @@ async function readImages(logoName: string) {
 
             base64 += data.toString('base64');
         } else {
-            return '';
+            return null;
         }
     } catch (err) {
-        return '';
+        return null;
     }
     return base64;
 }
 
 async function getImages(logoNameOne:string, logoNameTwo:string):Promise<any> {
+
     return new Promise(async (resolve, reject) => {
-        let fileOneBase64:string|null = await readImages(logoNameOne);
-        let fileTwoBase64:string|null = await readImages(logoNameTwo);
+        let fileOneBase64:string|null = await readImage(logoNameOne);
+        let fileTwoBase64:string|null = await readImage(logoNameTwo);
         if(!fileOneBase64) {
             fileOneBase64 = null;
         }
@@ -48,8 +49,8 @@ async function getConfig():Promise<any> {
             let config = JSON.parse(c);
             const logoOneName = config.team_data.teamOneLogo;
             const logoTwoName = config.team_data.teamTwoLogo;
-            // const teamOneBase64 = await readImages(logoOneName);
-            // const teamTwoBase64 = await readImages(logoTwoName);
+            // const teamOneBase64 = await readImage(logoOneName);
+            // const teamTwoBase64 = await readImage(logoTwoName);
             const [teamOneBase64, teamTwoBase64] = await getImages(logoOneName, logoTwoName);
             config.team_data.teamOneLogo = teamOneBase64;
             config.team_data.teamTwoLogo = teamTwoBase64;
