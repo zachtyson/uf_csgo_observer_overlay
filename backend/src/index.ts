@@ -14,11 +14,6 @@ app.use((req:any, res:any) => {
     res.header("Access-Control-Allow-Origin", "*");
 });
 
-/**
- * Set global vars for later use
- * @type {{game_mode: boolean, map: boolean, round: number, players: Array, player_ids: Array, bombtime: number, bombtimer: boolean}}
- */
-
 const directoryPath = __dirname; // This will get the current directory path
 async function readImages(logoName: string) {
     const fileExtension = path.extname(logoName);
