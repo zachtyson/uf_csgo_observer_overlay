@@ -1,7 +1,7 @@
 import * as path from "path";
 const express = require("express");
 const fs = require("fs");
-const log = require("simple-node-logger").createSimpleFileLogger("csgo-gamestate.log");
+//const log = require("simple-node-logger").createSimpleFileLogger("csgo-gamestate.log");
 const http = require("http");
 const socketIo = require("socket.io");
 
@@ -64,7 +64,7 @@ async function startServer() {
     const config = await getConfig();
 
     if(!config) {
-        log.error("[SYSTEM] Error reading config.json, exiting...");
+        //log.error("[SYSTEM] Error reading config.json, exiting...");
         process.exit(1);
     }
     try {
@@ -78,7 +78,7 @@ async function startServer() {
             res.setHeader("Access-Control-Allow-Origin", "*");
             if (req.method == "POST") {
                 res.writeHead(200, { "Content-Type": "text/html" });
-                log.trace("Handling POST Request");
+                //log.trace("Handling POST Request");
                 req.on("data", (data:any) => {
                     try {
                         let jsonData;
@@ -86,17 +86,17 @@ async function startServer() {
                             jsonData = JSON.parse(data);
                         }
                         if (connectionCount === 0) {
-                            log.error("[SYSTEM] Frontend connection not found via socket");
+                            //log.error("[SYSTEM] Frontend connection not found via socket");
                         } else if (!jsonData.allplayers) {
                             io.emit("spec", false);
-                            log.info("[SYSTEM] Player is not a spectator, refusing to send information via socket");
+                            //log.info("[SYSTEM] Player is not a spectator, refusing to send information via socket");
                         } else {
                             io.emit("spec", true);
-                            log.info("[SYSTEM] Sent data to frontend via socket");
+                            //log.info("[SYSTEM] Sent data to frontend via socket");
                             io.emit("data", jsonData);
                         }
                     } catch (e) {
-                        log.error(`[WEBDATA] Error retrieving data from API: ${e}`);
+                        //log.error(`[WEBDATA] Error retrieving data from API: ${e}`);
                     }
                 });
                 req.on("end", () => {
@@ -124,10 +124,10 @@ async function startServer() {
         let connectionCount = 0;
         io.on("connection", (socket:any) => {
             connectionCount++;
-            log.info("A user connected, total connections: " + connectionCount);
+            //log.info("A user connected, total connections: " + connectionCount);
             socket.on("disconnect", () => {
                 connectionCount--;
-                log.info("A user disconnected, total connections: " + connectionCount);
+               //log.info("A user disconnected, total connections: " + connectionCount);
 
             });
 
@@ -135,7 +135,7 @@ async function startServer() {
 
         console.log("Starting CS:GO Gamestate Server",config.application.port);
         server.listen(config.application.port, config.application.host);
-        log.info(`[SYSTEM] Monitoring CS:GO on: ${config.application.host}:${config.application.port}`);
+        //log.info(`[SYSTEM] Monitoring CS:GO on: ${config.application.host}:${config.application.port}`);
         module.exports = server;
 
     }
