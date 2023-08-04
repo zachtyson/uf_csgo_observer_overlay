@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import { ArmorHelmet, ArmorFull, SmallBomb, Skull,} from "../assets/Icons";
 import { getPrimaryWeapon, getSecondaryWeapon, hasBomb, hasKit, getNades } from "./Equipment.js";
 import {RootObject, AllPlayers, Player} from "../data_interface";
-import {ConfigData} from "../config_interface";
+import {TeamData} from "../config_interface";
 
 interface TeamProps {
     data: RootObject; // Update the type according to your data structure
-    config: ConfigData|null;
+    config: TeamData|null;
 }
 
 function printArmorKitHealth(player:Player, side:string) {

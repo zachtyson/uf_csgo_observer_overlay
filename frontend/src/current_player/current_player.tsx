@@ -3,12 +3,12 @@ import React from "react";
 import { HealthFull, ArmorNone, ArmorFull, ArmorHelmet, Defuse,SmallBomb, Bullets } from '../assets/Icons';
 import { gunMap, nadeOrder } from "../assets/Weapons";
 import {RootObject, Player, Weapon} from "../data_interface";
-import {ConfigData} from "../config_interface";
+import {TeamData} from "../config_interface";
 
 let swap = 0;
 interface CurrentPlayerProps {
     data: RootObject; // Update the type according to your data structure
-    config: ConfigData|null;
+    config: TeamData|null;
 }
 window.addEventListener("keydown", (event) => {
     if(event.key === "`") {

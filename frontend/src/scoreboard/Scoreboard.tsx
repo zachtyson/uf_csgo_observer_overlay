@@ -3,13 +3,13 @@ import {RootObject, AllPlayers, Player} from "../data_interface";
 import './Scoreboard.scss';
 import {Defuse, FlashingBomb} from "../assets/Icons";
 import * as string_decoder from "string_decoder";
-import {ConfigData} from "../config_interface";
+import {TeamData} from "../config_interface";
 
 let teamOneSide:string= 'CT';
 let swap = 0;
 interface ScoreboardProps {
     data: RootObject; // Update the type according to your data structure
-    config: ConfigData|null;
+    config: TeamData|null;
 }
 
 
