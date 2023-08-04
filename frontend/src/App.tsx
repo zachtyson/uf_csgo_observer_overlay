@@ -14,12 +14,22 @@ const backupTeamOneLogo = require("./config/teamOneBackup.png");
 const backupTeamTwoLogo = require("./config/teamTwoBackup.png");
 function getBackupConfig() {
     //Read image data local file
-    const configData = {
+    const applicationData = {
+        "logLevel": "info",
+        "port": 25566,
+        "host": "127.0.0.1"
+    }
+    const teamData = {
         "teamOneName": "Team One",
         "teamTwoName": "Team Two",
         "teamOneLogo": backupTeamOneLogo,
         "teamTwoLogo": backupTeamTwoLogo,
-        "teamOneStartingSide": "CT"
+        "teamOneStartingSide": "CT",
+        "bombbombTime": 40,
+    }
+    const configData = {
+        "application_data": applicationData,
+        "team_data": teamData,
     }
     return configData as ConfigData;
 }
@@ -31,10 +41,10 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
     useEffect(() => {
         if(appConfiguration) {
             const configData = {
-                "teamOneName": appConfiguration.teamOneName,
-                "teamTwoName": appConfiguration.teamTwoName,
-                "teamOneLogo": appConfiguration.teamOneLogo,
-                "teamTwoLogo": appConfiguration.teamTwoLogo,
+                "teamOneName": appConfiguration.team_data.teamOneName,
+                "teamTwoName": appConfiguration.team_data.teamTwoName,
+                "teamOneLogo": appConfiguration.team_data.teamOneLogo,
+                "teamTwoLogo": appConfiguration.team_data.teamTwoLogo,
                 "teamOneStartingSide": "CT"
             }
             setConfig(configData);
