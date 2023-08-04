@@ -21,14 +21,12 @@ export interface ConfigData {
 //     "port": 25566,
 //     "host": "127.0.0.1"
 //   },
-//   "csgo": {
-//     "bombTime": 40
-//   },
 //   "team_data": {
 //     "teamOneName": "Devin",
 //     "teamTwoName": "Zach",
 //     "teamOneLogo": "logoOne.png",
 //     "teamTwoLogo": "logoTwo.jpg",
-//     "teamOneStartingSide": "CT"
+//     "teamOneStartingSide": "CT",
+//     "bombTime": 40
 //   }
 // }
