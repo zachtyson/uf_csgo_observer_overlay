@@ -12,33 +12,6 @@ interface AppProps {
 const ENDPOINT = "http://localhost:25566/"; // replace with your server's address and port
 const backupTeamOneLogo = require("./config/teamOneBackup.png");
 const backupTeamTwoLogo = require("./config/teamTwoBackup.png");
-
-
-
-
-function base64ToImg(base64String: string) {
-    // Create a new image element
-    const img = new Image();
-
-    // Set the base64 string as the image source
-    img.src = `data:image;base64,${base64String}`;
-
-    // Append the image element to the body (you can choose another element if needed)
-    document.body.appendChild(img);
-    return img;
-}
-
-
-interface ImageProps {
-    base64String: string;
-}
-
-const Base64Image: React.FC<ImageProps> = ({ base64String }) => {
-    // const imageSrc = `${base64String}`;
-    //
-    // return <img src={imageSrc} alt="Base64 Image" />;
-    return backupTeamOneLogo;
-};
 function getBackupConfig() {
     //Read image data local file
     const configData = {
