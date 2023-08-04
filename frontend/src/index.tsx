@@ -8,8 +8,6 @@ import { ConfigData } from "./config_interface";
 
 const ENDPOINT = "http://localhost:25566/"; // replace with your server's address and port
 
-console.log(`${process.env.REACT_APP_PUBLIC_URL}`);
-
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
