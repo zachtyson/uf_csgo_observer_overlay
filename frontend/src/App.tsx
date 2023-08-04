@@ -43,10 +43,7 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
             setConfig(configData);
         }
     },[])
-
-    const backupConfig = getBackupConfig();
-
-
+    getBackupConfig();
     useEffect(() => {
         let socket: Socket;
         socket = io(ENDPOINT);
