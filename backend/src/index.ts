@@ -105,7 +105,7 @@ async function startServer() {
             } else if (req.method === "GET") {
                 // Handle the GET request here
                 res.writeHead(200, { "Content-Type": "application/json" });
-                res.end(JSON.stringify(config.team_data))
+                res.end(JSON.stringify(config))
 
             }
             req.on("ping", (data:any) => {
