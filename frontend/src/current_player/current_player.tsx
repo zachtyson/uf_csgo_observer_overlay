@@ -1,13 +1,14 @@
 import "./current_player.scss";
 import React from "react";
 import { HealthFull, ArmorNone, ArmorFull, ArmorHelmet, Defuse,SmallBomb, Bullets } from '../assets/Icons';
-import {teamOneLogo, teamTwoLogo} from "../teamInfo";
 import { gunMap, nadeOrder } from "../assets/Weapons";
 import {RootObject, Player, Weapon} from "../data_interface";
-let swap = 0
+import {TeamData} from "../config_interface";
 
+let swap = 0;
 interface CurrentPlayerProps {
     data: RootObject; // Update the type according to your data structure
+    config: TeamData|null;
 }
 window.addEventListener("keydown", (event) => {
     if(event.key === "`") {
@@ -19,7 +20,7 @@ window.addEventListener("keydown", (event) => {
     }
 });
 
-function printTeamLogo(side:string) {
+function printTeamLogo(side:string,teamOneLogo:any,teamTwoLogo:any) {
     if (side === "CT") {
         if(swap === 0){
             return teamOneLogo;
@@ -131,8 +132,9 @@ function printHealthBar(side:string, player:Player) {
     </div>);
 }
 
-const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data }) => {
+const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data,config }) => {
     if(!data) return <div/>
+    if (!config) return <div>Loading...</div>;
     const player = data.player;
     let weapon:Weapon|null = null;
     //Iterate over the weapon object to a weapon where weapons.state == active
@@ -174,7 +176,7 @@ const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data }) => {
                     </div>
                     <div className="playerInfoBottom">
                         <div className="team">
-                            <img className="teamImg" src={printTeamLogo(player.team)} alt=""/>
+                            <img className="teamImg" src={printTeamLogo(player.team,config.teamOneLogo,config.teamTwoLogo)} alt=""/>
                         </div>
                         <div className="playerInfo">
                             <div className="player-score">

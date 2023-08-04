@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import { ArmorHelmet, ArmorFull, SmallBomb, Skull,} from "../assets/Icons";
 import { getPrimaryWeapon, getSecondaryWeapon, hasBomb, hasKit, getNades } from "./Equipment.js";
 import {RootObject, AllPlayers, Player} from "../data_interface";
+import {TeamData} from "../config_interface";
 
 interface TeamProps {
     data: RootObject; // Update the type according to your data structure
+    config: TeamData|null;
 }
 
 function printArmorKitHealth(player:Player, side:string) {
@@ -137,10 +139,11 @@ function printTeam(team:Player[],side:string,p:Player) {
     );
 }
 
-const Teams: React.FC<TeamProps> = ({ data }) => {
+const Teams: React.FC<TeamProps> = ({ data,config }) => {
     if(!data) {
         return <div></div>;
     }
+    if (!config) return <div>Loading...</div>;
 
     let leftTeam: Player[] = Object.values(data.allplayers).filter((p: Player) => p.observer_slot < 6 && p.observer_slot !== 0);
     let rightTeam: Player[] = Object.values(data.allplayers).filter((p: Player) => p.observer_slot >= 6 || p.observer_slot === 0);

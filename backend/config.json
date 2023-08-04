@@ -2,9 +2,15 @@
   "application": {
     "logLevel": "info",
     "port": 25566,
-    "host": "127.0.0.1"
+    "host": "127.0.0.1",
+    "info": "JSON doesn't support comments, so this'll have to do. DO NOT EDIT PORT OR HOST, THE FRONTEND ENDPOINTS ARE HARDCODED TO THESE VALUES. I'll fix it later ."
   },
-  "csgo": {
+  "team_data": {
+    "teamOneName": "Devin",
+    "teamTwoName": "Zach",
+    "teamOneLogo": "logoOne.png",
+    "teamTwoLogo": "logoTwo.jpg",
+    "teamOneStartingSide": "CT",
     "bombTime": 40
   }
 }
