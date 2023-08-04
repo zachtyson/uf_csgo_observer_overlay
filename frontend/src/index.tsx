@@ -6,7 +6,10 @@ import axios from 'axios';
 import App from "./App";
 import { ConfigData } from "./config_interface";
 
-const ENDPOINT = "http://localhost:25566/"; // replace with your server's address and port
+const ENDPOINT = "http://localhost:25566/";
+//this will remain the same for now, but will be changed to the server's address and port
+//once I figure out how to fix this bootstrap paradox issue
+//since I can't get the endpoint without the config, but I can't get the config without the endpoint
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
