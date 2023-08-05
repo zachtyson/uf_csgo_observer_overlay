@@ -5,3 +5,10 @@
 /csgo-gamestate.log
 /.idea/
 /frontend/build/
+/frontend/frontend-win32-x64/
+/gui/build/
+/backend/dist/csgo-gamestate.log
+/backend/dist/index.js
+/backend/dist/index-linux
+/backend/dist/index-macos
+/backend/dist/index-win.exe
