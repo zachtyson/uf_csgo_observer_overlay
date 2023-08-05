@@ -1,3 +1,5 @@
+import netscape.javascript.JSObject;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -5,7 +7,7 @@ import java.io.*;
 
 public class Main {
     private static final String EXE_FILE_1 = "frontend/frontend.exe";
-    private static final String EXE_FILE_2 = "backend.exe";
+    private static final String EXE_FILE_2 = "backend/backend.exe";
 
     private Process process1;
     private Process process2;
@@ -41,6 +43,22 @@ public class Main {
         contentPane.add(startButton2);
         contentPane.add(stopButton2);
         contentPane.add(scrollPane);
+
+        //Create a .json file
+        JButton createButton = new JButton("Create JSON");
+        createButton.addActionListener(e -> {
+            try {
+                File file = new File("test.json");
+                if (file.createNewFile()) {
+                    System.out.println("File created: " + file.getName());
+                } else {
+                    System.out.println("File already exists.");
+                }
+            } catch (IOException ex) {
+                System.out.println("An error occurred.");
+                ex.printStackTrace();
+            }
+        });
 
         frame.setVisible(true);
     }
