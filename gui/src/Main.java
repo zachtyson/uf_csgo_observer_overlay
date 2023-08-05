@@ -23,30 +23,37 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
 
-        Container contentPane = frame.getContentPane();
-        contentPane.setLayout(new GridLayout(5, 1));
+        // Create JTabbedPane
+        JTabbedPane tabbedPane = new JTabbedPane();
+
+        // TAB 1
+        JPanel panel1 = new JPanel(new GridLayout(5, 1));
 
         JButton startButton1 = new JButton("Start FRONTEND");
         JButton stopButton1 = new JButton("Stop FRONTEND");
         JButton startButton2 = new JButton("Start BACKEND");
         JButton stopButton2 = new JButton("Stop BACKEND");
-        JTextArea outputArea = new JTextArea();
-        outputArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(outputArea);
+        JTextArea outputArea1 = new JTextArea();
+        outputArea1.setEditable(false);
+        JScrollPane scrollPane1 = new JScrollPane(outputArea1);
 
-        startButton1.addActionListener(e -> executeProcess(EXE_FILE_1, outputArea, 1));
-        stopButton1.addActionListener(e -> stopProcess(outputArea, 1));
+        startButton1.addActionListener(e -> executeProcess(EXE_FILE_1, outputArea1, 1));
+        stopButton1.addActionListener(e -> stopProcess(outputArea1, 1));
+        startButton2.addActionListener(e -> executeProcess(EXE_FILE_2, outputArea1, 2));
+        stopButton2.addActionListener(e -> stopProcess(outputArea1, 2));
 
-        startButton2.addActionListener(e -> executeProcess(EXE_FILE_2, outputArea, 2));
-        stopButton2.addActionListener(e -> stopProcess(outputArea, 2));
+        panel1.add(startButton1);
+        panel1.add(stopButton1);
+        panel1.add(startButton2);
+        panel1.add(stopButton2);
+        panel1.add(scrollPane1);
 
-        contentPane.add(startButton1);
-        contentPane.add(stopButton1);
-        contentPane.add(startButton2);
-        contentPane.add(stopButton2);
-        contentPane.add(scrollPane);
+        // TAB 2
+        JPanel panel2 = new JPanel(new GridLayout(2, 1));
+        JTextArea outputArea2 = new JTextArea("Tab 2 content here");
+        outputArea2.setEditable(false);
+        JScrollPane scrollPane2 = new JScrollPane(outputArea2);
 
-        //Create a .json file
         JButton createButton = new JButton("Create JSON");
         createButton.addActionListener(e -> {
             try {
@@ -62,8 +69,17 @@ public class Main {
             }
         });
 
+        panel2.add(createButton);
+        panel2.add(scrollPane2);
+
+        // Add tabs to JTabbedPane
+        tabbedPane.addTab("Tab 1", panel1);
+        tabbedPane.addTab("Tab 2", panel2);
+
+        frame.add(tabbedPane);
         frame.setVisible(true);
     }
+
 
     private void executeProcess(String fileName, JTextArea outputArea, int processNumber) {
         File exeFile = new File(fileName);
