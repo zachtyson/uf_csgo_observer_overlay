@@ -53,8 +53,78 @@ public class Main {
         panel1.add(stopButton2);
         panel1.add(scrollPane1);
 
-        // TAB 2
-        JPanel panel2 = new JPanel(new GridLayout(2, 1));
+// TAB 2
+        JPanel panel2 = new JPanel(new GridLayout(10, 2));
+
+//        JLabel logLevelLabel = new JLabel("Log Level:");
+//        JTextField logLevelField = new JTextField("info");
+//        panel2.add(logLevelLabel);
+//        panel2.add(logLevelField);
+
+        JLabel portLabel = new JLabel("Port:");
+        JTextField portField = new JTextField("25566");
+        portField.setEditable(false);
+        panel2.add(portLabel);
+        panel2.add(portField);
+
+        JLabel hostLabel = new JLabel("Host:");
+        JTextField hostField = new JTextField("127.0.0.1");
+        hostField.setEditable(false);
+        panel2.add(hostLabel);
+        panel2.add(hostField);
+
+        JLabel teamOneNameLabel = new JLabel("Team One Name:");
+        JTextField teamOneNameField = new JTextField();
+        panel2.add(teamOneNameLabel);
+        panel2.add(teamOneNameField);
+
+        JLabel teamOneLogoLabel = new JLabel("Team One Logo:");
+        JButton teamOneLogoButton = new JButton("Select Team One Logo");
+        final String[] teamOneLogo = new String[1];
+        teamOneLogoButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int returnValue = fileChooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                teamOneLogo[0] = selectedFile.getAbsolutePath();
+                teamOneLogoButton.setText(selectedFile.getName());
+            }
+        });
+        panel2.add(teamOneLogoLabel);
+        panel2.add(teamOneLogoButton);
+
+        JLabel teamTwoNameLabel = new JLabel("Team Two Name:");
+        JTextField teamTwoNameField = new JTextField();
+        panel2.add(teamTwoNameLabel);
+        panel2.add(teamTwoNameField);
+
+
+        JLabel teamTwoLogoLabel = new JLabel("Team Two Logo:");
+        JButton teamTwoLogoButton = new JButton("Select Team Two Logo");
+        final String[] teamTwoLogo = new String[1];
+        teamTwoLogoButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int returnValue = fileChooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                teamTwoLogo[0] = selectedFile.getAbsolutePath();
+                teamTwoLogoButton.setText(selectedFile.getName());
+            }
+        });
+        panel2.add(teamTwoLogoLabel);
+        panel2.add(teamTwoLogoButton);
+
+        JLabel teamOneStartingSideLabel = new JLabel("Team One Starting Side:");
+        String[] sides = { "CT", "T" };
+        JComboBox<String> teamOneStartingSideComboBox = new JComboBox<>(sides);
+        panel2.add(teamOneStartingSideLabel);
+        panel2.add(teamOneStartingSideComboBox);
+
+        JLabel bombTimerLabel = new JLabel("Bomb Timer:");
+        JTextField bombTimerField = new JTextField("40"); // default to 40
+        panel2.add(bombTimerLabel);
+        panel2.add(bombTimerField);
+
         JTextArea outputArea2 = new JTextArea("Tab 2 content here");
         outputArea2.setEditable(false);
         JScrollPane scrollPane2 = new JScrollPane(outputArea2);
@@ -62,9 +132,16 @@ public class Main {
         JButton createButton = new JButton("Create JSON");
         createButton.addActionListener(e -> {
             try {
-                String cfg = createConfigFile("info", 25566, "127.0.0.1",
-                        "Devin", "Zach", "logoOne.png", "logoTwo.jpg",
-                        "CT", 40);
+                String cfg = createConfigFile(
+                        "info",
+                        Integer.parseInt(portField.getText()),
+                        hostField.getText(),
+                        teamOneNameField.getText(),
+                        teamTwoNameField.getText(),
+                        teamOneLogo[0],
+                        teamTwoLogo[0],
+                        (String) teamOneStartingSideComboBox.getSelectedItem(),
+                        Integer.parseInt(bombTimerField.getText()));
                 writeJsonToFile(cfg, "test.json");
 
             } catch (Exception ex) {
@@ -75,6 +152,7 @@ public class Main {
 
         panel2.add(createButton);
         panel2.add(scrollPane2);
+
 
         // Add tabs to JTabbedPane
         tabbedPane.addTab("Tab 1", panel1);
@@ -136,6 +214,11 @@ public class Main {
         application.put("logLevel", logLevel);
         application.put("port", port);
         application.put("host", host);
+        //Replace all backslashes with forward slashes
+        teamOneLogo = teamOneLogo.replace("\\", "/");
+        teamTwoLogo = teamTwoLogo.replace("\\", "/");
+        teamOneName = teamOneName.replace("\\", "/");
+        teamTwoName = teamTwoName.replace("\\", "/");
         teamData.put("teamOneName", teamOneName);
         teamData.put("teamTwoName", teamTwoName);
         teamData.put("teamOneLogo", teamOneLogo);
