@@ -122,7 +122,7 @@ public class Main {
         panel2.add(bombTimerLabel);
         panel2.add(bombTimerField);
 
-        JTextArea outputArea2 = new JTextArea("Tab 2 content here");
+        JTextArea outputArea2 = new JTextArea("");
         outputArea2.setEditable(false);
         JScrollPane scrollPane2 = new JScrollPane(outputArea2);
 
@@ -151,8 +151,8 @@ public class Main {
 
 
         // Add tabs to JTabbedPane
-        tabbedPane.addTab("Tab 1", panel1);
-        tabbedPane.addTab("Tab 2", panel2);
+        tabbedPane.addTab("Start", panel1);
+        tabbedPane.addTab("Settings", panel2);
 
         frame.add(tabbedPane);
         frame.setVisible(true);
