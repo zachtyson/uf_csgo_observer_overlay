@@ -12,3 +12,8 @@
 /backend/dist/index-linux
 /backend/dist/index-macos
 /backend/dist/index-win.exe
+/gui/src/CustomJSONObject.class
+/test.json
+/gui/src/Main.class
+/gui/src/main.exe
+/gui/src/Main.jar
