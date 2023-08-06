@@ -192,46 +192,45 @@ public class Main {
 
         panel2.add(createButton);
         panel2.add(scrollPane2);
-        JPanel panel3 = new JPanel(new GridLayout(3, 1)); // Changed from 1, 1 to 3, 1 to accommodate more components
+        LayoutManager layout = new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS);
+        frame.setLayout(layout);
 
-        // Create JLabel
+        // Create components
         JLabel gameLocationLabel = new JLabel("Select Game Location:");
+        gameLocationLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        gameLocationLabel.setFont(new Font("Arial", Font.BOLD, 18));
 
-        // Create JButton
         JButton gameLocationButton = new JButton("Select Directory");
+        gameLocationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        gameLocationButton.setBackground(Color.LIGHT_GRAY);
 
-        // Create JFileChooser
         JFileChooser gameDirectoryChooser = new JFileChooser();
-        gameDirectoryChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Allow only directories to be selected
+        gameDirectoryChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
         // Add ActionListener to JButton
         gameLocationButton.addActionListener(e -> {
             int returnValue = gameDirectoryChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedDirectory = gameDirectoryChooser.getSelectedFile();
-                gameDirectoryPath = selectedDirectory.getAbsolutePath();
-                //replace \ with / for windows
-                gameDirectoryPath = gameDirectoryPath.replace("\\", "/");
                 gameLocationButton.setText(selectedDirectory.getName());
             }
         });
 
-        // Create cfg file generation JButton
         JButton cfgButton = new JButton("Generate cfg file in game");
-        cfgButton.addActionListener(e -> {
-            // Logic to generate cfg file
-            // You will need to implement this part based on your specific requirements
-            try {
-                generateGSIFile();
-            } catch (RuntimeException ex) {
-                ex.printStackTrace();
-            }
-        });
+        cfgButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        cfgButton.setBackground(Color.LIGHT_GRAY);
 
-        // Add components to panel3
+        // Create a JPanel with a border
+        JPanel panel3 = new JPanel();
+        panel3.setLayout(new BoxLayout(panel3, BoxLayout.Y_AXIS));
+        panel3.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // padding
+
+        // Add components to panel
         panel3.add(gameLocationLabel);
+        panel3.add(Box.createRigidArea(new Dimension(0, 10))); // Add space
         panel3.add(gameLocationButton);
-        panel3.add(cfgButton); // Add cfg generation button to panel
+        panel3.add(Box.createRigidArea(new Dimension(0, 10))); // Add space
+        panel3.add(cfgButton);
 
 
 
