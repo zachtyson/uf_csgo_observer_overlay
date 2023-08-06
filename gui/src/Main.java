@@ -129,11 +129,24 @@ public class Main {
                         (String) teamOneStartingSideComboBox.getSelectedItem(),
                         Integer.parseInt(bombTimerField.getText()));
                 writeJsonToFile(cfg, "test.json");
-
+            } catch (NumberFormatException ex) {
+                System.out.println("Error: Invalid number format.");
+                outputArea2.setText("Error: Invalid number format.");
+                ex.printStackTrace();
+            } catch (NullPointerException ex) {
+                System.out.println("Error: Some fields are null or not initialized.");
+                outputArea2.setText("Error: Some fields are null or not initialized.");
+                ex.printStackTrace();
+            } catch (IllegalArgumentException ex) {
+                System.out.println("Error: Illegal argument.");
+                outputArea2.setText("Error: Illegal argument.");
+                ex.printStackTrace();
             } catch (Exception ex) {
-                System.out.println("An error occurred.");
+                System.out.println("An unknown error occurred.");
+                outputArea2.setText("An unknown error occurred.");
                 ex.printStackTrace();
             }
+
         });
 
         panel2.add(createButton);
@@ -245,7 +258,7 @@ public class Main {
             fileWriter.write(jsonData);
             System.out.println("JSON data written to file: " + filename);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Unable to write JSON data to file: " + filename, e);
         }
     }
 }
