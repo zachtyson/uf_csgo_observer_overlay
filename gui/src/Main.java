@@ -62,13 +62,12 @@ public class Main {
         JButton createButton = new JButton("Create JSON");
         createButton.addActionListener(e -> {
             try {
-                File file = new File("test.json");
-                if (file.createNewFile()) {
-                    System.out.println("File created: " + file.getName());
-                } else {
-                    System.out.println("File already exists.");
-                }
-            } catch (IOException ex) {
+                String cfg = createConfigFile("info", 25566, "127.0.0.1",
+                        "Devin", "Zach", "logoOne.png", "logoTwo.jpg",
+                        "CT", 40);
+                writeJsonToFile(cfg, "test.json");
+
+            } catch (Exception ex) {
                 System.out.println("An error occurred.");
                 ex.printStackTrace();
             }
