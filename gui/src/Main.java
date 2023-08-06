@@ -1,8 +1,5 @@
-import netscape.javascript.JSObject;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -133,7 +130,6 @@ public class Main {
         createButton.addActionListener(e -> {
             try {
                 String cfg = createConfigFile(
-                        "info",
                         Integer.parseInt(portField.getText()),
                         hostField.getText(),
                         teamOneNameField.getText(),
@@ -205,13 +201,13 @@ public class Main {
         }
     }
 
-    private static String createConfigFile(String logLevel, int port, String host,
+    private static String createConfigFile(int port, String host,
                                            String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo,
                                            String teamOneStartingSide, int bombTime) {
         CustomJSONObject config = new CustomJSONObject();
         CustomJSONObject application = new CustomJSONObject();
         CustomJSONObject teamData = new CustomJSONObject();
-        application.put("logLevel", logLevel);
+        application.put("logLevel", "info");
         application.put("port", port);
         application.put("host", host);
         //Replace all backslashes with forward slashes
