@@ -3,6 +3,7 @@ import java.awt.*;
 import java.io.*;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Main {
     private static final String EXE_FILE_1 = "frontend/frontend.exe";
@@ -24,25 +25,59 @@ public class Main {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         // Start
-        JPanel panel1 = new JPanel(new GridLayout(5, 1));
+        JPanel panel1 = new JPanel();
+        panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
+        panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
 
-        JButton startButton1 = new JButton("Start FRONTEND");
-        JButton stopButton1 = new JButton("Stop FRONTEND");
-        JButton startButton2 = new JButton("Start BACKEND");
-        JButton stopButton2 = new JButton("Stop BACKEND");
+        JButton frontendButton = new JButton("Start FRONTEND");
+        frontendButton.setFont(new Font("Arial", Font.BOLD, 14));
+        frontendButton.setBackground(Color.CYAN);
+
+        JButton backendButton = new JButton("Start BACKEND");
+        backendButton.setFont(new Font("Arial", Font.BOLD, 14));
+        backendButton.setBackground(Color.CYAN);
+
         JTextArea outputArea1 = new JTextArea();
         outputArea1.setEditable(false);
+        outputArea1.setMargin(new Insets(5, 5, 5, 5)); // Add margins
+
         JScrollPane scrollPane1 = new JScrollPane(outputArea1);
 
-        startButton1.addActionListener(e -> executeProcess(EXE_FILE_1, outputArea1, 1));
-        stopButton1.addActionListener(e -> stopProcess(outputArea1, 1));
-        startButton2.addActionListener(e -> executeProcess(EXE_FILE_2, outputArea1, 2));
-        stopButton2.addActionListener(e -> stopProcess(outputArea1, 2));
+        AtomicBoolean isFrontendRunning = new AtomicBoolean(false);
+        AtomicBoolean isBackendRunning = new AtomicBoolean(false);
 
-        panel1.add(startButton1);
-        panel1.add(stopButton1);
-        panel1.add(startButton2);
-        panel1.add(stopButton2);
+        frontendButton.addActionListener(e -> {
+            if (isFrontendRunning.get()) {
+                stopProcess(outputArea1, 1);
+                frontendButton.setText("Start FRONTEND");
+                frontendButton.setBackground(Color.CYAN);
+                isFrontendRunning.set(false);
+            } else {
+                executeProcess(EXE_FILE_1, outputArea1, 1);
+                frontendButton.setText("Stop FRONTEND");
+                frontendButton.setBackground(Color.RED);
+                isFrontendRunning.set(true);
+            }
+        });
+
+        backendButton.addActionListener(e -> {
+            if (isBackendRunning.get()) {
+                stopProcess(outputArea1, 2);
+                backendButton.setText("Start BACKEND");
+                backendButton.setBackground(Color.CYAN);
+                isBackendRunning.set(false);
+            } else {
+                executeProcess(EXE_FILE_2, outputArea1, 2);
+                backendButton.setText("Stop BACKEND");
+                backendButton.setBackground(Color.RED);
+                isBackendRunning.set(true);
+            }
+        });
+
+        panel1.add(frontendButton);
+        panel1.add(Box.createRigidArea(new Dimension(0, 10))); // Add vertical spacing between buttons
+        panel1.add(backendButton);
+        panel1.add(Box.createRigidArea(new Dimension(0, 10)));
         panel1.add(scrollPane1);
 
         // Settings
