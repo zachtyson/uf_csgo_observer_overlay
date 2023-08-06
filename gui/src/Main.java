@@ -195,7 +195,8 @@ public class Main {
         frame.add(tabbedPane);
         frame.setVisible(true);
     }
-
+    private Thread processThread1;
+    private Thread processThread2;
 
     private void executeProcess(String fileName, JTextArea outputArea, int processNumber) {
         File exeFile = new File(fileName);
@@ -209,17 +210,23 @@ public class Main {
                 }
 
                 outputArea.append("Started '" + fileName + "'\n");
-                new Thread(() -> {
+                Thread processThread = new Thread(() -> {
                     BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
                     String line;
                     try {
-                        while ((line = input.readLine()) != null) {
+                        while ((line = input.readLine()) != null && !Thread.currentThread().isInterrupted()) {
                             outputArea.append(line + "\n");
                         }
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                }).start();
+                });
+                if(processNumber == 1) {
+                    processThread1 = processThread;
+                } else if (processNumber == 2) {
+                    processThread2 = processThread;
+                }
+                processThread.start();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -232,9 +239,15 @@ public class Main {
         outputArea.append("Stopping '" + (processNumber == 1 ? EXE_FILE_1 : EXE_FILE_2) + "'\n");
         if (processNumber == 1 && process1 != null) {
             process1.destroy();
+            if (processThread1 != null && processThread1.isAlive()) {
+                processThread1.interrupt();
+            }
             outputArea.append("Stopped '" + EXE_FILE_1 + "'\n");
         } else if (processNumber == 2 && process2 != null) {
             process2.destroy();
+            if (processThread2 != null && processThread2.isAlive()) {
+                processThread2.interrupt();
+            }
             outputArea.append("Stopped '" + EXE_FILE_2 + "'\n");
         }
     }
