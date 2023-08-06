@@ -13,11 +13,6 @@ public class Main {
 
     public static void main(String[] args) {
         new Main();
-//        String cfg = createConfigFile("info", 25566, "127.0.0.1",
-//                "Devin", "Zach", "logoOne.png", "logoTwo.jpg",
-//                "CT", 40);
-//        writeJsonToFile(cfg, "test.json");
-
     }
 
     public Main() {
@@ -28,7 +23,7 @@ public class Main {
         // Create JTabbedPane
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        // TAB 1
+        // Start
         JPanel panel1 = new JPanel(new GridLayout(5, 1));
 
         JButton startButton1 = new JButton("Start FRONTEND");
@@ -50,13 +45,8 @@ public class Main {
         panel1.add(stopButton2);
         panel1.add(scrollPane1);
 
-// TAB 2
+        // Settings
         JPanel panel2 = new JPanel(new GridLayout(10, 2));
-
-//        JLabel logLevelLabel = new JLabel("Log Level:");
-//        JTextField logLevelField = new JTextField("info");
-//        panel2.add(logLevelLabel);
-//        panel2.add(logLevelField);
 
         JLabel portLabel = new JLabel("Port:");
         JTextField portField = new JTextField("25566");
