@@ -169,7 +169,7 @@ public class Main {
                         teamTwoLogo[0],
                         (String) teamOneStartingSideComboBox.getSelectedItem(),
                         Integer.parseInt(bombTimerField.getText()));
-                writeJsonToFile(cfg, "test.json");
+                writeJsonToFile(cfg, "config.json");
             } catch (NumberFormatException ex) {
                 System.out.println("Error: Invalid number format.");
                 outputArea2.setText("Error: Invalid number format.");
