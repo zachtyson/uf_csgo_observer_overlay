@@ -16,6 +16,12 @@ public class Main {
         new Main();
     }
 
+    private String gameDirectoryPath = null;
+
+    private String host = "http://localhost";
+
+    private int port = 25566;
+
     public Main() {
         JFrame frame = new JFrame("EXE Runner");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,9 +160,9 @@ public class Main {
         JButton createButton = new JButton("Create JSON");
         createButton.addActionListener(e -> {
             try {
+                port = Integer.parseInt(portField.getText());
+                host = hostField.getText();
                 String cfg = createConfigFile(
-                        Integer.parseInt(portField.getText()),
-                        hostField.getText(),
                         teamOneNameField.getText(),
                         teamTwoNameField.getText(),
                         teamOneLogo[0],
@@ -186,11 +192,53 @@ public class Main {
 
         panel2.add(createButton);
         panel2.add(scrollPane2);
+        JPanel panel3 = new JPanel(new GridLayout(3, 1)); // Changed from 1, 1 to 3, 1 to accommodate more components
+
+        // Create JLabel
+        JLabel gameLocationLabel = new JLabel("Select Game Location:");
+
+        // Create JButton
+        JButton gameLocationButton = new JButton("Select Directory");
+
+        // Create JFileChooser
+        JFileChooser gameDirectoryChooser = new JFileChooser();
+        gameDirectoryChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Allow only directories to be selected
+
+        // Add ActionListener to JButton
+        gameLocationButton.addActionListener(e -> {
+            int returnValue = gameDirectoryChooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedDirectory = gameDirectoryChooser.getSelectedFile();
+                gameDirectoryPath = selectedDirectory.getAbsolutePath();
+                //replace \ with / for windows
+                gameDirectoryPath = gameDirectoryPath.replace("\\", "/");
+                gameLocationButton.setText(selectedDirectory.getName());
+            }
+        });
+
+        // Create cfg file generation JButton
+        JButton cfgButton = new JButton("Generate cfg file in game");
+        cfgButton.addActionListener(e -> {
+            // Logic to generate cfg file
+            // You will need to implement this part based on your specific requirements
+            try {
+                generateGSIFile();
+            } catch (RuntimeException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        // Add components to panel3
+        panel3.add(gameLocationLabel);
+        panel3.add(gameLocationButton);
+        panel3.add(cfgButton); // Add cfg generation button to panel
+
 
 
         // Add tabs to JTabbedPane
         tabbedPane.addTab("Start", panel1);
         tabbedPane.addTab("Settings", panel2);
+        tabbedPane.addTab("Game Location", panel3);
 
         frame.add(tabbedPane);
         frame.setVisible(true);
@@ -252,8 +300,7 @@ public class Main {
         }
     }
 
-    private static String createConfigFile(int port, String host,
-                                           String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo,
+    private String createConfigFile(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo,
                                            String teamOneStartingSide, int bombTime) {
         CustomJSONObject config = new CustomJSONObject();
         CustomJSONObject application = new CustomJSONObject();
@@ -301,12 +348,64 @@ public class Main {
 //        return jsonBuilder.toString();
     }
 
-    private static void writeJsonToFile(String jsonData, String filename) {
+    private static void writeJsonToFile(String jsonData, String filename) throws IOException {
         try (FileWriter fileWriter = new FileWriter(filename)) {
             fileWriter.write(jsonData);
             System.out.println("JSON data written to file: " + filename);
         } catch (IOException e) {
-            throw new RuntimeException("Unable to write JSON data to file: " + filename, e);
+            throw new IOException("Unable to write JSON data to file: " + filename, e);
         }
+    }
+
+    private void generateGSIFile() {
+        //"Observer All Players v.1"
+        //{
+        // "uri" "http://localhost:25566"
+        //  "timeout"   "1.1"
+        //  "buffer"    "0.05"
+        //  "throttle"  "0.0"
+        //  "heartbeat" "20.0"
+        // "output"
+        // {
+        //   "precision_time" "1"
+        //   "precision_position" "1"
+        //   "precision_vector" "3"
+        // }
+        // "data"
+        // {
+        //  "provider"				"1"
+        //  "player_id"				"1"
+        //  "player_state"			"1"
+        //  "map"						"1"
+        //  "map_round_wins"			"1"
+        //  "player_match_stats"		"1"
+        //  "player_weapons"			"1"
+        //  "round"					"1"
+        //  "allplayers_id"			"1"
+        //  "allplayers_match_stats"	"1"
+        //  "allplayers_position"		"1"
+        //  "allplayers_state"		"1"
+        //  "allplayers_weapons"		"1"
+        //  "bomb"					"1"
+        //  "phase_countdowns"		"1"
+        //  "player_position"			"1"
+        // }
+        //}
+        try {
+            String gsiBuilder = """
+                    "Observer All Players v.1"
+                    {
+                     "uri" \"""" +"http://localhost:" + port + "\"\n" + "  \"timeout\"   \"1.1\"\n" + "  \"buffer\"    \"0.05\"\n" + "  \"throttle\"  \"0.0\"\n" + "  \"heartbeat\" \"20.0\"\n" + " \"output\"\n" + " {\n" + "   \"precision_time\" \"1\"\n" + "   \"precision_position\" \"1\"\n" + "   \"precision_vector\" \"3\"\n" + " }\n" + " \"data\"\n" + " {\n" + "  \"provider\"\t\t\t\t\"1\"\n" + "  \"player_id\"\t\t\t\t\"1\"\n" + "  \"player_state\"\t\t\t\"1\"\n" + "  \"map\"\t\t\t\t\t\t\"1\"\n" + "  \"map_round_wins\"\t\t\t\"1\"\n" + "  \"player_match_stats\"\t\t\"1\"\n" + "  \"player_weapons\"\t\t\t\"1\"\n" + "  \"round\"\t\t\t\t\t\"1\"\n" + "  \"allplayers_id\"\t\t\t\"1\"\n" + "  \"allplayers_match_stats\"\t\"1\"\n" + "  \"allplayers_position\"\t\t\"1\"\n" + "  \"allplayers_state\"\t\t\"1\"\n" + "  \"allplayers_weapons\"\t\t\"1\"\n" + "  \"bomb\"\t\t\t\t\t\"1\"\n" + "  \"phase_countdowns\"\t\t\"1\"\n" + "  \"player_position\"\t\t\t\"1\"\n" + " }\n" + "}";
+            //check if /cfg/ folder exists
+            File cfgFolder = new File(gameDirectoryPath + "/cfg");
+            if (!cfgFolder.exists()) {
+                writeJsonToFile(gsiBuilder, gameDirectoryPath+"/gamestate_integration_uf.cfg");
+            } else {
+                writeJsonToFile(gsiBuilder, gameDirectoryPath+"/cfg/gamestate_integration_uf.cfg");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to generate gamestate_integration_uf.cfg file", e);
+        }
+
     }
 }
