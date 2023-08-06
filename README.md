@@ -66,8 +66,8 @@ Frontend:
 
 GUI:
 1. cd gui/src
-2. javac -source 15 -target 15 Main.java
+2. javac -source 15 -target 15 Main.java CustomJSONObject.class
 3. jar cfm .\Main.jar .\manifest.txt *.class
-4. Use Launch4j to package it into an exe using overlay_launch4j.xml
+4. Use Launch4j to package it into an exe
 
 
