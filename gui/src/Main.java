@@ -16,6 +16,11 @@ public class Main {
 
     public static void main(String[] args) {
         new Main();
+//        String cfg = createConfigFile("info", 25566, "127.0.0.1",
+//                "Devin", "Zach", "logoOne.png", "logoTwo.jpg",
+//                "CT", 40);
+//        writeJsonToFile(cfg, "test.json");
+
     }
 
     public Main() {
@@ -126,30 +131,45 @@ public class Main {
     private static String createConfigFile(String logLevel, int port, String host,
                                            String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo,
                                            String teamOneStartingSide, int bombTime) {
-        StringBuilder jsonBuilder = new StringBuilder();
-        jsonBuilder.append("{");
-        // Too lazy to figure out how to create a JSON object in Java that works with Launch4j, so I'm just going to
-        // build the JSON string manually. Once I feel like it, I'll do it the right way.
-        // Application section
-        jsonBuilder.append("\n  \"application\": {");
-        jsonBuilder.append("\n    \"logLevel\": \"").append(logLevel).append("\",");
-        jsonBuilder.append("\n    \"port\": ").append(port).append(",");
-        jsonBuilder.append("\n    \"host\": \"").append(host).append("\"");
-        jsonBuilder.append("\n  },");
-        // Currently port and host are not able to change since I got a small bootstrap problem in the frontend, so I'm just going to hardcode them for now.
-        // Team data section
-        jsonBuilder.append("\n  \"team_data\": {");
-        jsonBuilder.append("\n    \"teamOneName\": \"").append(teamOneName).append("\",");
-        jsonBuilder.append("\n    \"teamTwoName\": \"").append(teamTwoName).append("\",");
-        jsonBuilder.append("\n    \"teamOneLogo\": \"").append(teamOneLogo).append("\",");
-        jsonBuilder.append("\n    \"teamTwoLogo\": \"").append(teamTwoLogo).append("\",");
-        jsonBuilder.append("\n    \"teamOneStartingSide\": \"").append(teamOneStartingSide).append("\",");
-        jsonBuilder.append("\n    \"bombTime\": ").append(bombTime);
-        jsonBuilder.append("\n  }");
+        CustomJSONObject config = new CustomJSONObject();
+        CustomJSONObject application = new CustomJSONObject();
+        CustomJSONObject teamData = new CustomJSONObject();
+        application.put("logLevel", logLevel);
+        application.put("port", port);
+        application.put("host", host);
+        teamData.put("teamOneName", teamOneName);
+        teamData.put("teamTwoName", teamTwoName);
+        teamData.put("teamOneLogo", teamOneLogo);
+        teamData.put("teamTwoLogo", teamTwoLogo);
+        teamData.put("teamOneStartingSide", teamOneStartingSide);
+        teamData.put("bombTime", bombTime);
+        config.put("team_data", teamData);
+        config.put("application", application);
 
-        jsonBuilder.append("\n}");
-
-        return jsonBuilder.toString();
+        return config.toString();
+//        jsonBuilder.append("{");
+//        // Too lazy to figure out how to create a JSON object in Java that works with Launch4j, so I'm just going to
+//        // build the JSON string manually. Once I feel like it, I'll do it the right way.
+//        // Application section
+//        jsonBuilder.append("\n  \"application\": {");
+//        jsonBuilder.append("\n    \"logLevel\": \"").append(logLevel).append("\",");
+//        jsonBuilder.append("\n    \"port\": ").append(port).append(",");
+//        jsonBuilder.append("\n    \"host\": \"").append(host).append("\"");
+//        jsonBuilder.append("\n  },");
+//        // Currently port and host are not able to change since I got a small bootstrap problem in the frontend, so I'm just going to hardcode them for now.
+//        // Team data section
+//        jsonBuilder.append("\n  \"team_data\": {");
+//        jsonBuilder.append("\n    \"teamOneName\": \"").append(teamOneName).append("\",");
+//        jsonBuilder.append("\n    \"teamTwoName\": \"").append(teamTwoName).append("\",");
+//        jsonBuilder.append("\n    \"teamOneLogo\": \"").append(teamOneLogo).append("\",");
+//        jsonBuilder.append("\n    \"teamTwoLogo\": \"").append(teamTwoLogo).append("\",");
+//        jsonBuilder.append("\n    \"teamOneStartingSide\": \"").append(teamOneStartingSide).append("\",");
+//        jsonBuilder.append("\n    \"bombTime\": ").append(bombTime);
+//        jsonBuilder.append("\n  }");
+//
+//        jsonBuilder.append("\n}");
+//
+//        return jsonBuilder.toString();
     }
 
     private static void writeJsonToFile(String jsonData, String filename) {
