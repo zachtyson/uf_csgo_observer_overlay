@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,6 +16,8 @@ public class Main {
 
     private Process process1;
     private Process process2;
+    private Thread processThread1;
+    private Thread processThread2;
 
     public static void main(String[] args) {
         new Main();
@@ -29,6 +33,24 @@ public class Main {
         JFrame frame = new JFrame("EXE Runner");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
+
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                if (process1 != null) {
+                    process1.destroy();
+                }
+                if (process2 != null) {
+                    process2.destroy();
+                }
+                if (processThread1 != null) {
+                    processThread1.interrupt();
+                }
+                if (processThread2 != null) {
+                    processThread2.interrupt();
+                }
+                System.exit(0); // This is to terminate the program after the processes are stopped
+            }
+        });
 
         // Create JTabbedPane
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -293,8 +315,6 @@ public class Main {
         frame.add(tabbedPane);
         frame.setVisible(true);
     }
-    private Thread processThread1;
-    private Thread processThread2;
 
     private boolean isImageFile(String filename) {
         String[] imageExtensions = {".jpg", ".jpeg", ".png", ".gif", ".bmp"};
@@ -349,12 +369,14 @@ public class Main {
             process1.destroy();
             if (processThread1 != null && processThread1.isAlive()) {
                 processThread1.interrupt();
+                processThread1 = null;
             }
             outputArea.append("Stopped '" + EXE_FILE_1 + "'\n");
         } else if (processNumber == 2 && process2 != null) {
             process2.destroy();
             if (processThread2 != null && processThread2.isAlive()) {
                 processThread2.interrupt();
+                processThread2 = null;
             }
             outputArea.append("Stopped '" + EXE_FILE_2 + "'\n");
         }
