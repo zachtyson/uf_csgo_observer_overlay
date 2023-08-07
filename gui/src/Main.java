@@ -123,7 +123,11 @@ public class Main {
                     String filename = selectedFile.getName();
 
                     // Create a destination File object in the local directory
-                    File destinationFile = new File(filename);
+                    File backendFolder = new File("backend");
+                    if(!backendFolder.exists()) {
+                        backendFolder.mkdir();
+                    }
+                    File destinationFile = new File("backend/" + filename);
 
                     // Perform the file copy
                     Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -164,7 +168,11 @@ public class Main {
                     String filename = selectedFile.getName();
 
                     // Create a destination File object in the local directory
-                    File destinationFile = new File(filename);
+                    File backendFolder = new File("backend");
+                    if(!backendFolder.exists()) {
+                        backendFolder.mkdir();
+                    }
+                    File destinationFile = new File("backend/" + filename);
 
                     // Perform the file copy
                     Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
