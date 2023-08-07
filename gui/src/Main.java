@@ -3,7 +3,10 @@ import java.awt.*;
 import java.io.*;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Main {
     private static final String EXE_FILE_1 = "frontend/frontend.exe";
@@ -108,14 +111,34 @@ public class Main {
 
         JLabel teamOneLogoLabel = new JLabel("Team One Logo:");
         JButton teamOneLogoButton = new JButton("Select Team One Logo");
-        final String[] teamOneLogo = new String[1];
+        AtomicReference<String> teamOneLogoName = new AtomicReference<>("");
         teamOneLogoButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-                teamOneLogo[0] = selectedFile.getAbsolutePath();
-                teamOneLogoButton.setText(selectedFile.getName());
+
+                try {
+                    // Get the filename without the path
+                    String filename = selectedFile.getName();
+
+                    // Create a destination File object in the local directory
+                    File destinationFile = new File(filename);
+
+                    // Perform the file copy
+                    Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                    // Optionally, set the file's executable property to false (remove execute permissions) if it's an image
+                    if (isImageFile(filename)) {
+                        destinationFile.setExecutable(false);
+                    }
+                    teamOneLogoName.set(selectedFile.getName());
+                    // Update the button text to display the filename
+                    teamOneLogoButton.setText(filename);
+                } catch (IOException ex) {
+                    // Handle any errors that may occur during the file copy
+                    ex.printStackTrace();
+                }
             }
         });
         panel2.add(teamOneLogoLabel);
@@ -129,14 +152,34 @@ public class Main {
 
         JLabel teamTwoLogoLabel = new JLabel("Team Two Logo:");
         JButton teamTwoLogoButton = new JButton("Select Team Two Logo");
-        final String[] teamTwoLogo = new String[1];
+        AtomicReference<String> teamTwoLogoName = new AtomicReference<>("");
         teamTwoLogoButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-                teamTwoLogo[0] = selectedFile.getAbsolutePath();
-                teamTwoLogoButton.setText(selectedFile.getName());
+
+                try {
+                    // Get the filename without the path
+                    String filename = selectedFile.getName();
+
+                    // Create a destination File object in the local directory
+                    File destinationFile = new File(filename);
+
+                    // Perform the file copy
+                    Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                    // Optionally, set the file's executable property to false (remove execute permissions) if it's an image
+                    if (isImageFile(filename)) {
+                        destinationFile.setExecutable(false);
+                    }
+                    teamTwoLogoName.set(selectedFile.getName());
+                    // Update the button text to display the filename
+                    teamTwoLogoButton.setText(filename);
+                } catch (IOException ex) {
+                    // Handle any errors that may occur during the file copy
+                    ex.printStackTrace();
+                }
             }
         });
         panel2.add(teamTwoLogoLabel);
@@ -165,8 +208,8 @@ public class Main {
                 String cfg = createConfigFile(
                         teamOneNameField.getText(),
                         teamTwoNameField.getText(),
-                        teamOneLogo[0],
-                        teamTwoLogo[0],
+                        teamOneLogoName.get(),
+                        teamTwoLogoName.get(),
                         (String) teamOneStartingSideComboBox.getSelectedItem(),
                         Integer.parseInt(bombTimerField.getText()));
                 writeJsonToFile(cfg, "config.json");
@@ -245,6 +288,16 @@ public class Main {
     private Thread processThread1;
     private Thread processThread2;
 
+    private boolean isImageFile(String filename) {
+        String[] imageExtensions = {".jpg", ".jpeg", ".png", ".gif", ".bmp"};
+        for (String extension : imageExtensions) {
+            if (filename.toLowerCase().endsWith(extension)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void executeProcess(String fileName, JTextArea outputArea, int processNumber) {
         File exeFile = new File(fileName);
         if (exeFile.exists() && !exeFile.isDirectory()) {
@@ -300,7 +353,7 @@ public class Main {
     }
 
     private String createConfigFile(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo,
-                                           String teamOneStartingSide, int bombTime) {
+                                    String teamOneStartingSide, int bombTime) {
         CustomJSONObject config = new CustomJSONObject();
         CustomJSONObject application = new CustomJSONObject();
         CustomJSONObject teamData = new CustomJSONObject();
