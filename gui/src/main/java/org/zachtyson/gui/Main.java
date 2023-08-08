@@ -11,6 +11,8 @@ import java.nio.file.Files;
 import java.util.Base64;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Main {
     private static final String EXE_FILE_1 = "frontend/frontend.exe";
