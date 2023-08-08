@@ -1,3 +1,5 @@
+package main.java.org.zachtyson;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
