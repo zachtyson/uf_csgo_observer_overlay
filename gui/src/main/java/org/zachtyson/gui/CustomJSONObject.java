@@ -1,3 +1,5 @@
+package org.zachtyson.gui;
+
 import java.util.HashMap;
 import java.util.Map;
 
