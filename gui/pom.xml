@@ -14,4 +14,55 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <!-- Add your dependencies here (if any) -->
+    <dependencies>
+        <!-- Example:
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
+            <scope>test</scope>
+        </dependency>
+        -->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- ... other plugins ... -->
+
+            <!-- Launch4j plugin configuration -->
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>2.1.1</version>
+                <executions>
+                    <execution>
+                        <id>l4j-clui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
+                            <outfile>${project.build.directory}/${project.build.finalName}.exe</outfile>
+                            <errTitle>Your application title here</errTitle>
+                            <chdir>.</chdir>
+                            <priority>normal</priority>
+                            <downloadUrl>http://java.com/download</downloadUrl>
+                            <classPath>
+                                <mainClass>org.zachtyson.gui.Main</mainClass>
+                                <!-- Add any additional classpath elements if necessary -->
+                            </classPath>
+                            <jre>
+                                <minVersion>15</minVersion>
+                                <maxVersion>19.0.9</maxVersion>
+                                <jdkPreference>preferJre</jdkPreference>
+                            </jre>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

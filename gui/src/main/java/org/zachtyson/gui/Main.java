@@ -1,4 +1,4 @@
-package main.java.org.zachtyson;
+package org.zachtyson.gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,8 +8,6 @@ import java.io.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.Base64;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;

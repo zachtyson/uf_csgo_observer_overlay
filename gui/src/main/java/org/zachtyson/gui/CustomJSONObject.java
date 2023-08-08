@@ -1,4 +1,4 @@
-package main.java.org.zachtyson;
+package org.zachtyson.gui;
 
 import java.util.HashMap;
 import java.util.Map;
