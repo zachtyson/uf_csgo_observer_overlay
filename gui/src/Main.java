@@ -6,7 +6,9 @@ import java.io.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Base64;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -28,6 +30,20 @@ public class Main {
     private String host = "http://localhost";
 
     private int port = 25566;
+
+    public static String getFileExtension(File file) {
+        String name = file.getName();
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ""; // Empty extension
+        }
+        return name.substring(lastIndexOf + 1).toLowerCase();
+    }
+
+    private String getBase64(File file) throws IOException {
+        byte[] fileBytes = Files.readAllBytes(file.toPath());
+        return "data:image/" + getFileExtension(file) + ";base64," + Base64.getEncoder().encodeToString(fileBytes);
+    }
 
     public Main() {
         JFrame frame = new JFrame("EXE Runner");
@@ -133,36 +149,16 @@ public class Main {
 
         JLabel teamOneLogoLabel = new JLabel("Team One Logo:");
         JButton teamOneLogoButton = new JButton("Select Team One Logo");
-        AtomicReference<String> teamOneLogoName = new AtomicReference<>("");
+        AtomicReference<String> teamOneLogo = new AtomicReference<>("");
         teamOneLogoButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-
                 try {
-                    // Get the filename without the path
-                    String filename = selectedFile.getName();
-
-                    // Create a destination File object in the local directory
-                    File backendFolder = new File("backend");
-                    if(!backendFolder.exists()) {
-                        backendFolder.mkdir();
-                    }
-                    File destinationFile = new File("backend/" + filename);
-
-                    // Perform the file copy
-                    Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-                    // Optionally, set the file's executable property to false (remove execute permissions) if it's an image
-                    if (isImageFile(filename)) {
-                        destinationFile.setExecutable(false);
-                    }
-                    teamOneLogoName.set(selectedFile.getName());
-                    // Update the button text to display the filename
-                    teamOneLogoButton.setText(filename);
+                    teamOneLogo.set(getBase64(selectedFile));
+                    teamOneLogoButton.setText(selectedFile.getName());
                 } catch (IOException ex) {
-                    // Handle any errors that may occur during the file copy
                     ex.printStackTrace();
                 }
             }
@@ -178,36 +174,16 @@ public class Main {
 
         JLabel teamTwoLogoLabel = new JLabel("Team Two Logo:");
         JButton teamTwoLogoButton = new JButton("Select Team Two Logo");
-        AtomicReference<String> teamTwoLogoName = new AtomicReference<>("");
+        AtomicReference<String> teamTwoLogo = new AtomicReference<>("");
         teamTwoLogoButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-
                 try {
-                    // Get the filename without the path
-                    String filename = selectedFile.getName();
-
-                    // Create a destination File object in the local directory
-                    File backendFolder = new File("backend");
-                    if(!backendFolder.exists()) {
-                        backendFolder.mkdir();
-                    }
-                    File destinationFile = new File("backend/" + filename);
-
-                    // Perform the file copy
-                    Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-                    // Optionally, set the file's executable property to false (remove execute permissions) if it's an image
-                    if (isImageFile(filename)) {
-                        destinationFile.setExecutable(false);
-                    }
-                    teamTwoLogoName.set(selectedFile.getName());
-                    // Update the button text to display the filename
-                    teamTwoLogoButton.setText(filename);
+                    teamTwoLogo.set(getBase64(selectedFile));
+                    teamTwoLogoButton.setText(selectedFile.getName());
                 } catch (IOException ex) {
-                    // Handle any errors that may occur during the file copy
                     ex.printStackTrace();
                 }
             }
@@ -238,8 +214,8 @@ public class Main {
                 String cfg = createConfigFile(
                         teamOneNameField.getText(),
                         teamTwoNameField.getText(),
-                        teamOneLogoName.get(),
-                        teamTwoLogoName.get(),
+                        teamOneLogo.get(),
+                        teamTwoLogo.get(),
                         (String) teamOneStartingSideComboBox.getSelectedItem(),
                         Integer.parseInt(bombTimerField.getText()));
                 writeJsonToFile(cfg, "config.json");

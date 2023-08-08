@@ -5,53 +5,12 @@ const fs = require("fs");
 const http = require("http");
 const socketIo = require("socket.io");
 
-const directoryPath = __dirname; // This will get the current directory path
-
-async function readImage(logoName: string):Promise<string|null> {
-    const fileExtension = path.extname(logoName);
-    let base64 = 'data:image/' + fileExtension.slice(1) + ';base64,'; // .slice(1) is used to remove the dot from extension
-    try {
-        const files = await fs.promises.readdir(directoryPath);
-        if (files.includes(logoName)) {
-            const filePath = path.join(directoryPath, logoName);
-            const data = await fs.promises.readFile(filePath);
-
-            base64 += data.toString('base64');
-        } else {
-            return null;
-        }
-    } catch (err) {
-        return null;
-    }
-    return base64;
-}
-
-async function getImages(logoNameOne:string, logoNameTwo:string):Promise<any> {
-
-    return new Promise(async (resolve, reject) => {
-        let fileOneBase64:string|null = await readImage(logoNameOne);
-        let fileTwoBase64:string|null = await readImage(logoNameTwo);
-        if(!fileOneBase64) {
-            fileOneBase64 = null;
-        }
-        if(!fileTwoBase64) {
-            fileTwoBase64 = null;
-        }
-        resolve([fileOneBase64, fileTwoBase64]);
-    });
-}
-
 async function getConfig():Promise<any> {
     return new Promise(async (resolve, reject) => {
         //read config.json
         try {
             const c = fs.readFileSync('config.json', 'utf8');
             let config = JSON.parse(c);
-            const logoOneName = config.team_data.teamOneLogo;
-            const logoTwoName = config.team_data.teamTwoLogo;
-            const [teamOneBase64, teamTwoBase64] = await getImages(logoOneName, logoTwoName);
-            config.team_data.teamOneLogo = teamOneBase64;
-            config.team_data.teamTwoLogo = teamTwoBase64;
             resolve(config);
         } catch (err) {
             console.error('Error reading config.json:', err);
