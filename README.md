@@ -65,9 +65,10 @@ Frontend:
 6. npm run package
 
 GUI:
-1. cd gui/src
-2. javac -source 15 -target 15 Main.java CustomJSONObject.java
-3. jar cfm .\Main.jar .\manifest.txt *.class
-4. Use Launch4j to package it into an exe
+1. Install maven (and obviously Java)
+2. cd gui
+3. mvn clean compile
+4. mvn clean package
+5. The executable file is in the target folder
 
 
