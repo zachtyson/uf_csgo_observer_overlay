@@ -448,11 +448,11 @@ public class Main {
         @SerializedName("teamOneName")
         private String teamOneName;
 
-        @SerializedName("teamTwoName")
-        private String teamTwoName;
-
         @SerializedName("teamOneLogo")
         private String teamOneLogo;
+
+        @SerializedName("teamTwoName")
+        private String teamTwoName;
 
         @SerializedName("teamTwoLogo")
         private String teamTwoLogo;
