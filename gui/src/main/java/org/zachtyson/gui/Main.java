@@ -11,6 +11,9 @@ import java.nio.file.Files;
 import java.util.Base64;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
 public class Main {
     private static final String EXE_FILE_1 = "frontend/frontend.exe";
@@ -360,50 +363,11 @@ public class Main {
 
     private String createConfigFile(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo,
                                     String teamOneStartingSide, int bombTime) {
-        CustomJSONObject config = new CustomJSONObject();
-        CustomJSONObject application = new CustomJSONObject();
-        CustomJSONObject teamData = new CustomJSONObject();
-        application.put("logLevel", "info");
-        application.put("port", port);
-        application.put("host", host);
-        //Replace all backslashes with forward slashes
-        teamOneLogo = teamOneLogo.replace("\\", "/");
-        teamTwoLogo = teamTwoLogo.replace("\\", "/");
-        teamOneName = teamOneName.replace("\\", "/");
-        teamTwoName = teamTwoName.replace("\\", "/");
-        teamData.put("teamOneName", teamOneName);
-        teamData.put("teamTwoName", teamTwoName);
-        teamData.put("teamOneLogo", teamOneLogo);
-        teamData.put("teamTwoLogo", teamTwoLogo);
-        teamData.put("teamOneStartingSide", teamOneStartingSide);
-        teamData.put("bombTime", bombTime);
-        config.put("team_data", teamData);
-        config.put("application", application);
-
-        return config.toString();
-//        jsonBuilder.append("{");
-//        // Too lazy to figure out how to create a JSON object in Java that works with Launch4j, so I'm just going to
-//        // build the JSON string manually. Once I feel like it, I'll do it the right way.
-//        // Application section
-//        jsonBuilder.append("\n  \"application\": {");
-//        jsonBuilder.append("\n    \"logLevel\": \"").append(logLevel).append("\",");
-//        jsonBuilder.append("\n    \"port\": ").append(port).append(",");
-//        jsonBuilder.append("\n    \"host\": \"").append(host).append("\"");
-//        jsonBuilder.append("\n  },");
-//        // Currently port and host are not able to change since I got a small bootstrap problem in the frontend, so I'm just going to hardcode them for now.
-//        // Team data section
-//        jsonBuilder.append("\n  \"team_data\": {");
-//        jsonBuilder.append("\n    \"teamOneName\": \"").append(teamOneName).append("\",");
-//        jsonBuilder.append("\n    \"teamTwoName\": \"").append(teamTwoName).append("\",");
-//        jsonBuilder.append("\n    \"teamOneLogo\": \"").append(teamOneLogo).append("\",");
-//        jsonBuilder.append("\n    \"teamTwoLogo\": \"").append(teamTwoLogo).append("\",");
-//        jsonBuilder.append("\n    \"teamOneStartingSide\": \"").append(teamOneStartingSide).append("\",");
-//        jsonBuilder.append("\n    \"bombTime\": ").append(bombTime);
-//        jsonBuilder.append("\n  }");
-//
-//        jsonBuilder.append("\n}");
-//
-//        return jsonBuilder.toString();
+        ApplicationData applicationData = new ApplicationData("info", port, host);
+        TeamData teamData = new TeamData(teamOneName, teamTwoName, teamOneLogo, teamTwoLogo, teamOneStartingSide, bombTime);
+        ConfigData configData = new ConfigData(applicationData, teamData);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(configData);
     }
 
     private static void writeJsonToFile(String jsonData, String filename) throws IOException {
@@ -465,5 +429,65 @@ public class Main {
             throw new RuntimeException("Unable to generate gamestate_integration_uf.cfg file", e);
         }
 
+    }
+
+    static class ConfigData {
+        @SerializedName("application")
+        private ApplicationData application;
+
+        @SerializedName("team_data")
+        private TeamData teamData;
+
+        public ConfigData(ApplicationData application, TeamData teamData) {
+            this.application = application;
+            this.teamData = teamData;
+        }
+    }
+
+    static class TeamData {
+        @SerializedName("teamOneName")
+        private String teamOneName;
+
+        @SerializedName("teamOneLogo")
+        private String teamOneLogo;
+
+        @SerializedName("teamTwoName")
+        private String teamTwoName;
+
+        @SerializedName("teamTwoLogo")
+        private String teamTwoLogo;
+
+        @SerializedName("teamOneStartingSide")
+        private String teamOneStartingSide;
+
+        @SerializedName("bombTime")
+        private int bombTime;
+
+        public TeamData(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo, String teamOneStartingSide, int bombTime) {
+            this.teamOneName = teamOneName;
+            this.teamTwoName = teamTwoName;
+            this.teamOneLogo = teamOneLogo;
+            this.teamTwoLogo = teamTwoLogo;
+            this.teamOneStartingSide = teamOneStartingSide;
+            this.bombTime = bombTime;
+        }
+
+    }
+
+    static class ApplicationData {
+        @SerializedName("logLevel")
+        private String logLevel;
+
+        @SerializedName("port")
+        private int port;
+
+        @SerializedName("host")
+        private String host;
+
+        public ApplicationData(String logLevel, int port, String host) {
+            this.logLevel = logLevel;
+            this.port = port;
+            this.host = host;
+        }
     }
 }
