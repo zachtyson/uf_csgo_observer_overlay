@@ -244,6 +244,55 @@ public class Main {
 
         panel2.add(createButton);
         panel2.add(scrollPane2);
+
+        //JButton gameLocationButton = new JButton("Select Directory");
+        //        gameLocationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //        gameLocationButton.setBackground(Color.LIGHT_GRAY);
+        //
+        //        JFileChooser gameDirectoryChooser = new JFileChooser();
+        //        gameDirectoryChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        //
+        //        // Add ActionListener to JButton
+        //        gameLocationButton.addActionListener(e -> {
+        //            int returnValue = gameDirectoryChooser.showOpenDialog(null);
+        //            if (returnValue == JFileChooser.APPROVE_OPTION) {
+        //                File selectedDirectory = gameDirectoryChooser.getSelectedFile();
+        //                gameLocationButton.setText(selectedDirectory.getName());
+        //            }
+        //        });
+        JButton importConfig = new JButton("Import Config");
+        JFileChooser importConfigChooser = new JFileChooser();
+        importConfigChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        importConfig.addActionListener(e -> {
+            int returnValue = importConfigChooser.showOpenDialog(null);
+            File selectedGameConfig = null;
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                selectedGameConfig = importConfigChooser.getSelectedFile();
+                importConfig.setText(selectedGameConfig.getName());
+            }
+            try {
+                if(selectedGameConfig == null) {
+                    throw new NullPointerException("Selected game config is null.");
+                }
+                FileReader reader = new FileReader(selectedGameConfig);
+                Gson gson = new Gson();
+                ConfigData configObj = gson.fromJson(reader, ConfigData.class);
+                String cfg = createConfigFile(
+                        configObj.teamData.teamOneName,
+                        configObj.teamData.teamTwoName,
+                        configObj.teamData.teamOneLogo,
+                        configObj.teamData.teamTwoLogo,
+                        configObj.teamData.teamOneStartingSide,
+                        configObj.teamData.bombTime);
+                writeJsonToFile(cfg, "config.json");
+                reader.close();
+            } catch (Exception ex) {
+                System.out.println("Error: Failed to import config.");
+                ex.printStackTrace();
+            }
+        });
+
+        panel2.add(importConfig);
         LayoutManager layout = new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS);
         frame.setLayout(layout);
 
