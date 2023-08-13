@@ -13,6 +13,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.SerializedName;
 
 public class Main {
@@ -286,7 +288,20 @@ public class Main {
                         configObj.teamData.bombTime);
                 writeJsonToFile(cfg, "config.json");
                 reader.close();
-            } catch (Exception ex) {
+            }
+            catch (JsonSyntaxException ex)  {
+                System.out.println("Error: Invalid JSON syntax.");
+            }
+            catch (JsonIOException ex) {
+                System.out.println("Error: Invalid JSON IO.");
+            }
+            catch (NullPointerException ex) {
+                System.out.println("Error: Selected game config is null.");
+            }
+            catch (FileNotFoundException ex) {
+                System.out.println("Error: File not found.");
+            }
+            catch (Exception ex) {
                 System.out.println("Error: Failed to import config.");
                 ex.printStackTrace();
             }
