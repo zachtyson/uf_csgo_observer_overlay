@@ -262,6 +262,10 @@ public class Main {
         //                gameLocationButton.setText(selectedDirectory.getName());
         //            }
         //        });
+        JTextArea outputArea3 = new JTextArea("");
+        outputArea3.setEditable(false);
+        JScrollPane scrollPane3 = new JScrollPane(outputArea3);
+
         JButton importConfig = new JButton("Import Config");
         JFileChooser importConfigChooser = new JFileChooser();
         importConfigChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -291,18 +295,23 @@ public class Main {
             }
             catch (JsonSyntaxException ex)  {
                 System.out.println("Error: Invalid JSON syntax.");
+                outputArea3.setText("Error: Invalid JSON syntax.");
             }
             catch (JsonIOException ex) {
                 System.out.println("Error: Invalid JSON IO.");
+                outputArea3.setText("Error: Failed to read JSON.");
             }
             catch (NullPointerException ex) {
-                System.out.println("Error: Selected game config is null.");
+                //User opened file chooser but didn't select a file
+                System.out.println("Error: No file selected.");
             }
             catch (FileNotFoundException ex) {
                 System.out.println("Error: File not found.");
+                outputArea3.setText("Error: File not found.");
             }
             catch (Exception ex) {
                 System.out.println("Error: Failed to import config.");
+                outputArea3.setText("Error: Failed to import config.");
                 ex.printStackTrace();
             }
         });
@@ -310,6 +319,7 @@ public class Main {
         panel2.add(importConfig);
         LayoutManager layout = new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS);
         frame.setLayout(layout);
+        panel2.add(scrollPane3);
 
         // Create components
         JLabel gameLocationLabel = new JLabel("Select Game Location:");
