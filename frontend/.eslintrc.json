@@ -5,7 +5,8 @@
     },
     "extends": [
         "standard-with-typescript",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "prettier"
     ],
     "parserOptions": {
         "ecmaVersion": "latest",
@@ -13,13 +14,17 @@
         "project": "./tsconfig.json"
     },
     "parser": "@typescript-eslint/parser",
-    "plugins": [
-        "react"
-    ],
+    "plugins": ["react", "prettier"],
     "rules": {
         "@typescript-eslint/indent": ["error", 4],
         "semi": "off",
         "@typescript-eslint/semi": ["error", "always"],
-        "no-console": "error"
+        "no-console": "error",
+        "prettier/prettier": "error"
+    },
+    "settings": {
+        "react": {
+            "version": "detect" // Automatically detect the react version
+        }
     }
 }
