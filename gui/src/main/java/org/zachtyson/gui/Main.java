@@ -30,8 +30,6 @@ public class Main {
         new Main();
     }
 
-    private String gameDirectoryPath = null;
-
     private String host = "http://localhost";
 
     private int port = 25566;
@@ -369,16 +367,6 @@ public class Main {
         frame.setVisible(true);
     }
 
-    private boolean isImageFile(String filename) {
-        String[] imageExtensions = {".jpg", ".jpeg", ".png", ".gif", ".bmp"};
-        for (String extension : imageExtensions) {
-            if (filename.toLowerCase().endsWith(extension)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private void executeProcess(String fileName, JTextArea outputArea, int processNumber) {
         File exeFile = new File(fileName);
         if (exeFile.exists() && !exeFile.isDirectory()) {
@@ -452,59 +440,6 @@ public class Main {
             throw new IOException("Unable to write JSON data to file: " + filename, e);
         }
     }
-
-    private void generateGSIFile() {
-        //"Observer All Players v.1"
-        //{
-        // "uri" "http://localhost:25566"
-        //  "timeout"   "1.1"
-        //  "buffer"    "0.05"
-        //  "throttle"  "0.0"
-        //  "heartbeat" "20.0"
-        // "output"
-        // {
-        //   "precision_time" "1"
-        //   "precision_position" "1"
-        //   "precision_vector" "3"
-        // }
-        // "data"
-        // {
-        //  "provider"				"1"
-        //  "player_id"				"1"
-        //  "player_state"			"1"
-        //  "map"						"1"
-        //  "map_round_wins"			"1"
-        //  "player_match_stats"		"1"
-        //  "player_weapons"			"1"
-        //  "round"					"1"
-        //  "allplayers_id"			"1"
-        //  "allplayers_match_stats"	"1"
-        //  "allplayers_position"		"1"
-        //  "allplayers_state"		"1"
-        //  "allplayers_weapons"		"1"
-        //  "bomb"					"1"
-        //  "phase_countdowns"		"1"
-        //  "player_position"			"1"
-        // }
-        //}
-        try {
-            String gsiBuilder = """
-                    "Observer All Players v.1"
-                    {
-                     "uri" \"""" +"http://localhost:" + port + "\"\n" + "  \"timeout\"   \"1.1\"\n" + "  \"buffer\"    \"0.05\"\n" + "  \"throttle\"  \"0.0\"\n" + "  \"heartbeat\" \"20.0\"\n" + " \"output\"\n" + " {\n" + "   \"precision_time\" \"1\"\n" + "   \"precision_position\" \"1\"\n" + "   \"precision_vector\" \"3\"\n" + " }\n" + " \"data\"\n" + " {\n" + "  \"provider\"\t\t\t\t\"1\"\n" + "  \"player_id\"\t\t\t\t\"1\"\n" + "  \"player_state\"\t\t\t\"1\"\n" + "  \"map\"\t\t\t\t\t\t\"1\"\n" + "  \"map_round_wins\"\t\t\t\"1\"\n" + "  \"player_match_stats\"\t\t\"1\"\n" + "  \"player_weapons\"\t\t\t\"1\"\n" + "  \"round\"\t\t\t\t\t\"1\"\n" + "  \"allplayers_id\"\t\t\t\"1\"\n" + "  \"allplayers_match_stats\"\t\"1\"\n" + "  \"allplayers_position\"\t\t\"1\"\n" + "  \"allplayers_state\"\t\t\"1\"\n" + "  \"allplayers_weapons\"\t\t\"1\"\n" + "  \"bomb\"\t\t\t\t\t\"1\"\n" + "  \"phase_countdowns\"\t\t\"1\"\n" + "  \"player_position\"\t\t\t\"1\"\n" + " }\n" + "}";
-            //check if /cfg/ folder exists
-            File cfgFolder = new File(gameDirectoryPath + "/cfg");
-            if (!cfgFolder.exists()) {
-                writeJsonToFile(gsiBuilder, gameDirectoryPath+"/gamestate_integration_uf.cfg");
-            } else {
-                writeJsonToFile(gsiBuilder, gameDirectoryPath+"/cfg/gamestate_integration_uf.cfg");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to generate gamestate_integration_uf.cfg file", e);
-        }
-
-    }
-
     static class ConfigData {
         @SerializedName("application")
         private ApplicationData application;
