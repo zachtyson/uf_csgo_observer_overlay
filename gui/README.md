@@ -9,7 +9,7 @@ I will eventually get to that, but I'm going to focus on the actual overlay firs
 My current idea is that I will package the backend using pkg (which I've already done) and then use electron-builder to package the frontend.
 
 The backend probably won't be updated much, but the frontend will be updated a lot.
-Ideally modifying the config within the GUI will modify the config file for the backend and frontend so that an end user 
+Ideally modifying the config within the GUI will modify the config file for the backend and frontend so that an end user
 doesn't have to manually edit the config files and can just use the GUI.
 
 Why Java Swing? Why not literally anything else? Laziness.
