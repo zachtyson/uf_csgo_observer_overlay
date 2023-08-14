@@ -2,7 +2,6 @@ import React from 'react';
 import { type RootObject, type AllPlayers, type Player } from '../data_interface';
 import './Scoreboard.scss';
 import { Defuse, FlashingBomb } from '../assets/Icons';
-import * as string_decoder from 'string_decoder';
 import { type TeamData } from '../config_interface';
 
 let teamOneSide: string = 'CT';
@@ -29,7 +28,7 @@ window.addEventListener('keydown', (event) => {
   }
 });
 
-function printRound (num: number, CTScore: number, TScore: number) {
+function printRound (num: number, CTScore: number, TScore: number): JSX.Element {
   if (num <= 29) {
     return <div> ROUND {num + 1}/30 </div>;
   } else {
@@ -47,31 +46,31 @@ function printRound (num: number, CTScore: number, TScore: number) {
   }
 }
 
-function printTime (phase_countdowns: RootObject['phase_countdowns']) {
-  if (phase_countdowns.phase === 'bomb') {
+function printTime (phaseCountdowns: RootObject['phase_countdowns']): JSX.Element {
+  if (phaseCountdowns.phase === 'bomb') {
     return <FlashingBomb className="bombImage" />;
   }
-  if (phase_countdowns.phase === 'defuse') {
+  if (phaseCountdowns.phase === 'defuse') {
     return <Defuse className="bombImage" />;
   }
-  let phase_ends_in: number;
+  let phaseEndsIn: number;
   try {
-    phase_ends_in = parseFloat(phase_countdowns.phase_ends_in);
+    phaseEndsIn = parseFloat(phaseCountdowns.phase_ends_in);
   } catch (e) {
-    phase_ends_in = 0;
+    phaseEndsIn = 0;
   }
 
-  if (phase_ends_in < 10) {
-    if (phase_countdowns.phase === 'live') {
-      return <div className="time low">{phase_ends_in}</div>;
+  if (phaseEndsIn < 10) {
+    if (phaseCountdowns.phase === 'live') {
+      return <div className="time low">{phaseEndsIn}</div>;
     }
-    if (phase_countdowns.phase === 'over') {
-      return <div className="time">{phase_ends_in}</div>;
+    if (phaseCountdowns.phase === 'over') {
+      return <div className="time">{phaseEndsIn}</div>;
     }
   }
-  phase_ends_in = Math.floor(phase_ends_in);
-  const minutes = Math.floor(phase_ends_in / 60);
-  const seconds = phase_ends_in % 60;
+  phaseEndsIn = Math.floor(phaseEndsIn);
+  const minutes = Math.floor(phaseEndsIn / 60);
+  const seconds = phaseEndsIn % 60;
   let formattedSeconds: string;
   if (seconds < 10) {
     formattedSeconds = `${minutes} : 0${seconds}`;
@@ -82,7 +81,7 @@ function printTime (phase_countdowns: RootObject['phase_countdowns']) {
   return <div className="time">{formattedSeconds}</div>;
 }
 
-function printTeamLogo (side: boolean, teamOneLogo: any, teamTwoLogo: any) {
+function printTeamLogo (side: boolean, teamOneLogo: any, teamTwoLogo: any): any {
   if (side) {
     if (swap === 0) {
       return teamOneLogo;
@@ -98,23 +97,25 @@ function printTeamLogo (side: boolean, teamOneLogo: any, teamTwoLogo: any) {
   }
 }
 
-function printCTWinLogo (teamOneLogo: any, teamTwoLogo: any) {
-  if (swap) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function printCTWinLogo (teamOneLogo: any, teamTwoLogo: any): any {
+  if (swap !== 0) {
     return teamTwoLogo;
   } else {
     return teamOneLogo;
   }
 }
 
-function printTWinLogo (teamOneLogo: any, teamTwoLogo: any) {
-  if (swap) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function printTWinLogo (teamOneLogo: any, teamTwoLogo: any): any {
+  if (swap !== 0) {
     return teamOneLogo;
   } else {
     return teamTwoLogo;
   }
 }
 
-function printTeamName (side: string, teamOneName: string, teamTwoName: string) {
+function printTeamName (side: string, teamOneName: string, teamTwoName: string): string {
   // team one is always at left
   // team one should start ct, if they don't, press 0
   if (side === 'R') {
@@ -131,19 +132,24 @@ function printTeamName (side: string, teamOneName: string, teamTwoName: string) 
 }
 
 function hasCTPlayerOnSlots1To5 (allPlayers: AllPlayers): boolean {
+  if (allPlayers == null) {
+    return false;
+  }
   return Object.values(allPlayers).some(
     (player: Player) => player.team === 'CT' && player.observer_slot >= 1 && player.observer_slot <= 5
   );
 }
 
 const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
-  if (!data) return <div>Loading...</div>;
+  if (data == null) return <div>Loading...</div>;
   if (config == null) return <div>Loading...</div>;
   teamOneSide = config.teamOneStartingSide;
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { team_ct, team_t } = data.map;
   // console.log(data);
   const isLeftCT: boolean = hasCTPlayerOnSlots1To5(data.allplayers);
+  if (data.phase_countdowns === undefined) return <div>Loading...</div>;
   return (
         <div className="parent">
             <div className="TeamName" id={data.phase_countdowns.phase === 'live' ? 'hidden' : ''}>

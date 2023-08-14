@@ -15,21 +15,20 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-function AppWrapper () {
+function AppWrapper (): JSX.Element {
   const [appConfiguration, setAppConfiguration] = useState<ConfigData | null>(null);
 
   useEffect(() => {
     axios.get(ENDPOINT)
       .then((response: any) => {
-        console.log('Response:', response.data);
         // Assuming the response data is of type ConfigData, update the state
         setAppConfiguration(response.data);
       })
+    // eslint-disable-next-line n/handle-callback-err
       .catch((error: any) => {
-        console.error('Error:', error.message);
+        // console.error('Error:', error.message);
       });
   }, []);
-
   // Render the App component only when appConfiguration is available
   if (appConfiguration != null) {
     return (

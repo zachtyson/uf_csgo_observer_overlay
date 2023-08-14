@@ -20,7 +20,7 @@ window.addEventListener('keydown', (event) => {
   }
 });
 
-function printTeamLogo (side: string, teamOneLogo: any, teamTwoLogo: any) {
+function printTeamLogo (side: string, teamOneLogo: any, teamTwoLogo: any): any {
   if (side === 'CT') {
     if (swap === 0) {
       return teamOneLogo;
@@ -36,7 +36,7 @@ function printTeamLogo (side: string, teamOneLogo: any, teamTwoLogo: any) {
   }
 }
 
-function hasKitOrBomb (player: Player) {
+function hasKitOrBomb (player: Player): boolean | JSX.Element {
   if (player.state.defusekit === true) {
     return <Defuse />;
   } else {
@@ -46,8 +46,8 @@ function hasKitOrBomb (player: Player) {
   return false;
 }
 
-function Grenades (player: Player) {
-  if (!player || !player.weapons) return <div/>;
+function Grenades (player: Player): JSX.Element {
+  if (player == null || player.weapons == null) return <div/>;
   let x = '';
   let gun;
   const nades = Array(4).fill('');
@@ -60,7 +60,7 @@ function Grenades (player: Player) {
       spot++;
     }
   });
-  if (nades[0] === '' && !hasKitOrBomb(player)) {
+  if (nades[0] === '' && hasKitOrBomb(player) == null) {
     return (
             <div className="Nades">
                 <p>NO UTILITY</p>
@@ -68,26 +68,30 @@ function Grenades (player: Player) {
     );
   }
 
-  for (const nade in nades) {
-    if (nades[nade] !== '') {
-      nades[nade] = nadeOrder.get(nades[nade]);
+  nades.forEach((nade, index) => {
+    if (nade !== '') {
+      nades[index] = nadeOrder.get(nade);
     }
-  }
-  nades.sort();
+  });
+  nades.sort((a, b) => a.localeCompare(b));
   nades.reverse();
 
   return (
         <div className="Nades">
+            {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
             <img alt="Nade" className={`Nade ${nades[3]}`} src={gunMap.get(nades[3])} />
-            <img alt="Nade" className={`Nade ${nades[2]}`} src={gunMap.get(nades[2])} />
+            {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
+            <img alt="Nade" className={`Node ${nades[2]}`} src={gunMap.get(nades[2])} />
+            {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
             <img alt="Nade" className={`Nade ${nades[1]}`} src={gunMap.get(nades[1])} />
+            {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
             <img alt="Nade" className={`Nade ${nades[0]}`} src={gunMap.get(nades[0])} />
             {hasKitOrBomb(player)}
         </div>
   );
 }
-function getAmmo (player: Player, weapon: Weapon) {
-  if (!player) {
+function getAmmo (player: Player, weapon: Weapon): JSX.Element {
+  if (player == null) {
     return <div/>;
   }
   if (weapon == null) {
@@ -97,15 +101,15 @@ function getAmmo (player: Player, weapon: Weapon) {
   if (weapon.type === 'Knife' || weapon.type === 'Grenade' || weapon.type === 'C4') {
     return <div/>;
   }
-  return (weapon
-    ? <div className="ammo">
-                <Bullets className="icon" />
-                <div className="ammo-clip">{weapon.ammo_clip}</div> /{weapon.ammo_reserve}</div>
-    : <div/>
+  return (
+      <div className="ammo">
+          <Bullets className="icon" />
+          <div className="ammo-clip">{weapon.ammo_clip}</div> /{weapon.ammo_reserve}
+      </div>
   );
 }
 
-function printHealthBar (side: string, player: Player) {
+function printHealthBar (side: string, player: Player): JSX.Element {
   let x;
   if (side === 'left') {
     x = 'L';
@@ -121,7 +125,7 @@ function printHealthBar (side: string, player: Player) {
   if (player.state.health > 0) {
     return (<div className={x + 'Chart'}>
             {
-                (<div className={side === 'left' ? 'Lbar' + y + '-' + player.state.health : 'Rbar' + y + '-' + player.state.health} />)
+                (<div className={side === 'left' ? 'Lbar' + y.toString() + '-' + player.state.health.toString() : 'Rbar' + y.toString() + '-' + player.state.health.toString()} />)
             }
         </div>);
   }
@@ -133,7 +137,7 @@ function printHealthBar (side: string, player: Player) {
 }
 
 const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data, config }) => {
-  if (!data) return <div/>;
+  if (data == null) return <div/>;
   if (config == null) return <div>Loading...</div>;
   const player = data.player;
   let weapon: Weapon | null = null;
@@ -153,7 +157,7 @@ const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data, config }) => {
     };
   }
 
-  if (player) {
+  if (player != null) {
     return (
             <div className="currentPlayer">
                 <div className="playerBlock">

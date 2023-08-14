@@ -5,6 +5,11 @@ import Teams from './teams/Teams';
 import CurrentPlayer from './current_player/current_player';
 import { type ConfigData } from './config_interface';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const backupTeamOneLogo = require('./config/teamOneBackup.png');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const backupTeamTwoLogo = require('./config/teamTwoBackup.png');
+
 interface AppProps {
   appConfiguration: ConfigData | null
 }
@@ -14,9 +19,7 @@ const ENDPOINT = 'http://localhost:25566/'; // replace with your server's addres
 // once I figure out how to fix this bootstrap paradox issue
 // since I can't get the endpoint without the config, but I can't get the config without the endpoint
 
-const backupTeamOneLogo = require('./config/teamOneBackup.png');
-const backupTeamTwoLogo = require('./config/teamTwoBackup.png');
-function getBackupConfig () {
+function getBackupConfig (): ConfigData {
   // Read image data local file
   const applicationData = {
     logLevel: 'info',
@@ -60,6 +63,7 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
   getBackupConfig();
   useEffect(() => {
     let socket: Socket;
+    // eslint-disable-next-line prefer-const
     socket = io(ENDPOINT);
     // Connect and setup event listener
     socket.on('data', (data: any) => {
@@ -73,7 +77,6 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
       socket.disconnect();
     };
   }, []);
-
   return (
         <div>
             <Scoreboard data={response} config={config} /> {/* Pass the object as a prop */}

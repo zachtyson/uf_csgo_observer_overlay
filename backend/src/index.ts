@@ -1,30 +1,34 @@
-import * as path from 'path';
-const express = require('express');
-const fs = require('fs');
-// const log = require("simple-node-logger").createSimpleFileLogger("csgo-gamestate.log");
-const http = require('http');
-const socketIo = require('socket.io');
+import express from 'express';
+import fs from 'fs';
+import http from 'http';
+import socketIo from 'socket.io';
 
 async function getConfig (): Promise<any> {
-  return await new Promise(async (resolve, reject) => {
-    // read config.json
-    try {
-      const c = fs.readFileSync('config.json', 'utf8');
-      const config = JSON.parse(c);
-      resolve(config);
-    } catch (err) {
-      console.error('Error reading config.json:', err);
-      reject(err);
-    }
-  });
+  // read config.json
+  try {
+    const c = fs.readFileSync('config.json', 'utf8');
+    return JSON.parse(c);
+  } catch (err) {
+    console.error('Error reading config.json:', err);
+    return null;
+  }
 }
 
-async function startServer () {
-  const config = await getConfig();
-
-  if (!config) {
-    // log.error("[SYSTEM] Error reading config.json, exiting...");
-    process.exit(1);
+async function startServer (): Promise<void> {
+  let config: any;
+  try {
+    config = await getConfig();
+  } catch (e) {
+    config = null;
+  }
+  let port = 3000;
+  let host = '';
+  if (config == null) {
+    port = 25566;
+    host = '127.0.0.1';
+  } else {
+    port = config.application.port;
+    host = config.application.host;
   }
   try {
     const app = express();
@@ -35,18 +39,18 @@ async function startServer () {
     });
     const server = http.createServer((req: any, res: any) => {
       res.setHeader('Access-Control-Allow-Origin', '*');
-      if (req.method == 'POST') {
+      if (req.method === 'POST') {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         // log.trace("Handling POST Request");
         req.on('data', (data: any) => {
           try {
             let jsonData;
-            if (data) {
+            if (data != null) {
               jsonData = JSON.parse(data);
             }
             if (connectionCount === 0) {
               // log.error("[SYSTEM] Frontend connection not found via socket");
-            } else if (!jsonData.allplayers) {
+            } else if (jsonData.allplayers == null) {
               io.emit('spec', false);
               // log.info("[SYSTEM] Player is not a spectator, refusing to send information via socket");
             } else {
@@ -71,6 +75,7 @@ async function startServer () {
       });
     });
 
+    // @ts-expect-error too lazy to add type
     const io = socketIo(server, {
       cors: {
         origin: '*'
@@ -87,8 +92,8 @@ async function startServer () {
       });
     });
 
-    console.log('Starting CS:GO Gamestate Server', config.application.port);
-    server.listen(config.application.port, config.application.host);
+    console.log('Starting CS:GO Gamestate Server', host, port);
+    server.listen(port, host);
     // log.info(`[SYSTEM] Monitoring CS:GO on: ${config.application.host}:${config.application.port}`);
     module.exports = server;
   } catch (e) {
@@ -96,4 +101,4 @@ async function startServer () {
   }
 }
 
-startServer();
+void startServer();
