@@ -27,7 +27,9 @@
     "eject": "react-scripts eject",
     "start-electron": "electron .",
     "package": "electron-packager . --overwrite",
-    "build-package": "npm run build && npm run package"
+    "build-package": "npm run build && npm run package",
+    "lint": "eslint \"./src/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint \"./src/**/*.{ts,tsx}\" --fix"
   },
   "eslintConfig": {
     "extends": [

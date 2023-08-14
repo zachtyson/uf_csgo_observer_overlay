@@ -7,7 +7,9 @@
     "test": "npx jest",
     "start": "tsc && node dist/index.js",
     "build": "tsc",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "lint": "eslint \"./src/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint \"./src/**/*.{ts,tsx}\" --fix"
   },
   "author": "Zachary Tyson",
   "license": "MIT",
