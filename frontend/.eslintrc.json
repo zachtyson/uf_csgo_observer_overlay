@@ -17,6 +17,7 @@
         "react"
     ],
     "rules": {
+        "@typescript-eslint/indent": ["error", 4],
         "semi": "off",
         "@typescript-eslint/semi": ["error", "always"],
         "no-console": "error"

@@ -11,7 +11,8 @@
     },
     "rules": {
         "semi": "off",
-        "@typescript-eslint/semi": ["error", "always"]
+        "@typescript-eslint/semi": ["error", "always"],
+        "@typescript-eslint/indent": ["error", 4]
     },
 
     "parser": "@typescript-eslint/parser"

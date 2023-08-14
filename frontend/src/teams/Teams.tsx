@@ -7,23 +7,23 @@ import { type RootObject, type Player } from '../data_interface';
 import { type TeamData } from '../config_interface';
 
 interface TeamProps {
-  data: RootObject // Update the type according to your data structure
-  config: TeamData | null
+    data: RootObject // Update the type according to your data structure
+    config: TeamData | null
 }
 
 function printArmorKitHealth (player: Player, side: string): JSX.Element {
-  if (side !== 'L') {
-    return (
+    if (side !== 'L') {
+        return (
             <div>
                 {' '}
                 <p
                     style={{
-                      color:
+                        color:
                             player.state.health > 50
-                              ? 'white'
-                              : player.state.health > 20
-                                ? 'orange'
-                                : 'red'
+                                ? 'white'
+                                : player.state.health > 20
+                                    ? 'orange'
+                                    : 'red'
                     }}
                 >
                     {player.state.health}
@@ -32,18 +32,18 @@ function printArmorKitHealth (player: Player, side: string): JSX.Element {
                 {hasBomb(player)}
                 {hasKit(player)}
             </div>
-    );
-  }
-  return (
+        );
+    }
+    return (
         <div>
             <p
                 style={{
-                  color:
+                    color:
                         player.state.health > 50
-                          ? 'white'
-                          : player.state.health > 20
-                            ? 'orange'
-                            : 'red'
+                            ? 'white'
+                            : player.state.health > 20
+                                ? 'orange'
+                                : 'red'
                 }}
             >
                 {player.state.health}
@@ -52,41 +52,41 @@ function printArmorKitHealth (player: Player, side: string): JSX.Element {
             {hasBomb(player)}
             {player.state.helmet ? <ArmorHelmet /> : player.state.armor > 0 && <ArmorFull />}
         </div>
-  );
+    );
 }
 
 function printHealthBar (player: Player, side: string): JSX.Element {
-  let x = '';
-  if (side === 'L') {
-    x = 'L';
-  } else {
-    x = 'R';
-  }
-  let y = '';
-  if (player.team === 'CT') {
-    y = 'CT';
-  } else {
-    y = 'T';
-  }
-  if (player.state.health > 0) {
-    return (
+    let x = '';
+    if (side === 'L') {
+        x = 'L';
+    } else {
+        x = 'R';
+    }
+    let y = '';
+    if (player.team === 'CT') {
+        y = 'CT';
+    } else {
+        y = 'T';
+    }
+    if (player.state.health > 0) {
+        return (
             <div className={x + 'Chart'}>
                 {
                     <div
                         className={
                             side === 'L'
-                              ? 'Lbar' + y.toString() + '-' + player.state.health.toString()
-                              : 'Rbar' + y.toString() + '-' + player.state.health.toString()
+                                ? 'Lbar' + y.toString() + '-' + player.state.health.toString()
+                                : 'Rbar' + y.toString() + '-' + player.state.health.toString()
                         }
                     />
                 }
             </div>
-    );
-  }
-  return <div className={x + 'Chart'}>{<div className={x + 'bar-D'} />}</div>;
+        );
+    }
+    return <div className={x + 'Chart'}>{<div className={x + 'bar-D'} />}</div>;
 }
 function printTeam (team: Player[], side: string, p: Player): JSX.Element {
-  return (
+    return (
         <div className={side === 'L' ? 'Lplayers' : 'Rplayers'}>
             {team?.map((player: Player, index: number) => (
                 <div
@@ -99,11 +99,11 @@ function printTeam (team: Player[], side: string, p: Player): JSX.Element {
                 >
                     <div className={side === 'L' ? 'LArmor' : 'RArmor'}>
                         {player.state.health > 0
-                          ? (
-                            <div>{printArmorKitHealth(player, side)}</div>
+                            ? (
+                                <div>{printArmorKitHealth(player, side)}</div>
                             )
-                          : (
-                            <Skull className="skull" />
+                            : (
+                                <Skull className="skull" />
                             )}
                     </div>
                     <div>
@@ -112,15 +112,15 @@ function printTeam (team: Player[], side: string, p: Player): JSX.Element {
                                 <div>{getPrimaryWeapon(side, player)}</div>
 
                                 {side === 'L'
-                                  ? (
-                                    <p className="pLeft">
-                                        {player.observer_slot} | {player.name}{' '}
-                                    </p>
+                                    ? (
+                                        <p className="pLeft">
+                                            {player.observer_slot} | {player.name}{' '}
+                                        </p>
                                     )
-                                  : (
-                                    <p className="pRight">
-                                        {player.name} | {player.observer_slot}{' '}
-                                    </p>
+                                    : (
+                                        <p className="pRight">
+                                            {player.name} | {player.observer_slot}{' '}
+                                        </p>
                                     )}
                             </div>
                             {printHealthBar(player, side)}
@@ -140,31 +140,31 @@ function printTeam (team: Player[], side: string, p: Player): JSX.Element {
                 </div>
             ))}
         </div>
-  );
+    );
 }
 
 const Teams: React.FC<TeamProps> = ({ data, config }) => {
-  if (data == null) {
-    return <div></div>;
-  }
-  if (config == null) return <div>Loading...</div>;
-  if (data.allplayers == null) return <div>Loading...</div>;
+    if (data == null) {
+        return <div></div>;
+    }
+    if (config == null) return <div>Loading...</div>;
+    if (data.allplayers == null) return <div>Loading...</div>;
 
-  const leftTeam: Player[] = Object.values(data.allplayers).filter((p: Player) => p.observer_slot < 6 && p.observer_slot !== 0);
-  const rightTeam: Player[] = Object.values(data.allplayers).filter((p: Player) => p.observer_slot >= 6 || p.observer_slot === 0);
+    const leftTeam: Player[] = Object.values(data.allplayers).filter((p: Player) => p.observer_slot < 6 && p.observer_slot !== 0);
+    const rightTeam: Player[] = Object.values(data.allplayers).filter((p: Player) => p.observer_slot >= 6 || p.observer_slot === 0);
 
-  const player: Player | null = data.player;
+    const player: Player | null = data.player;
 
-  if (leftTeam == null && rightTeam == null) {
-    return <div></div>;
-  }
+    if (leftTeam == null && rightTeam == null) {
+        return <div></div>;
+    }
 
-  return (
+    return (
         <div>
             {printTeam(leftTeam, 'L', player)}
             {printTeam(rightTeam, 'R', player)}
         </div>
 
-  );
+    );
 };
 export default Teams;

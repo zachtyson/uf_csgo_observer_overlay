@@ -11,7 +11,7 @@ const backupTeamOneLogo = require('./config/teamOneBackup.png');
 const backupTeamTwoLogo = require('./config/teamTwoBackup.png');
 
 interface AppProps {
-  appConfiguration: ConfigData | null
+    appConfiguration: ConfigData | null
 }
 
 const ENDPOINT = 'http://localhost:25566/'; // replace with your server's address and port
@@ -20,70 +20,70 @@ const ENDPOINT = 'http://localhost:25566/'; // replace with your server's addres
 // since I can't get the endpoint without the config, but I can't get the config without the endpoint
 
 function getBackupConfig (): ConfigData {
-  // Read image data local file
-  const applicationData = {
-    logLevel: 'info',
-    port: 25566,
-    host: '127.0.0.1'
-  };
-  const teamData = {
-    teamOneName: 'Team One',
-    teamTwoName: 'Team Two',
-    teamOneLogo: backupTeamOneLogo,
-    teamTwoLogo: backupTeamTwoLogo,
-    teamOneStartingSide: 'CT',
-    bombbombTime: 40
-  };
-  const configData = {
-    application_data: applicationData,
-    team_data: teamData
-  };
-  return configData as ConfigData;
+    // Read image data local file
+    const applicationData = {
+        logLevel: 'info',
+        port: 25566,
+        host: '127.0.0.1'
+    };
+    const teamData = {
+        teamOneName: 'Team One',
+        teamTwoName: 'Team Two',
+        teamOneLogo: backupTeamOneLogo,
+        teamTwoLogo: backupTeamTwoLogo,
+        teamOneStartingSide: 'CT',
+        bombbombTime: 40
+    };
+    const configData = {
+        application_data: applicationData,
+        team_data: teamData
+    };
+    return configData as ConfigData;
 }
 
 const App: React.FC<AppProps> = ({ appConfiguration }) => {
-  const [response, setResponse] = useState<any>(null);
-  const [config, setConfig] = useState<any>(null);
+    const [response, setResponse] = useState<any>(null);
+    const [config, setConfig] = useState<any>(null);
 
-  useEffect(() => {
-    if (appConfiguration != null) {
-      const configData = {
-        teamOneName: appConfiguration.team_data.teamOneName,
-        teamTwoName: appConfiguration.team_data.teamTwoName,
-        teamOneLogo: appConfiguration.team_data.teamOneLogo,
-        teamTwoLogo: appConfiguration.team_data.teamTwoLogo,
-        teamOneStartingSide: 'CT'
-      };
-      setConfig(configData);
-    } else {
-      const configData = getBackupConfig();
-      setConfig(configData);
-    }
-  }, []);
-  getBackupConfig();
-  useEffect(() => {
-    let socket: Socket;
-    // eslint-disable-next-line prefer-const
-    socket = io(ENDPOINT);
-    // Connect and setup event listener
-    socket.on('data', (data: any) => {
-      setResponse(data);
-    });
+    useEffect(() => {
+        if (appConfiguration != null) {
+            const configData = {
+                teamOneName: appConfiguration.team_data.teamOneName,
+                teamTwoName: appConfiguration.team_data.teamTwoName,
+                teamOneLogo: appConfiguration.team_data.teamOneLogo,
+                teamTwoLogo: appConfiguration.team_data.teamTwoLogo,
+                teamOneStartingSide: 'CT'
+            };
+            setConfig(configData);
+        } else {
+            const configData = getBackupConfig();
+            setConfig(configData);
+        }
+    }, []);
+    getBackupConfig();
+    useEffect(() => {
+        let socket: Socket;
+        // eslint-disable-next-line prefer-const
+        socket = io(ENDPOINT);
+        // Connect and setup event listener
+        socket.on('data', (data: any) => {
+            setResponse(data);
+        });
 
-    // Cleanup the effect
-    return () => {
-      // Before the component is destroyed
-      // we disconnect the socket
-      socket.disconnect();
-    };
-  }, []);
-  return (
+        // Cleanup the effect
+        return () => {
+            // Before the component is destroyed
+            // we disconnect the socket
+            socket.disconnect();
+        };
+    }, []);
+    return (
         <div>
             <Scoreboard data={response} config={config} /> {/* Pass the object as a prop */}
             <Teams data={response} config={config} /> {/* Pass the object as a prop */}
             <CurrentPlayer data={response} config={config} /> {/* Pass the object as a prop */}
         </div>
-  );
+    );
 };
 
 export default App;

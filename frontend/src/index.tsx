@@ -12,34 +12,34 @@ const ENDPOINT = 'http://localhost:25566/';
 // since I can't get the endpoint without the config, but I can't get the config without the endpoint
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 
 function AppWrapper (): JSX.Element {
-  const [appConfiguration, setAppConfiguration] = useState<ConfigData | null>(null);
+    const [appConfiguration, setAppConfiguration] = useState<ConfigData | null>(null);
 
-  useEffect(() => {
-    axios.get(ENDPOINT)
-      .then((response: any) => {
-        // Assuming the response data is of type ConfigData, update the state
-        setAppConfiguration(response.data);
-      })
-    // eslint-disable-next-line n/handle-callback-err
-      .catch((error: any) => {
-        // console.error('Error:', error.message);
-      });
-  }, []);
-  // Render the App component only when appConfiguration is available
-  if (appConfiguration != null) {
-    return (
+    useEffect(() => {
+        axios.get(ENDPOINT)
+            .then((response: any) => {
+                // Assuming the response data is of type ConfigData, update the state
+                setAppConfiguration(response.data);
+            })
+        // eslint-disable-next-line n/handle-callback-err
+            .catch((error: any) => {
+                // console.error('Error:', error.message);
+            });
+    }, []);
+    // Render the App component only when appConfiguration is available
+    if (appConfiguration != null) {
+        return (
             <React.StrictMode>
                 <App appConfiguration={appConfiguration} />
             </React.StrictMode>
-    );
-  } else {
+        );
+    } else {
     // Render a loading or fallback UI while waiting for the response
-    return <div>Loading...</div>;
-  }
+        return <div>Loading...</div>;
+    }
 }
 
 root.render(<AppWrapper />);
