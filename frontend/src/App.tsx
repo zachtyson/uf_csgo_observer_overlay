@@ -32,7 +32,7 @@ function getBackupConfig (): ConfigData {
         teamOneLogo: backupTeamOneLogo,
         teamTwoLogo: backupTeamTwoLogo,
         teamOneStartingSide: 'CT',
-        bombbombTime: 40
+        bombTime: 40
     };
     const configData = {
         application_data: applicationData,

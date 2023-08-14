@@ -4,6 +4,7 @@ export interface TeamData {
     teamTwoLogo: any
     teamTwoName: string
     teamOneStartingSide: string
+    bombTime: number
 }
 
 interface ApplicationData {
