@@ -1,21 +1,33 @@
-import { gunMap, nadeOrder } from "../assets/Weapons";
-import { Bomb, Defuse } from "../assets/Icons";
+import { gunMap, nadeOrder } from '../assets/Weapons';
+import { Bomb, Defuse } from '../assets/Icons';
 
 export function getPrimaryWeapon(side, player) {
-    var playerSide = side === "L" ? "GunL" : "GunR";
+    var playerSide = side === 'L' ? 'GunL' : 'GunR';
 
     //If player somehow doesn't have weapons or a knife
     if (!player.weapons || !player.weapons.weapon_0) {
-        return <img alt="Primary Weapon" className={playerSide} src={gunMap.get("")}></img>;
+        return (
+            <img
+                alt="Primary Weapon"
+                className={playerSide}
+                src={gunMap.get('')}
+            ></img>
+        );
     }
 
     //If player is dead, no need to render any image, just returns a blank png
     if (player.state.health === 0) {
-        return <img alt="Primary Weapon" className={playerSide} src={gunMap.get("")}></img>;
+        return (
+            <img
+                alt="Primary Weapon"
+                className={playerSide}
+                src={gunMap.get('')}
+            ></img>
+        );
     }
 
     var gun;
-    var primary = "";
+    var primary = '';
     var equipped = true; //Assumes weapon is equipped unless told otherwise
 
     //Iterates through all weapons of the given player
@@ -23,34 +35,34 @@ export function getPrimaryWeapon(side, player) {
         gun = player.weapons[key];
 
         if (
-            gun.type === "Rifle" ||
-            gun.type === "SniperRifle" ||
-            gun.type === "Submachine Gun" ||
-            gun.type === "Shotgun" ||
-            gun.type === "Machine Gun"
+            gun.type === 'Rifle' ||
+            gun.type === 'SniperRifle' ||
+            gun.type === 'Submachine Gun' ||
+            gun.type === 'Shotgun' ||
+            gun.type === 'Machine Gun'
         ) {
             primary = gun.name;
-            equipped = gun.state !== "active" ? false : true;
+            equipped = gun.state !== 'active' ? false : true;
         }
     });
 
     //If we get here, then it means that there were no primary weapons (ie.  Rifles, Snipers, etc)
-    if (primary === "") {
+    if (primary === '') {
         //Looking for pistols
         Object.keys(player.weapons).forEach(function (key) {
             gun = player.weapons[key];
 
-            if (gun.type === "Pistol") {
+            if (gun.type === 'Pistol') {
                 primary = gun.name;
-                equipped = gun.state !== "active" ? false : true;
+                equipped = gun.state !== 'active' ? false : true;
             }
         });
     }
 
     //If we get here, then there are no pistols or primary weapons (ie. Just a knife or util)
-    if (primary === "") {
-        if (player.weapons.weapon_0.state !== "active") {
-            playerSide = playerSide + "u"; //'u' implies the weapon is unequipped, used to gray out img
+    if (primary === '') {
+        if (player.weapons.weapon_0.state !== 'active') {
+            playerSide = playerSide + 'u'; //'u' implies the weapon is unequipped, used to gray out img
         }
         return (
             <img
@@ -62,37 +74,67 @@ export function getPrimaryWeapon(side, player) {
     }
 
     if (!equipped) {
-        playerSide = playerSide + "u";
+        playerSide = playerSide + 'u';
     }
-    return <img alt="weapon" className={playerSide} src={gunMap.get(primary)}></img>;
+    return (
+        <img
+            alt="weapon"
+            className={playerSide}
+            src={gunMap.get(primary)}
+        ></img>
+    );
 }
 
 export function getSecondaryWeapon(side, player) {
-    var playerSide = side === "L" ? "GunL2" : "GunR2";
+    var playerSide = side === 'L' ? 'GunL2' : 'GunR2';
 
-    var secondary = ""; //Initialize secondary weapon name to ""
+    var secondary = ''; //Initialize secondary weapon name to ""
     if (!player.weapons || !player.weapons.weapon_0) {
-        return <img alt="Primary Weapon" className={playerSide} src={gunMap.get("")}></img>;
+        return (
+            <img
+                alt="Primary Weapon"
+                className={playerSide}
+                src={gunMap.get('')}
+            ></img>
+        );
     }
 
     if (!hasPrimary(player)) {
-        return <img alt="no primary" className={playerSide} src={gunMap.get("")}></img>;
-    } 
+        return (
+            <img
+                alt="no primary"
+                className={playerSide}
+                src={gunMap.get('')}
+            ></img>
+        );
+    }
 
     var gun;
     Object.keys(player.weapons).forEach(function (key) {
         gun = player.weapons[key];
-        if (gun.type === "Pistol") {
+        if (gun.type === 'Pistol') {
             secondary = gun.name;
-            if (gun.state !== "active") {
-                playerSide = playerSide + "u";
+            if (gun.state !== 'active') {
+                playerSide = playerSide + 'u';
             }
         }
     });
     if (gunMap.get(secondary)) {
-        return <img alt="gun" className={playerSide} src={gunMap.get(secondary)}></img>;
+        return (
+            <img
+                alt="gun"
+                className={playerSide}
+                src={gunMap.get(secondary)}
+            ></img>
+        );
     }
-    return <img alt="no gun" className={playerSide} src={gunMap.get(secondary)}></img>;
+    return (
+        <img
+            alt="no gun"
+            className={playerSide}
+            src={gunMap.get(secondary)}
+        ></img>
+    );
 }
 
 function hasPrimary(player) {
@@ -101,11 +143,11 @@ function hasPrimary(player) {
     Object.keys(player.weapons).forEach(function (key) {
         gun = player.weapons[key];
         if (
-            gun.type === "Rifle" ||
-            gun.type === "SniperRifle" ||
-            gun.type === "Submachine Gun" ||
-            gun.type === "Shotgun" ||
-            gun.type === "Machine Gun"
+            gun.type === 'Rifle' ||
+            gun.type === 'SniperRifle' ||
+            gun.type === 'Submachine Gun' ||
+            gun.type === 'Shotgun' ||
+            gun.type === 'Machine Gun'
         ) {
             primary = true;
         }
@@ -114,14 +156,14 @@ function hasPrimary(player) {
 }
 
 export function hasBomb(player) {
-    if (player.team != "T") {
+    if (player.team != 'T') {
         return;
     }
 
     var s = false;
     Object.keys(player.weapons).forEach(function (key) {
         //Iterates through all weapons of the given player
-        if (player.weapons[key].name == "weapon_c4") {
+        if (player.weapons[key].name == 'weapon_c4') {
             s = true;
         }
     });
@@ -132,7 +174,7 @@ export function hasBomb(player) {
 }
 
 export function hasKit(player) {
-    if (player.team != "CT") {
+    if (player.team != 'CT') {
         return;
     }
 
@@ -144,32 +186,32 @@ export function hasKit(player) {
 }
 
 export function getNades(side, player) {
-    var playerSide = side === "L" ? "NadesL" : "NadesR";
+    var playerSide = side === 'L' ? 'NadesL' : 'NadesR';
 
     if (!player.weapons || !player.weapons.weapon_0) {
         return <div className="leftTeamNades"></div>;
     }
 
-    var grenade = "";
+    var grenade = '';
     var gun;
-    var nades = Array(4).fill("");
+    var nades = Array(4).fill('');
     var spot = 0;
 
     Object.keys(player.weapons).forEach(function (key) {
         gun = player.weapons[key];
-        if (gun.type === "Grenade") {
+        if (gun.type === 'Grenade') {
             grenade = gun.name;
             nades[spot] = grenade;
             spot++;
         }
     });
 
-    if (nades[0] === "") {
+    if (nades[0] === '') {
         return;
     }
 
     for (const nade in nades) {
-        if (nades[nade] !== "") {
+        if (nades[nade] !== '') {
             nades[nade] = nadeOrder.get(nades[nade]);
         }
     }
@@ -178,7 +220,7 @@ export function getNades(side, player) {
     nades.reverse();
 
     if (gunMap.get(grenade) !== null) {
-        if (side == "L") {
+        if (side == 'L') {
             return leftTeamNades(nades);
         }
         return rightTeamNades(nades);
@@ -186,7 +228,11 @@ export function getNades(side, player) {
 
     return (
         <div className="leftTeamNades">
-            <img alt="no nades" className={playerSide} src={gunMap.get(grenade)} />
+            <img
+                alt="no nades"
+                className={playerSide}
+                src={gunMap.get(grenade)}
+            />
         </div>
     );
 }
@@ -194,10 +240,26 @@ export function getNades(side, player) {
 function leftTeamNades(nades) {
     return (
         <div className="leftTeamNades">
-            <img alt="nades" className={`Nade ${nades[3]}`} src={gunMap.get(nades[3])} />
-            <img alt="nades" className={`Nade ${nades[2]}`} src={gunMap.get(nades[2])} />
-            <img alt="nades" className={`Nade ${nades[1]}`} src={gunMap.get(nades[1])} />
-            <img alt="nades" className={`Nade ${nades[0]}`} src={gunMap.get(nades[0])} />
+            <img
+                alt="nades"
+                className={`Nade ${nades[3]}`}
+                src={gunMap.get(nades[3])}
+            />
+            <img
+                alt="nades"
+                className={`Nade ${nades[2]}`}
+                src={gunMap.get(nades[2])}
+            />
+            <img
+                alt="nades"
+                className={`Nade ${nades[1]}`}
+                src={gunMap.get(nades[1])}
+            />
+            <img
+                alt="nades"
+                className={`Nade ${nades[0]}`}
+                src={gunMap.get(nades[0])}
+            />
         </div>
     );
 }
@@ -205,10 +267,26 @@ function leftTeamNades(nades) {
 function rightTeamNades(nades) {
     return (
         <div className="rightTeamNades">
-            <img alt="nades" className={`Nade ${nades[3]}`} src={gunMap.get(nades[3])} />
-            <img alt="nades" className={`Nade ${nades[2]}`} src={gunMap.get(nades[2])} />
-            <img alt="nades" className={`Nade ${nades[1]}`} src={gunMap.get(nades[1])} />
-            <img alt="nades" className={`Nade ${nades[0]}`} src={gunMap.get(nades[0])} />
+            <img
+                alt="nades"
+                className={`Nade ${nades[3]}`}
+                src={gunMap.get(nades[3])}
+            />
+            <img
+                alt="nades"
+                className={`Nade ${nades[2]}`}
+                src={gunMap.get(nades[2])}
+            />
+            <img
+                alt="nades"
+                className={`Nade ${nades[1]}`}
+                src={gunMap.get(nades[1])}
+            />
+            <img
+                alt="nades"
+                className={`Nade ${nades[0]}`}
+                src={gunMap.get(nades[0])}
+            />
         </div>
     );
 }

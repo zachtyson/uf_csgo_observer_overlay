@@ -1,19 +1,19 @@
 export interface TeamData {
-    teamOneLogo: any
-    teamOneName: string
-    teamTwoLogo: any
-    teamTwoName: string
-    teamOneStartingSide: string
+    teamOneLogo: any;
+    teamOneName: string;
+    teamTwoLogo: any;
+    teamTwoName: string;
+    teamOneStartingSide: string;
 }
 
 interface ApplicationData {
-    logLevel: string
-    port: number
-    host: string
+    logLevel: string;
+    port: number;
+    host: string;
 }
 export interface ConfigData {
-    application_data: ApplicationData
-    team_data: TeamData
+    application_data: ApplicationData;
+    team_data: TeamData;
 }
 // {
 //   "application": {

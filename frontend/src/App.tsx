@@ -11,7 +11,7 @@ const backupTeamOneLogo = require('./config/teamOneBackup.png');
 const backupTeamTwoLogo = require('./config/teamTwoBackup.png');
 
 interface AppProps {
-    appConfiguration: ConfigData | null
+    appConfiguration: ConfigData | null;
 }
 
 const ENDPOINT = 'http://localhost:25566/'; // replace with your server's address and port
@@ -19,12 +19,12 @@ const ENDPOINT = 'http://localhost:25566/'; // replace with your server's addres
 // once I figure out how to fix this bootstrap paradox issue
 // since I can't get the endpoint without the config, but I can't get the config without the endpoint
 
-function getBackupConfig (): ConfigData {
+function getBackupConfig(): ConfigData {
     // Read image data local file
     const applicationData = {
         logLevel: 'info',
         port: 25566,
-        host: '127.0.0.1'
+        host: '127.0.0.1',
     };
     const teamData = {
         teamOneName: 'Team One',
@@ -32,11 +32,11 @@ function getBackupConfig (): ConfigData {
         teamOneLogo: backupTeamOneLogo,
         teamTwoLogo: backupTeamTwoLogo,
         teamOneStartingSide: 'CT',
-        bombbombTime: 40
+        bombTime: 40,
     };
     const configData = {
         application_data: applicationData,
-        team_data: teamData
+        team_data: teamData,
     };
     return configData as ConfigData;
 }
@@ -52,7 +52,7 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
                 teamTwoName: appConfiguration.team_data.teamTwoName,
                 teamOneLogo: appConfiguration.team_data.teamOneLogo,
                 teamTwoLogo: appConfiguration.team_data.teamTwoLogo,
-                teamOneStartingSide: 'CT'
+                teamOneStartingSide: 'CT',
             };
             setConfig(configData);
         } else {
@@ -79,9 +79,12 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
     }, []);
     return (
         <div>
-            <Scoreboard data={response} config={config} /> {/* Pass the object as a prop */}
-            <Teams data={response} config={config} /> {/* Pass the object as a prop */}
-            <CurrentPlayer data={response} config={config} /> {/* Pass the object as a prop */}
+            <Scoreboard data={response} config={config} />{' '}
+            {/* Pass the object as a prop */}
+            <Teams data={response} config={config} />{' '}
+            {/* Pass the object as a prop */}
+            <CurrentPlayer data={response} config={config} />{' '}
+            {/* Pass the object as a prop */}
         </div>
     );
 };

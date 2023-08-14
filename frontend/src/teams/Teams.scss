@@ -1,4 +1,4 @@
-@import "../_variables";
+@import '../_variables';
 
 .Lplayers {
     width: 20%;
@@ -8,7 +8,7 @@
     opacity: 100%;
     bottom: 25px;
     left: 25px;
-    color:white;
+    color: white;
     /* Players on the left side of the hud */
 
     .LplayerBlock {
@@ -52,17 +52,27 @@
         background-color: #00000062;
         /* Left side info, takes up most of the block except for the area reserved for armor and health */
 
-        [class*="LbarT"] {
+        [class*='LbarT'] {
             transition: all 0.6s ease;
-            background: linear-gradient(90deg, rgba(156,36,0,1) 0%, rgba(152,79,0,1) 25%, rgba(213,96,0,1) 100%);
+            background: linear-gradient(
+                90deg,
+                rgba(156, 36, 0, 1) 0%,
+                rgba(152, 79, 0, 1) 25%,
+                rgba(213, 96, 0, 1) 100%
+            );
             grid-column-start: 1;
             grid-column-end: 101;
             max-height: 30px;
             /* More left side health bar stuff*/
         }
-        [class*="LbarCT"] {
+        [class*='LbarCT'] {
             transition: all 0.6s ease;
-            background: linear-gradient(90deg, rgb(0, 63, 176) 0%, rgb(0, 84, 185) 25%, rgba(0,135,176,1) 100%);
+            background: linear-gradient(
+                90deg,
+                rgb(0, 63, 176) 0%,
+                rgb(0, 84, 185) 25%,
+                rgba(0, 135, 176, 1) 100%
+            );
             grid-column-start: 1;
             grid-column-end: 101;
             max-height: 30px;
@@ -79,18 +89,18 @@
         }
     }
 
-    .dead{
+    .dead {
         width: 60%;
 
-        .secondary{
-            display:none;
+        .secondary {
+            display: none;
         }
 
         .Nades {
             display: none;
         }
 
-        .playerStats{
+        .playerStats {
             margin-right: 5px;
         }
     }
@@ -116,7 +126,7 @@
     text-align: right;
     bottom: 25px;
     right: 25px;
-    color:white;
+    color: white;
     /* Players on the right side of the hud */
 
     .RplayerBlock {
@@ -160,17 +170,27 @@
             max-height: 30px;
             /* right side info, basically everything except health and armor */
 
-            [class*="RbarT"] {
+            [class*='RbarT'] {
                 transition: all 0.6s ease;
-                background: linear-gradient(90deg, rgba(213,96,0,1) 0%, rgba(152,79,0,1) 25%, rgba(156,36,0,1) 100%);
+                background: linear-gradient(
+                    90deg,
+                    rgba(213, 96, 0, 1) 0%,
+                    rgba(152, 79, 0, 1) 25%,
+                    rgba(156, 36, 0, 1) 100%
+                );
                 grid-column-start: 1;
                 grid-column-end: 101;
                 max-height: 30px;
                 /* More right side health bar stuff */
             }
-            [class*="RbarCT"] {
+            [class*='RbarCT'] {
                 transition: all 0.6s ease;
-                background: linear-gradient(90deg, rgba(0,135,176,1) 0%, rgb(0, 84, 185) 25%, rgb(0, 63, 176) 100%);
+                background: linear-gradient(
+                    90deg,
+                    rgba(0, 135, 176, 1) 0%,
+                    rgb(0, 84, 185) 25%,
+                    rgb(0, 63, 176) 100%
+                );
                 grid-column-start: 1;
                 grid-column-end: 101;
                 max-height: 30px;
@@ -198,19 +218,19 @@
         }
     }
 
-    .dead{
+    .dead {
         width: 60%;
         margin-left: 40%;
 
-        .secondary{
-            display:none;
+        .secondary {
+            display: none;
         }
 
         .Nades {
             display: none;
         }
 
-        .playerStats{
+        .playerStats {
             margin-left: 5px;
         }
     }
@@ -313,7 +333,6 @@ $totalColumns: 101;
     /* Right player primary weapon unequipped */
 }
 
-
 .subTextLeft {
     flex-direction: row-reverse;
     display: flex;
@@ -326,7 +345,7 @@ $totalColumns: 101;
     margin-left: 60px;
 
     .leftTeamNades {
-        display:flex;
+        display: flex;
         align-items: center;
         justify-content: flex-end;
         width: 100%;
@@ -335,7 +354,7 @@ $totalColumns: 101;
 
     .playerStats {
         margin-left: 5px;
-        display:flex;
+        display: flex;
         align-self: flex-end;
         justify-content: flex-start;
         align-items: center;
@@ -355,7 +374,7 @@ $totalColumns: 101;
     margin-right: 60px;
 
     .rightTeamNades {
-        display:flex;
+        display: flex;
         justify-content: flex-end;
         flex-direction: row-reverse;
         align-items: center;
@@ -374,9 +393,8 @@ $totalColumns: 101;
     }
 }
 
-
 .Nades {
-    height:100%;
+    height: 100%;
     width: 80px;
     min-width: 100px;
     max-height: 30px;
@@ -386,12 +404,12 @@ $totalColumns: 101;
     }
 
     .aInc {
-        height:100%;
+        height: 100%;
         margin-bottom: 2px;
     }
 
     .aMol {
-        height:100%;
+        height: 100%;
         margin-bottom: 2px;
     }
 
@@ -408,11 +426,11 @@ $totalColumns: 101;
         margin-bottom: 2px;
     }
 
-    .dHe{
+    .dHe {
         height: 73%;
     }
 
-    .eDec{
+    .eDec {
         height: 75%;
         margin-right: 1px;
         margin-left: 1px;
@@ -420,7 +438,7 @@ $totalColumns: 101;
     }
 }
 
-.secondary{
+.secondary {
     height: 100%;
     max-height: 30px;
     align-self: flex-start;

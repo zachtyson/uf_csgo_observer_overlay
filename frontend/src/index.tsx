@@ -12,19 +12,22 @@ const ENDPOINT = 'http://localhost:25566/';
 // since I can't get the endpoint without the config, but I can't get the config without the endpoint
 
 const root = ReactDOM.createRoot(
-    document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement,
 );
 
-function AppWrapper (): JSX.Element {
-    const [appConfiguration, setAppConfiguration] = useState<ConfigData | null>(null);
+function AppWrapper(): JSX.Element {
+    const [appConfiguration, setAppConfiguration] = useState<ConfigData | null>(
+        null,
+    );
 
     useEffect(() => {
-        axios.get(ENDPOINT)
+        axios
+            .get(ENDPOINT)
             .then((response: any) => {
                 // Assuming the response data is of type ConfigData, update the state
                 setAppConfiguration(response.data);
             })
-        // eslint-disable-next-line n/handle-callback-err
+            // eslint-disable-next-line n/handle-callback-err
             .catch((error: any) => {
                 // console.error('Error:', error.message);
             });
@@ -37,7 +40,7 @@ function AppWrapper (): JSX.Element {
             </React.StrictMode>
         );
     } else {
-    // Render a loading or fallback UI while waiting for the response
+        // Render a loading or fallback UI while waiting for the response
         return <div>Loading...</div>;
     }
 }

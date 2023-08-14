@@ -1,20 +1,18 @@
-
 const path = require('path');
 const url = require('url');
 const express = require('express');
 const fs = require('fs');
-const {app, BrowserWindow} = require('electron');
-
-
+const { app, BrowserWindow } = require('electron');
 
 let mainWindow;
 let server;
 
-
 function createWindow() {
     const reactApp = express();
     reactApp.use('/', express.static(path.join(__dirname, './build'))); // Serve your static React build
-    server = reactApp.listen(3000, () => console.log('React App on localhost:3000'));
+    server = reactApp.listen(3000, () =>
+        console.log('React App on localhost:3000'),
+    );
 
     // Create new browser window
     mainWindow = new BrowserWindow({
