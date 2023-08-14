@@ -13,7 +13,8 @@
     "rules": {
         "semi": "off",
         "@typescript-eslint/semi": ["error", "always"],
-        "@typescript-eslint/indent": ["error", 4]
+        "@typescript-eslint/indent": ["error", 4],
+        "prettier/prettier": "error"
     },
 
     "parser": "@typescript-eslint/parser"
