@@ -17,7 +17,9 @@
     "install": "cd frontend && npm install && cd ../backend && npm install",
     "build-gui": "cd gui/src && javac -source 15 -target 15 Main.java && jar cfm .\\Main.jar .\\manifest.txt *.class",
     "lint": "concurrently \"cd frontend && npm run lint\" \"cd backend && npm run lint\"",
-    "lint-fix": "concurrently \"cd frontend && npm run lint-fix\" \"cd backend && npm run lint-fix\""
+    "lint-fix": "concurrently \"cd frontend && npm run lint-fix\" \"cd backend && npm run lint-fix\"",
+    "prettier": "prettier --write .",
+    "prettier:check": "prettier --check ."
   },
   "repository": {
     "type": "git",
@@ -35,5 +37,8 @@
   "homepage": "https://github.com/zachtyson/csgo_observer_overlay_v2#readme",
   "dependencies": {
     "concurrently": "^8.2.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.1"
   }
 }
