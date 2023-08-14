@@ -1,29 +1,29 @@
-import "./Teams.scss";
-import React, { useState } from "react";
+import './Teams.scss';
+import React from 'react';
 
-import { ArmorHelmet, ArmorFull, SmallBomb, Skull,} from "../assets/Icons";
-import { getPrimaryWeapon, getSecondaryWeapon, hasBomb, hasKit, getNades } from "./Equipment.js";
-import {RootObject, AllPlayers, Player} from "../data_interface";
-import {TeamData} from "../config_interface";
+import { ArmorHelmet, ArmorFull, Skull } from '../assets/Icons';
+import { getPrimaryWeapon, getSecondaryWeapon, hasBomb, hasKit, getNades } from './Equipment.js';
+import { type RootObject, type Player } from '../data_interface';
+import { type TeamData } from '../config_interface';
 
 interface TeamProps {
-    data: RootObject; // Update the type according to your data structure
-    config: TeamData|null;
+    data: RootObject // Update the type according to your data structure
+    config: TeamData | null
 }
 
-function printArmorKitHealth(player:Player, side:string) {
-    if (side != "L") {
+function printArmorKitHealth (player: Player, side: string): JSX.Element {
+    if (side !== 'L') {
         return (
             <div>
-                {" "}
+                {' '}
                 <p
                     style={{
                         color:
                             player.state.health > 50
-                                ? "white"
+                                ? 'white'
                                 : player.state.health > 20
-                                    ? "orange"
-                                    : "red",
+                                    ? 'orange'
+                                    : 'red'
                     }}
                 >
                     {player.state.health}
@@ -40,10 +40,10 @@ function printArmorKitHealth(player:Player, side:string) {
                 style={{
                     color:
                         player.state.health > 50
-                            ? "white"
+                            ? 'white'
                             : player.state.health > 20
-                                ? "orange"
-                                : "red",
+                                ? 'orange'
+                                : 'red'
                 }}
             >
                 {player.state.health}
@@ -55,79 +55,83 @@ function printArmorKitHealth(player:Player, side:string) {
     );
 }
 
-function printHealthBar(player:Player,side:string) {
-    let x = "";
-    if (side == "L") {
-        x = "L";
+function printHealthBar (player: Player, side: string): JSX.Element {
+    let x = '';
+    if (side === 'L') {
+        x = 'L';
     } else {
-        x = "R";
+        x = 'R';
     }
-    let y = "";
-    if (player.team == "CT") {
-        y = "CT";
+    let y = '';
+    if (player.team === 'CT') {
+        y = 'CT';
     } else {
-        y = "T";
+        y = 'T';
     }
     if (player.state.health > 0) {
         return (
-            <div className={x + "Chart"}>
+            <div className={x + 'Chart'}>
                 {
                     <div
                         className={
-                            side === "L"
-                                ? "Lbar" + y + "-" + player.state.health
-                                : "Rbar" + y + "-" + player.state.health
+                            side === 'L'
+                                ? 'Lbar' + y.toString() + '-' + player.state.health.toString()
+                                : 'Rbar' + y.toString() + '-' + player.state.health.toString()
                         }
                     />
                 }
             </div>
         );
     }
-    return <div className={x + "Chart"}>{<div className={x + "bar-D"} />}</div>;
+    return <div className={x + 'Chart'}>{<div className={x + 'bar-D'} />}</div>;
 }
-function printTeam(team:Player[],side:string,p:Player) {
+function printTeam (team: Player[], side: string, p: Player): JSX.Element {
     return (
-        <div className={side === "L" ? "Lplayers" : "Rplayers"}>
+        <div className={side === 'L' ? 'Lplayers' : 'Rplayers'}>
             {team?.map((player: Player, index: number) => (
                 <div
                     className={
-                        (player.state.health === 0 ? "dead " : "alive ") +
-                        (side === "L" ? "LplayerBlock" : "RplayerBlock")
+                        (player.state.health === 0 ? 'dead ' : 'alive ') +
+                        (side === 'L' ? 'LplayerBlock' : 'RplayerBlock')
                     }
                     key={player.observer_slot}
-                    id={player.observer_slot === p.observer_slot ? "spec" : ""}
+                    id={player.observer_slot === p.observer_slot ? 'spec' : ''}
                 >
-                    <div className={side === "L" ? "LArmor" : "RArmor"}>
-                        {player.state.health > 0 ? (
-                            <div>{printArmorKitHealth(player, side)}</div>
-                        ) : (
-                            <Skull className="skull" />
-                        )}
+                    <div className={side === 'L' ? 'LArmor' : 'RArmor'}>
+                        {player.state.health > 0
+                            ? (
+                                <div>{printArmorKitHealth(player, side)}</div>
+                            )
+                            : (
+                                <Skull className="skull" />
+                            )}
                     </div>
                     <div>
-                        <div className={side === "L" ? "LplayerInfo" : "RplayerInfo"}>
+                        <div className={side === 'L' ? 'LplayerInfo' : 'RplayerInfo'}>
                             <div className="healthBarText">
                                 <div>{getPrimaryWeapon(side, player)}</div>
 
-                                {side === "L" ? (
-                                    <p className="pLeft">
-                                        {player.observer_slot} | {player.name}{" "}
-                                    </p>
-                                ) : (
-                                    <p className="pRight">
-                                        {player.name} | {player.observer_slot}{" "}
-                                    </p>
-                                )}
+                                {side === 'L'
+                                    ? (
+                                        <p className="pLeft">
+                                            {player.observer_slot} | {player.name}{' '}
+                                        </p>
+                                    )
+                                    : (
+                                        <p className="pRight">
+                                            {player.name} | {player.observer_slot}{' '}
+                                        </p>
+                                    )}
                             </div>
-                            {printHealthBar(player,side)}
+                            {printHealthBar(player, side)}
                         </div>
 
-                        <div className={side === "L" ? "subTextLeft" : "subTextRight"}>
+                        <div className={side === 'L' ? 'subTextLeft' : 'subTextRight'}>
                             <div className="secondary">{getSecondaryWeapon(side, player)}</div>
                             <div className="Nades">{getNades(side, player)}</div>
                             <div className="playerStats">
                                 <p>
-                                    {player.match_stats.kills} / {player.match_stats.assists} /{" "}
+                                    {player.match_stats.kills} / {player.match_stats.assists} /{' '}
                                     {player.match_stats.deaths}
                                 </p>
                             </div>
@@ -139,25 +143,26 @@ function printTeam(team:Player[],side:string,p:Player) {
     );
 }
 
-const Teams: React.FC<TeamProps> = ({ data,config }) => {
-    if(!data) {
+const Teams: React.FC<TeamProps> = ({ data, config }) => {
+    if (data == null) {
         return <div></div>;
     }
-    if (!config) return <div>Loading...</div>;
+    if (config == null) return <div>Loading...</div>;
+    if (data.allplayers == null) return <div>Loading...</div>;
 
-    let leftTeam: Player[] = Object.values(data.allplayers).filter((p: Player) => p.observer_slot < 6 && p.observer_slot !== 0);
-    let rightTeam: Player[] = Object.values(data.allplayers).filter((p: Player) => p.observer_slot >= 6 || p.observer_slot === 0);
+    const leftTeam: Player[] = Object.values(data.allplayers).filter((p: Player) => p.observer_slot < 6 && p.observer_slot !== 0);
+    const rightTeam: Player[] = Object.values(data.allplayers).filter((p: Player) => p.observer_slot >= 6 || p.observer_slot === 0);
 
     const player: Player | null = data.player;
 
-    if(!leftTeam && !rightTeam) {
+    if (leftTeam == null && rightTeam == null) {
         return <div></div>;
     }
 
     return (
         <div>
-            {printTeam(leftTeam,"L",player)}
-            {printTeam(rightTeam,"R",player)}
+            {printTeam(leftTeam, 'L', player)}
+            {printTeam(rightTeam, 'R', player)}
         </div>
 
     );

@@ -1,68 +1,72 @@
 import React, { useEffect, useState } from 'react';
-import { io, Socket } from "socket.io-client";
-import Scoreboard from "./scoreboard/Scoreboard";
-import Teams from "./teams/Teams";
-import CurrentPlayer from "./current_player/current_player";
-import {ConfigData} from "./config_interface";
+import { io, type Socket } from 'socket.io-client';
+import Scoreboard from './scoreboard/Scoreboard';
+import Teams from './teams/Teams';
+import CurrentPlayer from './current_player/current_player';
+import { type ConfigData } from './config_interface';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const backupTeamOneLogo = require('./config/teamOneBackup.png');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const backupTeamTwoLogo = require('./config/teamTwoBackup.png');
 
 interface AppProps {
-    appConfiguration: ConfigData|null;
+    appConfiguration: ConfigData | null
 }
 
-const ENDPOINT = "http://localhost:25566/"; // replace with your server's address and port
-//this will remain the same for now, but will be changed to the server's address and port
-//once I figure out how to fix this bootstrap paradox issue
-//since I can't get the endpoint without the config, but I can't get the config without the endpoint
+const ENDPOINT = 'http://localhost:25566/'; // replace with your server's address and port
+// this will remain the same for now, but will be changed to the server's address and port
+// once I figure out how to fix this bootstrap paradox issue
+// since I can't get the endpoint without the config, but I can't get the config without the endpoint
 
-const backupTeamOneLogo = require("./config/teamOneBackup.png");
-const backupTeamTwoLogo = require("./config/teamTwoBackup.png");
-function getBackupConfig() {
-    //Read image data local file
+function getBackupConfig (): ConfigData {
+    // Read image data local file
     const applicationData = {
-        "logLevel": "info",
-        "port": 25566,
-        "host": "127.0.0.1"
-    }
+        logLevel: 'info',
+        port: 25566,
+        host: '127.0.0.1'
+    };
     const teamData = {
-        "teamOneName": "Team One",
-        "teamTwoName": "Team Two",
-        "teamOneLogo": backupTeamOneLogo,
-        "teamTwoLogo": backupTeamTwoLogo,
-        "teamOneStartingSide": "CT",
-        "bombbombTime": 40,
-    }
+        teamOneName: 'Team One',
+        teamTwoName: 'Team Two',
+        teamOneLogo: backupTeamOneLogo,
+        teamTwoLogo: backupTeamTwoLogo,
+        teamOneStartingSide: 'CT',
+        bombbombTime: 40
+    };
     const configData = {
-        "application_data": applicationData,
-        "team_data": teamData,
-    }
+        application_data: applicationData,
+        team_data: teamData
+    };
     return configData as ConfigData;
 }
 
 const App: React.FC<AppProps> = ({ appConfiguration }) => {
     const [response, setResponse] = useState<any>(null);
-    const [config,setConfig] = useState<any>(null);
+    const [config, setConfig] = useState<any>(null);
 
     useEffect(() => {
-        if(appConfiguration) {
+        if (appConfiguration != null) {
             const configData = {
-                "teamOneName": appConfiguration.team_data.teamOneName,
-                "teamTwoName": appConfiguration.team_data.teamTwoName,
-                "teamOneLogo": appConfiguration.team_data.teamOneLogo,
-                "teamTwoLogo": appConfiguration.team_data.teamTwoLogo,
-                "teamOneStartingSide": "CT"
-            }
+                teamOneName: appConfiguration.team_data.teamOneName,
+                teamTwoName: appConfiguration.team_data.teamTwoName,
+                teamOneLogo: appConfiguration.team_data.teamOneLogo,
+                teamTwoLogo: appConfiguration.team_data.teamTwoLogo,
+                teamOneStartingSide: 'CT'
+            };
             setConfig(configData);
         } else {
             const configData = getBackupConfig();
             setConfig(configData);
         }
-    },[])
+    }, []);
     getBackupConfig();
     useEffect(() => {
         let socket: Socket;
+        // eslint-disable-next-line prefer-const
         socket = io(ENDPOINT);
         // Connect and setup event listener
-        socket.on("data", (data: any) => {
+        socket.on('data', (data: any) => {
             setResponse(data);
         });
 
@@ -71,9 +75,8 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
             // Before the component is destroyed
             // we disconnect the socket
             socket.disconnect();
-        }
+        };
     }, []);
-
     return (
         <div>
             <Scoreboard data={response} config={config} /> {/* Pass the object as a prop */}
@@ -81,6 +84,6 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
             <CurrentPlayer data={response} config={config} /> {/* Pass the object as a prop */}
         </div>
     );
-}
+};
 
 export default App;

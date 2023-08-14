@@ -15,7 +15,9 @@
     "test": "concurrently \"npm run backend:test\" \"npm run frontend:test\"",
     "dev": "concurrently \"npm run backend:start \" \"npm run frontend:start\"",
     "install": "cd frontend && npm install && cd ../backend && npm install",
-    "build-gui": "cd gui/src && javac -source 15 -target 15 Main.java && jar cfm .\\Main.jar .\\manifest.txt *.class"
+    "build-gui": "cd gui/src && javac -source 15 -target 15 Main.java && jar cfm .\\Main.jar .\\manifest.txt *.class",
+    "lint": "concurrently \"cd frontend && npm run lint\" \"cd backend && npm run lint\"",
+    "lint-fix": "concurrently \"cd frontend && npm run lint-fix\" \"cd backend && npm run lint-fix\""
   },
   "repository": {
     "type": "git",
