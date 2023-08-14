@@ -9,7 +9,7 @@
     "build": "tsc",
     "dev": "nodemon",
     "lint": "eslint \"./src/**/*.{ts,tsx}\"",
-    "lint:fix": "eslint \"./src/**/*.{ts,tsx}\" --fix"
+    "lint-fix": "eslint \"./src/**/*.{ts,tsx}\" --fix"
   },
   "author": "Zachary Tyson",
   "license": "MIT",
