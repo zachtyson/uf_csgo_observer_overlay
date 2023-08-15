@@ -1,4 +1,4 @@
-import { gunMap, nadeOrder } from '../assets/Weapons';
+import { gunMap } from '../assets/Weapons';
 import { Bomb, Defuse } from '../assets/Icons';
 import { type Player } from '../data_interface';
 import React from 'react';
@@ -212,11 +212,6 @@ export function getNades(side: string, player: Player): JSX.Element {
     if (nades[0] === '') {
         return <div></div>;
     }
-    nades.forEach(function (nade) {
-        if (nade !== '') {
-            nade = nadeOrder.get(nade);
-        }
-    });
     nades.sort((a, b) => a.localeCompare(b));
     nades.reverse();
 
