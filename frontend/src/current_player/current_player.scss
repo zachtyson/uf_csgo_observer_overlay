@@ -1,5 +1,4 @@
-@import "../_variables";
-
+@import '../_variables';
 
 .currentPlayer {
     display: flex;
@@ -9,7 +8,7 @@
     left: 50%;
     top: 86.5%;
     transform: translate(-50%, -50%);
-    background-color: rgba(0, 127, 97, 0.0); //transparent;
+    background-color: rgba(0, 127, 97, 0); //transparent;
 }
 
 .playerBlock {
@@ -17,7 +16,7 @@
     //align-self: center; // vertical centering
     margin: 0 auto;
     width: 85%;
-    background-color: rgba(0, 127, 97, 0.0); //transparent;
+    background-color: rgba(0, 127, 97, 0); //transparent;
 }
 
 .playerInfoTop {
@@ -49,11 +48,10 @@
             margin: 0 auto;
             //text-align: left;
             //background-color: green;
-
         }
 
         .vitalNum {
-            color:white;
+            color: white;
 
             text-align: left;
             width: 70%;
@@ -69,7 +67,6 @@
             align-content: center;
             margin: 0 auto;
 
-
             //background-color: pink;
         }
 
@@ -82,7 +79,6 @@
             //background-color: purple;
         }
     }
-
 
     .player-id {
         display: table-cell;
@@ -103,7 +99,7 @@
             padding-left: 9px;
         }
 
-        [class*="t-name"] {
+        [class*='t-name'] {
             height: 100%;
             width: 100%;
             z-index: 10;
@@ -112,7 +108,7 @@
             overflow: visible;
         }
 
-        [class*="ct-name"] {
+        [class*='ct-name'] {
             height: 100%;
             width: 100%;
             z-index: 10;
@@ -121,16 +117,26 @@
             overflow: visible;
         }
 
-        [class*="LbarT"] {
+        [class*='LbarT'] {
             transition: all 0.6s ease;
-            background: linear-gradient(90deg, rgba(156,36,0,1) 0%, rgba(152,79,0,1) 25%, rgba(213,96,0,1) 100%);
+            background: linear-gradient(
+                90deg,
+                rgba(156, 36, 0, 1) 0%,
+                rgba(152, 79, 0, 1) 25%,
+                rgba(213, 96, 0, 1) 100%
+            );
             grid-column-start: 1;
             grid-column-end: 101;
             /* More left side health bar stuff*/
         }
-        [class*="LbarCT"] {
+        [class*='LbarCT'] {
             transition: all 0.6s ease;
-            background: linear-gradient(90deg, rgb(0, 63, 176) 0%, rgb(0, 84, 185) 25%, rgba(0,135,176,1) 100%);
+            background: linear-gradient(
+                90deg,
+                rgb(0, 63, 176) 0%,
+                rgb(0, 84, 185) 25%,
+                rgba(0, 135, 176, 1) 100%
+            );
             grid-column-start: 1;
             grid-column-end: 101;
             /* More left side health bar stuff*/
@@ -200,7 +206,6 @@ $totalColumns: 101;
         }
     }
 
-
     .playerInfo {
         display: flex;
         flex-direction: row;
@@ -237,7 +242,6 @@ $totalColumns: 101;
         }
 
         .player-equipment {
-
             display: flex;
             flex-direction: column;
             //flex-wrap: nowrap;
@@ -270,15 +274,13 @@ $totalColumns: 101;
 
                 //background-color: lime;
             }
-
-
         }
     }
 }
 
 .Nades {
     padding-left: 20px;
-    height:100%;
+    height: 100%;
     width: 80px;
     min-width: 100px;
     max-height: 30px;
@@ -292,34 +294,34 @@ $totalColumns: 101;
         min-width: 18px;
     }
 
-    .weapon_incgrenade{
+    .weapon_incgrenade {
         height: 28px;
         margin-bottom: 3px;
     }
 
-    .weapon_molotov{
+    .weapon_molotov {
         height: 28px;
         margin-bottom: 3px;
     }
 
-    .weapon_smokegrenade{
+    .weapon_smokegrenade {
         height: 25px;
         margin: 1.5px;
         margin-top: 0px;
     }
 
-    .weapon_flashbang{
+    .weapon_flashbang {
         height: 22.5px;
         margin-right: 1px;
         margin-left: 1px;
         margin-bottom: 2px;
     }
 
-    .weapon_hegrenade{
+    .weapon_hegrenade {
         height: 23px;
     }
 
-    .weapon_decoy{
+    .weapon_decoy {
         height: 75%;
         margin-right: 1px;
         margin-left: 1px;
@@ -328,5 +330,5 @@ $totalColumns: 101;
 }
 
 svg {
-    fill:white;
+    fill: white;
 }

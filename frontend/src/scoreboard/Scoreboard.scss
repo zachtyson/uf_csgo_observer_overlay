@@ -1,312 +1,307 @@
-@import "../_variables";
+@import '../_variables';
 
-
-[class*="defender-score"] {
-  display: table-cell;
-  vertical-align: middle;
-  font-size: 3vw;
-  background-color: $CT-color;
-  height: 100%;
-  margin: 0;
+[class*='defender-score'] {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 3vw;
+    background-color: $CT-color;
+    height: 100%;
+    margin: 0;
 }
 
-[class*="attacker-score"] {
-  display: table-cell;
-  vertical-align: middle;
-  font-size: 3vw;
-  background-color: $T-color;
-  height: 100%;
-  margin: 0;
+[class*='attacker-score'] {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 3vw;
+    background-color: $T-color;
+    height: 100%;
+    margin: 0;
 }
 
 #hidden {
-  opacity: 0;
-  transition: opacity 3s linear;
+    opacity: 0;
+    transition: opacity 3s linear;
 }
 
 .TeamName {
-  text-align: left;
-  display: table;
-  opacity: 100%;
-  transition: opacity 1s linear;
-  color: white;
-  overflow: visible;
-
-  .teamLeftName {
-    display: table-cell;
-    padding-right: 20px;
-    vertical-align: middle;
-    text-align: right;
-    font-size: 36px;
-  }
-
-  .teamRightName {
-    display: table-cell;
-    padding-left: 20px;
-    vertical-align: middle;
     text-align: left;
-    font-size: 36px;
-  }
+    display: table;
+    opacity: 100%;
+    transition: opacity 1s linear;
+    color: white;
+    overflow: visible;
+
+    .teamLeftName {
+        display: table-cell;
+        padding-right: 20px;
+        vertical-align: middle;
+        text-align: right;
+        font-size: 36px;
+    }
+
+    .teamRightName {
+        display: table-cell;
+        padding-left: 20px;
+        vertical-align: middle;
+        text-align: left;
+        font-size: 36px;
+    }
 }
 
-.roundEnd{
-  height: 100%;
-  overflow-x: visible;
-  white-space: nowrap;
-  position: fixed;
-  display:flex;
-  align-items: center;
-  justify-content: center;
-  top: 150%;
-  opacity: 75%;
-  font-size: 30px;
-
-  .TWin{
-    background-color: $T-color;
-    min-width: 90%;
-  }
-  .CTWin{
-    background-color: $CT-color;
-    min-width: 90%;
-  }
-  .teamLogoEnd {
+.roundEnd {
     height: 100%;
-    background-color: $Background-opacity;
-  }
-  .teamLogoEnd img {
-    max-height: 100%;
-  }
+    overflow-x: visible;
+    white-space: nowrap;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 150%;
+    opacity: 75%;
+    font-size: 30px;
+
+    .TWin {
+        background-color: $T-color;
+        min-width: 90%;
+    }
+    .CTWin {
+        background-color: $CT-color;
+        min-width: 90%;
+    }
+    .teamLogoEnd {
+        height: 100%;
+        background-color: $Background-opacity;
+    }
+    .teamLogoEnd img {
+        max-height: 100%;
+    }
 }
 .roundEndText {
-  margin: 10px 10px 10px 10px ;
-  text-align: center;
+    margin: 10px 10px 10px 10px;
+    text-align: center;
 }
 
 .BombTimer {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: center;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 275%);
-  height: 2vh;
-  width: 100%;
-  max-width: 30vw;
-  top: 20px;
-  background-color: $Background-solid;
-  padding: 5px;
-  margin-top: 5px;
-  padding-left: 0;
-  padding-right: 0;
-
-  .Rchart {
-    display: grid;
-    grid-template-columns: repeat(400, .25fr);
-    grid-row-gap: 0px;
-    height: 100%;
-    max-height: 100%;
-    max-width: 99% !important;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 275%);
+    height: 2vh;
     width: 100%;
-    right: 0;
-    //background-color: beige;
-  }
+    max-width: 30vw;
+    top: 20px;
+    background-color: $Background-solid;
+    padding: 5px;
+    margin-top: 5px;
+    padding-left: 0;
+    padding-right: 0;
 
-  .BombRevchart {
-    display: grid;
-    grid-template-columns: repeat(400, .25fr);
-    grid-row-gap: 0px;
-    height: 100%;
-    max-height: 100%;
-    max-width: 99% !important;
-    width: 100%;
-    left: 0;
-    /* Left Side Health Bars */
-  }
-
-  .Lchart {
-    display: grid;
-    grid-template-columns: repeat(100, 1fr);
-    grid-row-gap: 0px;
-    height: 100%;
-    max-height: 100%;
-    max-width: 99% !important;
-    width: 100%;
-    left: 0;
-    /* Left Side Health Bars */
-  }
-
-  [class*="bomb"] {
-    transition: all 0.6s ease;
-    background-color: $T-color;
-    grid-column-start: 1;
-    grid-column-end: 401;
-    max-height: 30px;
-    /* More right side health bar stuff */
-  }
-
-  [class*="defuse"] {
-    transition: all 0.6s ease;
-    background-color: $CT-color;
-    grid-column-start: 1;
-    grid-column-end: 101;
-    max-height: 30px;
-    /* More right side health bar stuff */
-  }
-
-  [class*="tenseconds"] {
-    transition: all 0.6s ease;
-    background-color: red;
-    grid-column-start: 1;
-    grid-column-end: 401;
-    max-height: 30px;
-  }
-
-  $bombColumns: 401;
-  $defuseColumns: 101;
-
-  @mixin BombChartValue($data) {
-    grid-column-end: $data + 1;
-    /* Sets grid coordinates for health bar right side */
-  }
-
-  @mixin BombChartReverseValue($data) {
-    $result: $bombColumns - $data;
-    grid-column-start: $result;
-    /*  Sets grid coordinates for the health bar left side */
-  }
-
-  @mixin DefuseChartValue($data) {
-    $result: $defuseColumns - $data;
-    grid-column-start: $result;
-    /*  Sets grid coordinates for the health bar left side */
-  }
-
-  @for $i from 0 through $defuseColumns {
-    .defuse-#{$i} {
-      @include DefuseChartValue($i);
+    .Rchart {
+        display: grid;
+        grid-template-columns: repeat(400, 0.25fr);
+        grid-row-gap: 0px;
+        height: 100%;
+        max-height: 100%;
+        max-width: 99% !important;
+        width: 100%;
+        right: 0;
+        //background-color: beige;
     }
 
-    /* Basically on compile this creates like a hundred classes with name Tbar- and CTbar- + $i ,which is basically just a variable number in a for loop */
-  }
-
-  @for $i from 0 through $bombColumns {
-    .bomb-#{$i} {
-      @include BombChartValue($i);
+    .BombRevchart {
+        display: grid;
+        grid-template-columns: repeat(400, 0.25fr);
+        grid-row-gap: 0px;
+        height: 100%;
+        max-height: 100%;
+        max-width: 99% !important;
+        width: 100%;
+        left: 0;
+        /* Left Side Health Bars */
     }
 
-    .bombReverse-#{$i} {
-      @include BombChartReverseValue($i);
+    .Lchart {
+        display: grid;
+        grid-template-columns: repeat(100, 1fr);
+        grid-row-gap: 0px;
+        height: 100%;
+        max-height: 100%;
+        max-width: 99% !important;
+        width: 100%;
+        left: 0;
+        /* Left Side Health Bars */
     }
-    .tenseconds-#{$i} {
-      @include BombChartValue($i);
+
+    [class*='bomb'] {
+        transition: all 0.6s ease;
+        background-color: $T-color;
+        grid-column-start: 1;
+        grid-column-end: 401;
+        max-height: 30px;
+        /* More right side health bar stuff */
     }
 
-    .tensecondsReverse-#{$i} {
-      @include BombChartReverseValue($i);
+    [class*='defuse'] {
+        transition: all 0.6s ease;
+        background-color: $CT-color;
+        grid-column-start: 1;
+        grid-column-end: 101;
+        max-height: 30px;
+        /* More right side health bar stuff */
     }
 
+    [class*='tenseconds'] {
+        transition: all 0.6s ease;
+        background-color: red;
+        grid-column-start: 1;
+        grid-column-end: 401;
+        max-height: 30px;
+    }
 
-    /* Basically on compile this creates like a hundred classes with name Tbar- and CTbar- + $i ,which is basically just a variable number in a for loop */
-  }
+    $bombColumns: 401;
+    $defuseColumns: 101;
 
+    @mixin BombChartValue($data) {
+        grid-column-end: $data + 1;
+        /* Sets grid coordinates for health bar right side */
+    }
+
+    @mixin BombChartReverseValue($data) {
+        $result: $bombColumns - $data;
+        grid-column-start: $result;
+        /*  Sets grid coordinates for the health bar left side */
+    }
+
+    @mixin DefuseChartValue($data) {
+        $result: $defuseColumns - $data;
+        grid-column-start: $result;
+        /*  Sets grid coordinates for the health bar left side */
+    }
+
+    @for $i from 0 through $defuseColumns {
+        .defuse-#{$i} {
+            @include DefuseChartValue($i);
+        }
+
+        /* Basically on compile this creates like a hundred classes with name Tbar- and CTbar- + $i ,which is basically just a variable number in a for loop */
+    }
+
+    @for $i from 0 through $bombColumns {
+        .bomb-#{$i} {
+            @include BombChartValue($i);
+        }
+
+        .bombReverse-#{$i} {
+            @include BombChartReverseValue($i);
+        }
+        .tenseconds-#{$i} {
+            @include BombChartValue($i);
+        }
+
+        .tensecondsReverse-#{$i} {
+            @include BombChartReverseValue($i);
+        }
+
+        /* Basically on compile this creates like a hundred classes with name Tbar- and CTbar- + $i ,which is basically just a variable number in a for loop */
+    }
 }
 
 body {
-  /* Set body height to 100% to occupy the full viewport height */
-  height: 100%;
-  margin: 0;
-  display: flex;
-  justify-content: center; /* Center items horizontally */
+    /* Set body height to 100% to occupy the full viewport height */
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Center items horizontally */
 }
 
 .scoreBoard {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-evenly;
-  align-items: stretch;
-  margin-top: 20px;
-  top: 20px;
-  color: white;
-  width: 30vw;
-  height: 10vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: stretch;
+    margin-top: 20px;
+    top: 20px;
+    color: white;
+    width: 30vw;
+    height: 10vh;
 }
 
-
 .teamScore {
-  display: table;
-  margin: 0 auto;
-  text-align: center;
-  height: 100%;
-  width: 20%;
+    display: table;
+    margin: 0 auto;
+    text-align: center;
+    height: 100%;
+    width: 20%;
 }
 
 .teamImage {
-  text-align: center;
-  position: relative;
-  background-color: $Background-opacity;
-  width: 20%;
-  img {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    position: absolute;
-    vertical-align: middle;
-    height: 80%;
-    width: 80%;
-  }
+    text-align: center;
+    position: relative;
+    background-color: $Background-opacity;
+    width: 20%;
+    img {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        position: absolute;
+        vertical-align: middle;
+        height: 80%;
+        width: 80%;
+    }
 }
 
 .matchInfo {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  text-align: center;
-  align-self: center;
-  align-content: center;
-  margin: 0 auto;
-  width: 25%;
-  height: 100%;
-  background-color: $Background-solid;
-
-  .bombImage {
-    display: table-cell;
-    width: 100%;
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     text-align: center;
+    align-self: center;
+    align-content: center;
+    margin: 0 auto;
+    width: 25%;
+    height: 100%;
+    background-color: $Background-solid;
 
-    svg {
-      height: 48px;
-      width: 48px;
-      fill: white;
+    .bombImage {
+        display: table-cell;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+
+        svg {
+            height: 48px;
+            width: 48px;
+            fill: white;
+        }
     }
 
-  }
+    .time {
+        padding-top: 5px;
+        font-size: 2vw;
+    }
 
-  .time {
-    padding-top: 5px;
-    font-size: 2vw;
-  }
+    .low {
+        color: red;
+    }
 
-  .low {
-    color: red;
-  }
-
-  #round {
-    font-size: medium;
-    margin-bottom: 5px;
-    //margin: 0%;
-  }
+    #round {
+        font-size: medium;
+        margin-bottom: 5px;
+        //margin: 0%;
+    }
 }
 
 .parent {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
 }

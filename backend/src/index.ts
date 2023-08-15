@@ -3,7 +3,7 @@ import fs from 'fs';
 import http from 'http';
 import socketIo from 'socket.io';
 
-async function getConfig (): Promise<any> {
+async function getConfig(): Promise<any> {
     // read config.json
     try {
         const c = fs.readFileSync('config.json', 'utf8');
@@ -14,7 +14,7 @@ async function getConfig (): Promise<any> {
     }
 }
 
-async function startServer (): Promise<void> {
+async function startServer(): Promise<void> {
     let config: any;
     try {
         config = await getConfig();
@@ -78,8 +78,8 @@ async function startServer (): Promise<void> {
         // @ts-expect-error too lazy to add type
         const io = socketIo(server, {
             cors: {
-                origin: '*'
-            }
+                origin: '*',
+            },
         });
 
         let connectionCount = 0;
