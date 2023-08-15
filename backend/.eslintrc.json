@@ -14,7 +14,9 @@
         "semi": "off",
         "@typescript-eslint/semi": ["error", "always"],
         "@typescript-eslint/indent": ["error", 4],
-        "prettier/prettier": "error"
+        "prettier/prettier": ["error", {
+            "endOfLine": "auto"
+        }]
     },
 
     "parser": "@typescript-eslint/parser"

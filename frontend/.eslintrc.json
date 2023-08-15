@@ -20,7 +20,9 @@
         "semi": "off",
         "@typescript-eslint/semi": ["error", "always"],
         "no-console": "error",
-        "prettier/prettier": "error"
+        "prettier/prettier": ["error", {
+            "endOfLine": "auto"
+        }]
     },
     "settings": {
         "react": {
