@@ -17,21 +17,21 @@ interface TeamProps {
     config: TeamData | null;
 }
 
+function getHealthColor(health: number): string {
+    if (health > 50) {
+        return 'white';
+    } else if (health > 20) {
+        return 'orange';
+    }
+    return 'red';
+}
+
 function printArmorKitHealth(player: Player, side: string): JSX.Element {
     if (side !== 'L') {
         return (
             <div>
                 {' '}
-                <p
-                    style={{
-                        color:
-                            player.state.health > 50
-                                ? 'white'
-                                : player.state.health > 20
-                                ? 'orange'
-                                : 'red',
-                    }}
-                >
+                <p style={{ color: getHealthColor(player.state.health) }}>
                     {player.state.health}
                 </p>
                 {player.state.helmet ? (
@@ -46,16 +46,7 @@ function printArmorKitHealth(player: Player, side: string): JSX.Element {
     }
     return (
         <div>
-            <p
-                style={{
-                    color:
-                        player.state.health > 50
-                            ? 'white'
-                            : player.state.health > 20
-                            ? 'orange'
-                            : 'red',
-                }}
-            >
+            <p style={{ color: getHealthColor(player.state.health) }}>
                 {player.state.health}
             </p>
             {hasKit(player)}
@@ -105,6 +96,7 @@ function printHealthBar(player: Player, side: string): JSX.Element {
     }
     return <div className={x + 'Chart'}>{<div className={x + 'bar-D'} />}</div>;
 }
+
 function printTeam(team: Player[], side: string, p: Player): JSX.Element {
     return (
         <div className={side === 'L' ? 'Lplayers' : 'Rplayers'}>

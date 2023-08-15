@@ -56,6 +56,10 @@ function hasKitOrBomb(player: Player): boolean | JSX.Element {
     return false;
 }
 
+function getNadeClass(nade: string): string {
+    return `Nade ${nade}]}`;
+}
+
 function Grenades(player: Player): JSX.Element {
     if (player == null || player.weapons == null) return <div />;
     let x = '';
@@ -88,28 +92,27 @@ function Grenades(player: Player): JSX.Element {
 
     return (
         <div className="Nades">
-            {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
             <img
                 alt="Nade"
-                className={`Nade ${nades[3]}`}
+                className={getNadeClass(nades[3])}
                 src={gunMap.get(nades[3])}
             />
             {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
             <img
                 alt="Nade"
-                className={`Node ${nades[2]}`}
+                className={getNadeClass(nades[2])}
                 src={gunMap.get(nades[2])}
             />
             {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
             <img
                 alt="Nade"
-                className={`Nade ${nades[1]}`}
+                className={getNadeClass(nades[1])}
                 src={gunMap.get(nades[1])}
             />
             {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
             <img
                 alt="Nade"
-                className={`Nade ${nades[0]}`}
+                className={getNadeClass(nades[0])}
                 src={gunMap.get(nades[0])}
             />
             {hasKitOrBomb(player)}
