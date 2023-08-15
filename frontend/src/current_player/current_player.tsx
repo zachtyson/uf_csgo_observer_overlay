@@ -9,7 +9,7 @@ import {
     SmallBomb,
     Bullets,
 } from '../assets/Icons';
-import { gunMap, nadeOrder } from '../assets/Weapons';
+import { gunMap } from '../assets/Weapons';
 import { type RootObject, type Player, type Weapon } from '../data_interface';
 import { type TeamData } from '../config_interface';
 
@@ -81,12 +81,6 @@ function Grenades(player: Player): JSX.Element {
             </div>
         );
     }
-
-    nades.forEach((nade, index) => {
-        if (nade !== '') {
-            nades[index] = nadeOrder.get(nade);
-        }
-    });
     nades.sort((a, b) => a.localeCompare(b));
     nades.reverse();
 
