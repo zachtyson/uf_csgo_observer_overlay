@@ -8,7 +8,7 @@ import {
     hasBomb,
     hasKit,
     getNades,
-} from './Equipment.js';
+} from './Equipment';
 import { type RootObject, type Player } from '../data_interface';
 import { type TeamData } from '../config_interface';
 

@@ -1,11 +1,13 @@
 import { gunMap, nadeOrder } from '../assets/Weapons';
 import { Bomb, Defuse } from '../assets/Icons';
+import { type Player } from '../data_interface';
+import React from 'react';
 
-export function getPrimaryWeapon(side, player) {
-    var playerSide = side === 'L' ? 'GunL' : 'GunR';
+export function getPrimaryWeapon(side: string, player: Player): JSX.Element {
+    const playerSide = side === 'L' ? 'GunL' : 'GunR';
 
-    //If player somehow doesn't have weapons or a knife
-    if (!player.weapons || !player.weapons.weapon_0) {
+    // If player somehow doesn't have weapons or a knife
+    if (player.weapons == null || player.weapons.weapon_0 == null) {
         return (
             <img
                 alt="Primary Weapon"
@@ -15,7 +17,7 @@ export function getPrimaryWeapon(side, player) {
         );
     }
 
-    //If player is dead, no need to render any image, just returns a blank png
+    // If player is dead, no need to render any image, just returns a blank png
     if (player.state.health === 0) {
         return (
             <img
@@ -26,11 +28,11 @@ export function getPrimaryWeapon(side, player) {
         );
     }
 
-    var gun;
-    var primary = '';
-    var equipped = true; //Assumes weapon is equipped unless told otherwise
+    let gun: any;
+    let primary = '';
+    let equipped = true; // Assumes weapon is equipped unless told otherwise
 
-    //Iterates through all weapons of the given player
+    // Iterates through all weapons of the given player
     Object.keys(player.weapons).forEach(function (key) {
         gun = player.weapons[key];
 
@@ -42,27 +44,27 @@ export function getPrimaryWeapon(side, player) {
             gun.type === 'Machine Gun'
         ) {
             primary = gun.name;
-            equipped = gun.state !== 'active' ? false : true;
+            equipped = gun.state === 'active';
         }
     });
 
-    //If we get here, then it means that there were no primary weapons (ie.  Rifles, Snipers, etc)
+    // If we get here, then it means that there were no primary weapons (ie.  Rifles, Snipers, etc)
     if (primary === '') {
-        //Looking for pistols
+        // Looking for pistols
         Object.keys(player.weapons).forEach(function (key) {
             gun = player.weapons[key];
 
             if (gun.type === 'Pistol') {
                 primary = gun.name;
-                equipped = gun.state !== 'active' ? false : true;
+                equipped = gun.state === 'active';
             }
         });
     }
 
-    //If we get here, then there are no pistols or primary weapons (ie. Just a knife or util)
+    // If we get here, then there are no pistols or primary weapons (ie. Just a knife or util)
     if (primary === '') {
         if (player.weapons.weapon_0.state !== 'active') {
-            playerSide = playerSide + 'u'; //'u' implies the weapon is unequipped, used to gray out img
+            playerSide = playerSide + 'u'; // 'u' implies the weapon is unequipped, used to gray out img
         }
         return (
             <img
@@ -86,9 +88,9 @@ export function getPrimaryWeapon(side, player) {
 }
 
 export function getSecondaryWeapon(side, player) {
-    var playerSide = side === 'L' ? 'GunL2' : 'GunR2';
+    let playerSide = side === 'L' ? 'GunL2' : 'GunR2';
 
-    var secondary = ''; //Initialize secondary weapon name to ""
+    let secondary = ''; // Initialize secondary weapon name to ""
     if (!player.weapons || !player.weapons.weapon_0) {
         return (
             <img
@@ -109,7 +111,7 @@ export function getSecondaryWeapon(side, player) {
         );
     }
 
-    var gun;
+    let gun;
     Object.keys(player.weapons).forEach(function (key) {
         gun = player.weapons[key];
         if (gun.type === 'Pistol') {
@@ -138,8 +140,8 @@ export function getSecondaryWeapon(side, player) {
 }
 
 function hasPrimary(player) {
-    var primary = false;
-    var gun;
+    let primary = false;
+    let gun;
     Object.keys(player.weapons).forEach(function (key) {
         gun = player.weapons[key];
         if (
@@ -160,9 +162,9 @@ export function hasBomb(player) {
         return;
     }
 
-    var s = false;
+    let s = false;
     Object.keys(player.weapons).forEach(function (key) {
-        //Iterates through all weapons of the given player
+        // Iterates through all weapons of the given player
         if (player.weapons[key].name == 'weapon_c4') {
             s = true;
         }
@@ -186,16 +188,16 @@ export function hasKit(player) {
 }
 
 export function getNades(side, player) {
-    var playerSide = side === 'L' ? 'NadesL' : 'NadesR';
+    const playerSide = side === 'L' ? 'NadesL' : 'NadesR';
 
     if (!player.weapons || !player.weapons.weapon_0) {
         return <div className="leftTeamNades"></div>;
     }
 
-    var grenade = '';
-    var gun;
-    var nades = Array(4).fill('');
-    var spot = 0;
+    let grenade = '';
+    let gun;
+    const nades = Array(4).fill('');
+    let spot = 0;
 
     Object.keys(player.weapons).forEach(function (key) {
         gun = player.weapons[key];
