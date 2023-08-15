@@ -4,7 +4,7 @@ import { type Player } from '../data_interface';
 import React from 'react';
 
 export function getPrimaryWeapon(side: string, player: Player): JSX.Element {
-    const playerSide = side === 'L' ? 'GunL' : 'GunR';
+    let playerSide = side === 'L' ? 'GunL' : 'GunR';
 
     // If player somehow doesn't have weapons or a knife
     if (player.weapons == null || player.weapons.weapon_0 == null) {
@@ -87,11 +87,11 @@ export function getPrimaryWeapon(side: string, player: Player): JSX.Element {
     );
 }
 
-export function getSecondaryWeapon(side, player) {
+export function getSecondaryWeapon(side: string, player: Player): JSX.Element {
     let playerSide = side === 'L' ? 'GunL2' : 'GunR2';
 
     let secondary = ''; // Initialize secondary weapon name to ""
-    if (!player.weapons || !player.weapons.weapon_0) {
+    if (player.weapons == null || player.weapons.weapon_0 == null) {
         return (
             <img
                 alt="Primary Weapon"
@@ -121,7 +121,7 @@ export function getSecondaryWeapon(side, player) {
             }
         }
     });
-    if (gunMap.get(secondary)) {
+    if (gunMap.get(secondary) != null) {
         return (
             <img
                 alt="gun"
@@ -139,7 +139,7 @@ export function getSecondaryWeapon(side, player) {
     );
 }
 
-function hasPrimary(player) {
+function hasPrimary(player: Player): boolean {
     let primary = false;
     let gun;
     Object.keys(player.weapons).forEach(function (key) {
@@ -157,15 +157,15 @@ function hasPrimary(player) {
     return primary;
 }
 
-export function hasBomb(player) {
-    if (player.team != 'T') {
-        return;
+export function hasBomb(player: Player): JSX.Element {
+    if (player.team !== 'T') {
+        return <div></div>;
     }
 
     let s = false;
     Object.keys(player.weapons).forEach(function (key) {
         // Iterates through all weapons of the given player
-        if (player.weapons[key].name == 'weapon_c4') {
+        if (player.weapons[key].name === 'weapon_c4') {
             s = true;
         }
     });
@@ -173,24 +173,25 @@ export function hasBomb(player) {
     if (s) {
         return <Bomb />;
     }
+    return <div></div>;
 }
 
-export function hasKit(player) {
-    if (player.team != 'CT') {
-        return;
+export function hasKit(player: Player): JSX.Element {
+    if (player.team !== 'CT') {
+        return <div></div>;
     }
 
     if (player.state.defusekit != null) {
-        if (player.state.defusekit == true) {
+        if (player.state.defusekit) {
             return <Defuse />;
         }
     }
+    return <div></div>;
 }
 
-export function getNades(side, player) {
+export function getNades(side: string, player: Player): JSX.Element {
     const playerSide = side === 'L' ? 'NadesL' : 'NadesR';
-
-    if (!player.weapons || !player.weapons.weapon_0) {
+    if (player.weapons == null || player.weapons.weapon_0 == null) {
         return <div className="leftTeamNades"></div>;
     }
 
@@ -209,20 +210,18 @@ export function getNades(side, player) {
     });
 
     if (nades[0] === '') {
-        return;
+        return <div></div>;
     }
-
-    for (const nade in nades) {
-        if (nades[nade] !== '') {
-            nades[nade] = nadeOrder.get(nades[nade]);
+    nades.forEach(function (nade) {
+        if (nade !== '') {
+            nade = nadeOrder.get(nade);
         }
-    }
-
-    nades.sort();
+    });
+    nades.sort((a, b) => a.localeCompare(b));
     nades.reverse();
 
     if (gunMap.get(grenade) !== null) {
-        if (side == 'L') {
+        if (side === 'L') {
             return leftTeamNades(nades);
         }
         return rightTeamNades(nades);
@@ -239,7 +238,7 @@ export function getNades(side, player) {
     );
 }
 
-function leftTeamNades(nades) {
+function leftTeamNades(nades: string[]): JSX.Element {
     return (
         <div className="leftTeamNades">
             <img
@@ -266,7 +265,7 @@ function leftTeamNades(nades) {
     );
 }
 
-function rightTeamNades(nades) {
+function rightTeamNades(nades: string[]): JSX.Element {
     return (
         <div className="rightTeamNades">
             <img
