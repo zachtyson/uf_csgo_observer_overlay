@@ -545,7 +545,7 @@
     }
 }
 
-.LbarBase {
+.HealthBarBase {
     background-color: red;
     transition: all 1s ease;
     flex-grow: 0; // This makes sure the item doesn't grow to fill the container
@@ -556,13 +556,13 @@
 
 
 @for $i from 0 through 100 {
-    .Lbar-#{$i} {
+    .HealthBar#{$i} {
         width: $i * 1%; // This directly sets the width using a percentage
     }
 }
 
 
-.LbarTColor {
+.HealthBarTColor {
     background: linear-gradient(
                     90deg,
                     rgba(156, 36, 0, 1) 0%,
@@ -571,7 +571,7 @@
     );
 }
 
-.LbarCTColor {
+.HealthBarCTColor {
     background: linear-gradient(
                     90deg,
                     rgb(0, 63, 176) 0%,

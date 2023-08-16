@@ -187,7 +187,10 @@ function getHealthColor(health: number): string {
 function HealthArmorDiv({ player, side }: HealthArmorDivProps): JSX.Element {
     const playerHealth = player.state.health;
     const healthBarClassName =
-        'LbarBase Lbar' + player.team + 'Color Lbar-' + playerHealth.toString();
+        'HealthBarBase HealthBar' +
+        player.team +
+        'Color HealthBar-' +
+        playerHealth.toString();
     return (
         <div className="unit">
             <div className="armorHealthSubsection">
