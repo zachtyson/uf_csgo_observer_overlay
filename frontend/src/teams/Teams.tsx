@@ -260,9 +260,13 @@ export function Container({
                                 }
                                 style={{ marginLeft: '1.5%' }}
                             >
-                                {player.name +
-                                    ' | ' +
-                                    player.observer_slot.toString()}
+                                {side === 'right'
+                                    ? player.name +
+                                      ' | ' +
+                                      player.observer_slot.toString()
+                                    : player.observer_slot.toString() +
+                                      ' | ' +
+                                      player.name}
                             </div>
                         </div>
                     </div>
