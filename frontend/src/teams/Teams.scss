@@ -1,468 +1,573 @@
 @import '../_variables';
 
-.Lplayers {
-    width: 20%;
-    position: absolute;
-    background-color: transparent;
-    text-align: left;
-    opacity: 100%;
-    bottom: 25px;
-    left: 25px;
-    color: white;
-    /* Players on the left side of the hud */
+//.Lplayers {
+//    width: 20%;
+//    position: absolute;
+//    background-color: transparent;
+//    text-align: left;
+//    opacity: 100%;
+//    bottom: 25px;
+//    left: 25px;
+//    color: white;
+//    /* Players on the left side of the hud */
+//
+//    .LplayerBlock {
+//        margin-bottom: 5px;
+//        background-color: $Background-opacity;
+//        height: 60px;
+//        /* Height and  margin of Left Side Block*/
+//    }
+//
+//    .LArmor {
+//        display: table-cell;
+//        width: 20%;
+//        height: 60px;
+//        float: left;
+//        background-color: $Background-solid;
+//        text-align: center;
+//
+//        p {
+//            margin-top: 5px;
+//            margin-bottom: 0;
+//            text-align: center;
+//        }
+//        /* used for displaying the armor icon on left side */
+//        svg {
+//            height: 30px;
+//            width: 30px;
+//            fill: white;
+//        }
+//
+//        .skull {
+//            margin-top: 15px;
+//        }
+//    }
+//
+//    .LplayerInfo {
+//        display: table-cell;
+//        position: relative;
+//        float: left;
+//        width: 80%;
+//        max-height: 30px;
+//        background-color: #00000062;
+//        /* Left side info, takes up most of the block except for the area reserved for armor and health */
+//
+//        [class*='LbarT'] {
+//            transition: all 0.6s ease;
+//            background: linear-gradient(
+//                90deg,
+//                rgba(156, 36, 0, 1) 0%,
+//                rgba(152, 79, 0, 1) 25%,
+//                rgba(213, 96, 0, 1) 100%
+//            );
+//            grid-column-start: 1;
+//            grid-column-end: 101;
+//            max-height: 30px;
+//            /* More left side health bar stuff*/
+//        }
+//        [class*='LbarCT'] {
+//            transition: all 0.6s ease;
+//            background: linear-gradient(
+//                90deg,
+//                rgb(0, 63, 176) 0%,
+//                rgb(0, 84, 185) 25%,
+//                rgba(0, 135, 176, 1) 100%
+//            );
+//            grid-column-start: 1;
+//            grid-column-end: 101;
+//            max-height: 30px;
+//            /* More left side health bar stuff*/
+//        }
+//
+//        .Lbar-D {
+//            transition: all 0.6s ease;
+//            background-color: transparent;
+//            grid-column-start: 1;
+//            grid-column-end: 101;
+//            max-height: 30px;
+//            /* Health bar if dead & left side, doesn't do much except play a fading animation */
+//        }
+//    }
+//
+//    .dead {
+//        width: 60%;
+//
+//        .secondary {
+//            display: none;
+//        }
+//
+//        .Nades {
+//            display: none;
+//        }
+//
+//        .playerStats {
+//            margin-right: 5px;
+//        }
+//    }
+//
+//    .LChart {
+//        display: grid;
+//        grid-template-columns: repeat(100, 1fr);
+//        grid-row-gap: 0px;
+//        height: 30px;
+//        max-height: 30px;
+//        width: 100%;
+//        padding: 0px;
+//        /* Left Side Health Bars */
+//    }
+//}
+//
+//.Rplayers {
+//    font-family: Roboto-Bold;
+//    width: 20%;
+//    background-color: transparent;
+//    opacity: 100%;
+//    position: absolute;
+//    text-align: right;
+//    bottom: 25px;
+//    right: 25px;
+//    color: white;
+//    /* Players on the right side of the hud */
+//
+//    .RplayerBlock {
+//        margin-bottom: 5px;
+//        background-color: $Background-opacity;
+//        height: 60px;
+//        /* Height and margin of Right Side Block, honestly not sure what this is used for -zach */
+//
+//        .RArmor {
+//            display: table-cell;
+//            width: 20%;
+//            height: 60px;
+//            float: right;
+//            background-color: $Background-solid;
+//            text-align: center;
+//
+//            p {
+//                margin-top: 5px;
+//                margin-bottom: 0;
+//                text-align: center;
+//            }
+//
+//            svg {
+//                height: 30px;
+//                width: 30px;
+//                fill: white;
+//            }
+//            /* used for displaying armor icon for right side */
+//            .skull {
+//                margin-top: 15px;
+//            }
+//        }
+//
+//        .RplayerInfo {
+//            display: table-cell;
+//            position: relative;
+//            background-color: #00000062;
+//            float: right;
+//            width: 80%;
+//            height: 30px;
+//            max-height: 30px;
+//            /* right side info, basically everything except health and armor */
+//
+//            [class*='RbarT'] {
+//                transition: all 0.6s ease;
+//                background: linear-gradient(
+//                    90deg,
+//                    rgba(213, 96, 0, 1) 0%,
+//                    rgba(152, 79, 0, 1) 25%,
+//                    rgba(156, 36, 0, 1) 100%
+//                );
+//                grid-column-start: 1;
+//                grid-column-end: 101;
+//                max-height: 30px;
+//                /* More right side health bar stuff */
+//            }
+//            [class*='RbarCT'] {
+//                transition: all 0.6s ease;
+//                background: linear-gradient(
+//                    90deg,
+//                    rgba(0, 135, 176, 1) 0%,
+//                    rgb(0, 84, 185) 25%,
+//                    rgb(0, 63, 176) 100%
+//                );
+//                grid-column-start: 1;
+//                grid-column-end: 101;
+//                max-height: 30px;
+//                /* More right side health bar stuff */
+//            }
+//
+//            .Rbar-D {
+//                transition: all 0.6s ease;
+//                background-color: transparent;
+//                grid-column-start: 1;
+//                grid-column-end: 101;
+//                max-height: 30px;
+//                /* Health bar if dead & right side, doesn't do much except play a fading animation */
+//            }
+//        }
+//        .RChart {
+//            display: grid;
+//            grid-template-columns: repeat(100, 1fr);
+//            grid-row-gap: 0px;
+//            height: 30px;
+//            max-height: 30px;
+//            width: 100%;
+//            padding: 0px;
+//            /* Right Side Health Bars */
+//        }
+//    }
+//
+//    .dead {
+//        width: 60%;
+//        margin-left: 40%;
+//
+//        .secondary {
+//            display: none;
+//        }
+//
+//        .Nades {
+//            display: none;
+//        }
+//
+//        .playerStats {
+//            margin-left: 5px;
+//        }
+//    }
+//}
+//
+//#spec {
+//    box-shadow: white 0 0 0 5px;
+//    /* Player being currently viewed */
+//}
+//
+//.healthBarText {
+//    height: 100%;
+//    width: 100%;
+//    z-index: 10;
+//    position: absolute;
+//    top: 0;
+//    overflow: visible;
+//
+//    .pLeft {
+//        margin: 0;
+//        max-height: 30px;
+//        overflow: visible;
+//        min-width: 150px;
+//        padding-top: 5px;
+//        padding-left: 9px;
+//    }
+//    /* K,D,A and ADR */
+//    .pRight {
+//        margin: 0;
+//        max-height: 30px;
+//        overflow: visible;
+//        min-width: 150px;
+//        padding-top: 5px;
+//        padding-right: 9px;
+//    }
+//}
+//
+//$totalColumns: 101;
+//
+//@mixin RchartValue($data) {
+//    $result: $totalColumns - $data;
+//    grid-column-start: $result !important;
+//    /* Sets grid coordinates for health bar right side */
+//}
+//
+//@mixin LchartValue($data) {
+//    grid-column-end: $data + 1 !important;
+//    /*  Sets grid coordinates for the health bar left side */
+//}
+//
+//@for $i from 0 through $totalColumns {
+//    .RbarT-#{$i} {
+//        @include RchartValue($i);
+//    }
+//    .RbarCT-#{$i} {
+//        @include RchartValue($i);
+//    }
+//    .LbarT-#{$i} {
+//        @include LchartValue($i);
+//    }
+//    .LbarCT-#{$i} {
+//        @include LchartValue($i);
+//    }
+//    /* Basically on compile this creates like a hundred classes with name Tbar- and CTbar- + $i ,which is basically just a variable number in a for loop */
+//}
+//
+//.GunL {
+//    position: absolute;
+//    background-color: transparent;
+//    height: 30px;
+//    opacity: 100%;
+//    right: 0px;
+//    /* Left player primary weapon */
+//}
+//.GunLu {
+//    position: absolute;
+//    background-color: transparent;
+//    height: 30px;
+//    opacity: 45%;
+//    right: 0;
+//    fill: grey;
+//    /* Left player primary weapon unequipped */
+//}
+//.GunR {
+//    position: absolute;
+//    background-color: transparent;
+//    height: 30px;
+//    opacity: 100%;
+//    left: 0;
+//    transform: rotateY(180deg);
+//    /* Right player primary weapon  */
+//}
+//.GunRu {
+//    position: absolute;
+//    background-color: transparent;
+//    height: 30px;
+//    opacity: 45%;
+//    left: 0;
+//    transform: rotateY(180deg);
+//    /* Right player primary weapon unequipped */
+//}
+//
+//.subTextLeft {
+//    flex-direction: row-reverse;
+//    display: flex;
+//    justify-content: space-between;
+//    align-items: center;
+//    width: 80%;
+//    height: 30px;
+//    max-height: 30px;
+//    min-width: 75px;
+//    margin-left: 60px;
+//
+//    .leftTeamNades {
+//        display: flex;
+//        align-items: center;
+//        justify-content: flex-end;
+//        width: 100%;
+//        height: 100%;
+//    }
+//
+//    .playerStats {
+//        margin-left: 5px;
+//        display: flex;
+//        align-self: flex-end;
+//        justify-content: flex-start;
+//        align-items: center;
+//        height: 100%;
+//        min-width: 90px;
+//    }
+//}
+//
+//.subTextRight {
+//    flex-direction: row;
+//    display: flex;
+//    justify-content: space-between;
+//    align-items: center;
+//    width: 80%;
+//    height: 30px;
+//    min-width: 75px;
+//    margin-right: 60px;
+//
+//    .rightTeamNades {
+//        display: flex;
+//        justify-content: flex-end;
+//        flex-direction: row-reverse;
+//        align-items: center;
+//        width: 100%;
+//        height: 100%;
+//    }
+//
+//    .playerStats {
+//        margin-right: 5px;
+//        display: flex;
+//        align-self: flex-end;
+//        justify-content: flex-end;
+//        align-items: center;
+//        height: 100%;
+//        min-width: 90px;
+//    }
+//}
+//
+//.Nades {
+//    height: 100%;
+//    width: 80px;
+//    min-width: 100px;
+//    max-height: 30px;
+//
+//    .Nade {
+//        max-height: 28px;
+//    }
+//
+//    .aInc {
+//        height: 100%;
+//        margin-bottom: 2px;
+//    }
+//
+//    .aMol {
+//        height: 100%;
+//        margin-bottom: 2px;
+//    }
+//
+//    .bSmo {
+//        height: 82%;
+//        margin: 1.5px;
+//        margin-top: 0px;
+//    }
+//
+//    .cFla {
+//        height: 75%;
+//        margin-right: 1px;
+//        margin-left: 1px;
+//        margin-bottom: 2px;
+//    }
+//
+//    .dHe {
+//        height: 73%;
+//    }
+//
+//    .eDec {
+//        height: 75%;
+//        margin-right: 1px;
+//        margin-left: 1px;
+//        margin-bottom: 2px;
+//    }
+//}
+//
+//.secondary {
+//    height: 100%;
+//    max-height: 30px;
+//    align-self: flex-start;
+//    width: 62px;
+//
+//    img {
+//        height: 30px;
+//    }
+//
+//    .GunR2u {
+//        transform: rotateY(180deg);
+//        opacity: 30%;
+//    }
+//
+//    .GunL2u {
+//        opacity: 30%;
+//    }
+//
+//    .GunR2 {
+//        transform: rotateY(180deg);
+//        opacity: 100%;
+//    }
+//
+//    .GunL2 {
+//        opacity: 100%;
+//    }
+//}
 
-    .LplayerBlock {
-        margin-bottom: 5px;
-        background-color: $Background-opacity;
-        height: 60px;
-        /* Height and  margin of Left Side Block*/
-    }
-
-    .LArmor {
-        display: table-cell;
-        width: 20%;
-        height: 60px;
-        float: left;
-        background-color: $Background-solid;
-        text-align: center;
-
-        p {
-            margin-top: 5px;
-            margin-bottom: 0;
-            text-align: center;
-        }
-        /* used for displaying the armor icon on left side */
-        svg {
-            height: 30px;
-            width: 30px;
-            fill: white;
-        }
-
-        .skull {
-            margin-top: 15px;
-        }
-    }
-
-    .LplayerInfo {
-        display: table-cell;
-        position: relative;
-        float: left;
-        width: 80%;
-        max-height: 30px;
-        background-color: #00000062;
-        /* Left side info, takes up most of the block except for the area reserved for armor and health */
-
-        [class*='LbarT'] {
-            transition: all 0.6s ease;
-            background: linear-gradient(
-                90deg,
-                rgba(156, 36, 0, 1) 0%,
-                rgba(152, 79, 0, 1) 25%,
-                rgba(213, 96, 0, 1) 100%
-            );
-            grid-column-start: 1;
-            grid-column-end: 101;
-            max-height: 30px;
-            /* More left side health bar stuff*/
-        }
-        [class*='LbarCT'] {
-            transition: all 0.6s ease;
-            background: linear-gradient(
-                90deg,
-                rgb(0, 63, 176) 0%,
-                rgb(0, 84, 185) 25%,
-                rgba(0, 135, 176, 1) 100%
-            );
-            grid-column-start: 1;
-            grid-column-end: 101;
-            max-height: 30px;
-            /* More left side health bar stuff*/
-        }
-
-        .Lbar-D {
-            transition: all 0.6s ease;
-            background-color: transparent;
-            grid-column-start: 1;
-            grid-column-end: 101;
-            max-height: 30px;
-            /* Health bar if dead & left side, doesn't do much except play a fading animation */
-        }
-    }
-
-    .dead {
-        width: 60%;
-
-        .secondary {
-            display: none;
-        }
-
-        .Nades {
-            display: none;
-        }
-
-        .playerStats {
-            margin-right: 5px;
-        }
-    }
-
-    .LChart {
-        display: grid;
-        grid-template-columns: repeat(100, 1fr);
-        grid-row-gap: 0px;
-        height: 30px;
-        max-height: 30px;
-        width: 100%;
-        padding: 0px;
-        /* Left Side Health Bars */
-    }
-}
-
-.Rplayers {
-    font-family: Roboto-Bold;
-    width: 20%;
-    background-color: transparent;
-    opacity: 100%;
-    position: absolute;
-    text-align: right;
-    bottom: 25px;
-    right: 25px;
-    color: white;
-    /* Players on the right side of the hud */
-
-    .RplayerBlock {
-        margin-bottom: 5px;
-        background-color: $Background-opacity;
-        height: 60px;
-        /* Height and margin of Right Side Block, honestly not sure what this is used for -zach */
-
-        .RArmor {
-            display: table-cell;
-            width: 20%;
-            height: 60px;
-            float: right;
-            background-color: $Background-solid;
-            text-align: center;
-
-            p {
-                margin-top: 5px;
-                margin-bottom: 0;
-                text-align: center;
-            }
-
-            svg {
-                height: 30px;
-                width: 30px;
-                fill: white;
-            }
-            /* used for displaying armor icon for right side */
-            .skull {
-                margin-top: 15px;
-            }
-        }
-
-        .RplayerInfo {
-            display: table-cell;
-            position: relative;
-            background-color: #00000062;
-            float: right;
-            width: 80%;
-            height: 30px;
-            max-height: 30px;
-            /* right side info, basically everything except health and armor */
-
-            [class*='RbarT'] {
-                transition: all 0.6s ease;
-                background: linear-gradient(
-                    90deg,
-                    rgba(213, 96, 0, 1) 0%,
-                    rgba(152, 79, 0, 1) 25%,
-                    rgba(156, 36, 0, 1) 100%
-                );
-                grid-column-start: 1;
-                grid-column-end: 101;
-                max-height: 30px;
-                /* More right side health bar stuff */
-            }
-            [class*='RbarCT'] {
-                transition: all 0.6s ease;
-                background: linear-gradient(
-                    90deg,
-                    rgba(0, 135, 176, 1) 0%,
-                    rgb(0, 84, 185) 25%,
-                    rgb(0, 63, 176) 100%
-                );
-                grid-column-start: 1;
-                grid-column-end: 101;
-                max-height: 30px;
-                /* More right side health bar stuff */
-            }
-
-            .Rbar-D {
-                transition: all 0.6s ease;
-                background-color: transparent;
-                grid-column-start: 1;
-                grid-column-end: 101;
-                max-height: 30px;
-                /* Health bar if dead & right side, doesn't do much except play a fading animation */
-            }
-        }
-        .RChart {
-            display: grid;
-            grid-template-columns: repeat(100, 1fr);
-            grid-row-gap: 0px;
-            height: 30px;
-            max-height: 30px;
-            width: 100%;
-            padding: 0px;
-            /* Right Side Health Bars */
-        }
-    }
-
-    .dead {
-        width: 60%;
-        margin-left: 40%;
-
-        .secondary {
-            display: none;
-        }
-
-        .Nades {
-            display: none;
-        }
-
-        .playerStats {
-            margin-left: 5px;
-        }
-    }
-}
-
-#spec {
-    box-shadow: white 0 0 0 5px;
-    /* Player being currently viewed */
-}
-
-.healthBarText {
-    height: 100%;
-    width: 100%;
-    z-index: 10;
-    position: absolute;
+.App {
+    position: fixed;
     top: 0;
-    overflow: visible;
-
-    .pLeft {
-        margin: 0;
-        max-height: 30px;
-        overflow: visible;
-        min-width: 150px;
-        padding-top: 5px;
-        padding-left: 9px;
-    }
-    /* K,D,A and ADR */
-    .pRight {
-        margin: 0;
-        max-height: 30px;
-        overflow: visible;
-        min-width: 150px;
-        padding-top: 5px;
-        padding-right: 9px;
-    }
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-$totalColumns: 101;
-
-@mixin RchartValue($data) {
-    $result: $totalColumns - $data;
-    grid-column-start: $result !important;
-    /* Sets grid coordinates for health bar right side */
-}
-
-@mixin LchartValue($data) {
-    grid-column-end: $data + 1 !important;
-    /*  Sets grid coordinates for the health bar left side */
-}
-
-@for $i from 0 through $totalColumns {
-    .RbarT-#{$i} {
-        @include RchartValue($i);
-    }
-    .RbarCT-#{$i} {
-        @include RchartValue($i);
-    }
-    .LbarT-#{$i} {
-        @include LchartValue($i);
-    }
-    .LbarCT-#{$i} {
-        @include LchartValue($i);
-    }
-    /* Basically on compile this creates like a hundred classes with name Tbar- and CTbar- + $i ,which is basically just a variable number in a for loop */
-}
-
-.GunL {
+.container {
     position: absolute;
-    background-color: transparent;
-    height: 30px;
-    opacity: 100%;
-    right: 0px;
-    /* Left player primary weapon */
+    bottom: 0;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-bottom: 1%;
 }
-.GunLu {
-    position: absolute;
-    background-color: transparent;
-    height: 30px;
-    opacity: 45%;
+
+.leftContainer {
+    left: 0;
+    align-items: flex-start;
+    margin-left: 2%;
+}
+
+.rightContainer {
     right: 0;
-    fill: grey;
-    /* Left player primary weapon unequipped */
-}
-.GunR {
-    position: absolute;
-    background-color: transparent;
-    height: 30px;
-    opacity: 100%;
-    left: 0;
-    transform: rotateY(180deg);
-    /* Right player primary weapon  */
-}
-.GunRu {
-    position: absolute;
-    background-color: transparent;
-    height: 30px;
-    opacity: 45%;
-    left: 0;
-    transform: rotateY(180deg);
-    /* Right player primary weapon unequipped */
+    align-items: flex-end;
+    margin-right:  2%;
 }
 
-.subTextLeft {
-    flex-direction: row-reverse;
+
+.unit {
+    width: 20vw;  /* 20% of the viewport width */
+    height: 6vh;  /* 6% of the viewport height */
+    margin-bottom: 1.5%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 80%;
-    height: 30px;
-    max-height: 30px;
-    min-width: 75px;
-    margin-left: 60px;
-
-    .leftTeamNades {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        width: 100%;
-        height: 100%;
-    }
-
-    .playerStats {
-        margin-left: 5px;
-        display: flex;
-        align-self: flex-end;
-        justify-content: flex-start;
-        align-items: center;
-        height: 100%;
-        min-width: 90px;
-    }
-}
-
-.subTextRight {
     flex-direction: row;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+}
+
+.rightSection {
     width: 80%;
-    height: 30px;
-    min-width: 75px;
-    margin-right: 60px;
+    display: flex;
+    flex-direction: column;
+}
 
-    .rightTeamNades {
-        display: flex;
-        justify-content: flex-end;
-        flex-direction: row-reverse;
-        align-items: center;
-        width: 100%;
-        height: 100%;
+.topSubsection {
+
+    height: 50%;
+}
+
+.armorHealthSubsection {
+    width: 20%;
+    background-color: $Background-solid;
+    p {
+        margin-top: 0;
+        margin-bottom: 0;
+        text-align: center;
     }
-
-    .playerStats {
-        margin-right: 5px;
-        display: flex;
-        align-self: flex-end;
-        justify-content: flex-end;
-        align-items: center;
-        height: 100%;
-        min-width: 90px;
+    /* used for displaying the armor icon on left side */
+    svg {
+        height: 3vh;
+        fill: white;
     }
 }
 
-.Nades {
-    height: 100%;
-    width: 80px;
-    min-width: 100px;
-    max-height: 30px;
+.LbarBase {
+    background-color: red;
+    transition: all 1s ease;
+    flex-grow: 0; // This makes sure the item doesn't grow to fill the container
+    flex-shrink: 1; // This ensures the item can shrink if necessary
+    height:50%;
+    /* More left side health bar stuff */
+}
 
-    .Nade {
-        max-height: 28px;
-    }
 
-    .aInc {
-        height: 100%;
-        margin-bottom: 2px;
-    }
-
-    .aMol {
-        height: 100%;
-        margin-bottom: 2px;
-    }
-
-    .bSmo {
-        height: 82%;
-        margin: 1.5px;
-        margin-top: 0px;
-    }
-
-    .cFla {
-        height: 75%;
-        margin-right: 1px;
-        margin-left: 1px;
-        margin-bottom: 2px;
-    }
-
-    .dHe {
-        height: 73%;
-    }
-
-    .eDec {
-        height: 75%;
-        margin-right: 1px;
-        margin-left: 1px;
-        margin-bottom: 2px;
+@for $i from 0 through 100 {
+    .Lbar-#{$i} {
+        width: $i * 1%; // This directly sets the width using a percentage
     }
 }
 
-.secondary {
-    height: 100%;
-    max-height: 30px;
-    align-self: flex-start;
-    width: 62px;
 
-    img {
-        height: 30px;
-    }
-
-    .GunR2u {
-        transform: rotateY(180deg);
-        opacity: 30%;
-    }
-
-    .GunL2u {
-        opacity: 30%;
-    }
-
-    .GunR2 {
-        transform: rotateY(180deg);
-        opacity: 100%;
-    }
-
-    .GunL2 {
-        opacity: 100%;
-    }
+.LbarTColor {
+    background: linear-gradient(
+                    90deg,
+                    rgba(156, 36, 0, 1) 0%,
+                    rgba(152, 79, 0, 1) 25%,
+                    rgba(213, 96, 0, 1) 100%
+    );
 }
+
+.LbarCTColor {
+    background: linear-gradient(
+                    90deg,
+                    rgb(0, 63, 176) 0%,
+                    rgb(0, 84, 185) 25%,
+                    rgba(0, 135, 176, 1) 100%
+    );
+}
+

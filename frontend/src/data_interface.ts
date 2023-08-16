@@ -67,6 +67,7 @@ export interface Provider {
 }
 
 export interface Player {
+    id: any;
     steamid: string;
     clan?: string;
     name: string;
