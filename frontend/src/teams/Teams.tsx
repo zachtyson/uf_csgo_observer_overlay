@@ -269,6 +269,9 @@ function PlayerDiv({ player, side, currentSpec }: PlayerProps): JSX.Element {
                     </div>
                     <div>{getPrimaryWeapon(player)}</div>
                 </div>
+                <div className="utilityBarSection">
+                    <div>{getSecondaryWeapon(player)}</div>
+                </div>
             </div>
         </div>
     );

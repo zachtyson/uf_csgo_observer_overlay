@@ -3,7 +3,6 @@ import { Bomb, Defuse } from '../assets/Icons';
 import { type Player } from '../data_interface';
 import React from 'react';
 
-
 export function getRightPlayers(players: Player[]): Player[] {
     const rightPlayers = [];
     for (let i = 0; i < players.length; i++) {
@@ -81,34 +80,21 @@ export function getPrimaryWeapon(player: Player): JSX.Element {
         <img
             alt="weapon"
             className="primary"
-            style={equipped ? {} : { opacity: 0.3 }}
+            style={equipped ? {} : { opacity: 0.4 }}
             src={gunMap.get(primary)}
         ></img>
     );
 }
 
-export function getSecondaryWeapon(side: string, player: Player): JSX.Element {
-    let playerSide = side === 'L' ? 'GunL2' : 'GunR2';
-
+export function getSecondaryWeapon(player: Player): JSX.Element {
+    let equipped = true; // Assumes weapon is equipped unless told otherwise
     let secondary = ''; // Initialize secondary weapon name to ""
     if (player.weapons == null || player.weapons.weapon_0 == null) {
-        return (
-            <img
-                alt="Primary Weapon"
-                className={playerSide}
-                src={gunMap.get('')}
-            ></img>
-        );
+        return <img alt="Primary Weapon" src={gunMap.get('')}></img>;
     }
 
     if (!hasPrimary(player)) {
-        return (
-            <img
-                alt="no primary"
-                className={playerSide}
-                src={gunMap.get('')}
-            ></img>
-        );
+        return <img alt="no primary" src={gunMap.get('')}></img>;
     }
 
     let gun;
@@ -116,27 +102,20 @@ export function getSecondaryWeapon(side: string, player: Player): JSX.Element {
         gun = player.weapons[key];
         if (gun.type === 'Pistol') {
             secondary = gun.name;
-            if (gun.state !== 'active') {
-                playerSide = playerSide + 'u';
-            }
+            equipped = gun.state === 'active';
         }
     });
     if (gunMap.get(secondary) != null) {
         return (
             <img
                 alt="gun"
-                className={playerSide}
+                className="secondary"
+                style={equipped ? {} : { opacity: 0.5 }}
                 src={gunMap.get(secondary)}
             ></img>
         );
     }
-    return (
-        <img
-            alt="no gun"
-            className={playerSide}
-            src={gunMap.get(secondary)}
-        ></img>
-    );
+    return <img alt="no gun" src={gunMap.get(secondary)}></img>;
 }
 
 function hasPrimary(player: Player): boolean {
