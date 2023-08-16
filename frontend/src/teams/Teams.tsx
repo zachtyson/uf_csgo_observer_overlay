@@ -203,7 +203,7 @@ function HealthArmorDiv({ player, side }: HealthArmorDivProps): JSX.Element {
 export function Container({ players, side }: ContainerProps): JSX.Element {
     if (side !== 'L') {
         return (
-            <div className="container rightContainer right">
+            <div className="container rightContainer">
                 {players.map((player) => (
                     <HealthArmorDiv
                         key={player.id}
