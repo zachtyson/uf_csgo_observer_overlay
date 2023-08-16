@@ -271,6 +271,17 @@ function PlayerDiv({ player, side, currentSpec }: PlayerProps): JSX.Element {
                 </div>
                 <div className="utilityBarSection">
                     <div>{getSecondaryWeapon(player)}</div>
+                    <div
+                        className={
+                            side === 'right' ? 'kad rightContainerText' : 'kad'
+                        }
+                    >
+                        {player.match_stats.kills.toString() +
+                            ' / ' +
+                            player.match_stats.assists.toString() +
+                            ' / ' +
+                            player.match_stats.deaths.toString()}
+                    </div>
                 </div>
             </div>
         </div>

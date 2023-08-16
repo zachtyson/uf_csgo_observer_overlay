@@ -530,6 +530,7 @@
     position: relative;
     height: 50%;
     bottom: 0;
+    align-items: center;
 }
 
 .healthBarSectionBackground1 {
@@ -617,4 +618,12 @@
     background-color: transparent;
     height: 3vh;
     right: 0;
+}
+
+.kad {
+    margin-left: 1%;
+    position: absolute;
+    align-items: center; /* Vertical centering */
+    font-size:  100%;
+    color: white;
 }
