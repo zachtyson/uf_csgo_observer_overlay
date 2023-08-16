@@ -22,6 +22,23 @@ interface TeamProps {
     config: TeamData | null;
 }
 
+interface ArmorKitHealthProps {
+    player: Player;
+    side: string;
+}
+
+interface HealthArmorDivLProps {
+    player: Player;
+}
+
+interface RightContainerProps {
+    rightPlayers: Player[];
+}
+
+interface HealthArmorDivRProps {
+    player: Player;
+}
+
 function getHealthColor(health: number): string {
     if (health > 50) {
         return 'white';
@@ -169,9 +186,6 @@ function getHealthColor(health: number): string {
 //     );
 // }
 
-interface HealthArmorDivLProps {
-    player: Player;
-}
 function HealthArmorDivL({ player }: HealthArmorDivLProps): JSX.Element {
     const side = 'L';
     const playerHealth = player.state.health;
@@ -187,16 +201,6 @@ function HealthArmorDivL({ player }: HealthArmorDivLProps): JSX.Element {
             </div>
         </div>
     );
-}
-
-export function getLeftPlayers(players: Player[]): Player[] {
-    const leftPlayers = [];
-    for (let i = 0; i < players.length; i++) {
-        if (players[i].observer_slot < 6 && players[i].observer_slot !== 0) {
-            leftPlayers.push(players[i]);
-        }
-    }
-    return leftPlayers;
 }
 
 interface LeftContainerProps {
@@ -217,11 +221,6 @@ export function LeftContainer({
             ))}
         </div>
     );
-}
-
-interface ArmorKitHealthProps {
-    player: Player;
-    side: string;
 }
 
 export function ArmorKitHealth({
@@ -274,10 +273,6 @@ export function ArmorKitHealth({
     );
 }
 
-interface HealthArmorDivRProps {
-    player: Player;
-}
-
 function HealthArmorDivR({ player }: HealthArmorDivRProps): JSX.Element {
     const side = 'R';
     return (
@@ -288,20 +283,6 @@ function HealthArmorDivR({ player }: HealthArmorDivRProps): JSX.Element {
             </div>
         </div>
     );
-}
-
-export function getRightPlayers(players: Player[]): Player[] {
-    const rightPlayers = [];
-    for (let i = 0; i < players.length; i++) {
-        if (players[i].observer_slot > 5 || players[i].observer_slot === 0) {
-            rightPlayers.push(players[i]);
-        }
-    }
-    return rightPlayers;
-}
-
-interface RightContainerProps {
-    rightPlayers: Player[];
 }
 
 export function RightContainer({
@@ -336,3 +317,23 @@ const Teams: React.FC<TeamProps> = ({ data, config }) => {
     );
 };
 export default Teams;
+
+export function getRightPlayers(players: Player[]): Player[] {
+    const rightPlayers = [];
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].observer_slot > 5 || players[i].observer_slot === 0) {
+            rightPlayers.push(players[i]);
+        }
+    }
+    return rightPlayers;
+}
+
+export function getLeftPlayers(players: Player[]): Player[] {
+    const leftPlayers = [];
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].observer_slot < 6 && players[i].observer_slot !== 0) {
+            leftPlayers.push(players[i]);
+        }
+    }
+    return leftPlayers;
+}
