@@ -219,6 +219,59 @@ export function ArmorKitHealth({
     );
 }
 
+interface PlayerProps {
+    player: Player;
+    side: string;
+    currentSpec: Player | null;
+}
+
+function PlayerDiv({ player, side, currentSpec }: PlayerProps): JSX.Element {
+    if (player.state.health === 0) {
+        // dead players are not rendered for now
+        return <div></div>;
+    }
+    return (
+        <div
+            className={player === currentSpec ? 'unit spec' : 'unit'}
+            key={player.id}
+        >
+            <div className="armorHealthSubsection">
+                {ArmorKitHealth({ player, side })}
+            </div>
+            <div className="healthBarSection">
+                <div className="healthBarSectionBackground1"></div>
+                <div className="healthBarSectionBackground2"></div>
+                <div
+                    className={
+                        'HealthBarBase HealthBar' +
+                        player.team +
+                        'Color HealthBar' +
+                        player.state.health.toString()
+                    }
+                >
+                    <div
+                        className={
+                            side === 'right'
+                                ? 'rightContainerText playerName'
+                                : 'playerName'
+                        }
+                        style={{ marginLeft: '1.5%' }}
+                    >
+                        {side === 'right'
+                            ? player.name +
+                              ' | ' +
+                              player.observer_slot.toString()
+                            : player.observer_slot.toString() +
+                              ' | ' +
+                              player.name}
+                    </div>
+                    <div>{getPrimaryWeapon(player)}</div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export function Container({
     players,
     side,
@@ -236,41 +289,12 @@ export function Container({
     return (
         <div className={className}>
             {players.map((player) => (
-                <div
-                    className={
-                        player === currentSpecPlayer ? 'unit spec' : 'unit'
-                    }
-                    key={player.id}
-                >
-                    <div className="armorHealthSubsection">
-                        {ArmorKitHealth({ player, side })}
-                    </div>
-                    <div className="healthBarSection">
-                        <div
-                            className={
-                                'HealthBarBase HealthBar' +
-                                player.team +
-                                'Color HealthBar' +
-                                player.state.health.toString()
-                            }
-                        >
-                            <div
-                                className={
-                                    side === 'right' ? 'rightContainerText' : ''
-                                }
-                                style={{ marginLeft: '1.5%' }}
-                            >
-                                {side === 'right'
-                                    ? player.name +
-                                      ' | ' +
-                                      player.observer_slot.toString()
-                                    : player.observer_slot.toString() +
-                                      ' | ' +
-                                      player.name}
-                            </div>
-                            <div>{getPrimaryWeapon(player)}</div>
-                        </div>
-                    </div>
+                <div key={player.id}>
+                    {PlayerDiv({
+                        player,
+                        side,
+                        currentSpec: currentSpecPlayer,
+                    })}
                 </div>
             ))}
         </div>
