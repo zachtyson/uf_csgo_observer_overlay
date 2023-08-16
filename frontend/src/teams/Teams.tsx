@@ -234,7 +234,16 @@ export function Container({ players, side }: ContainerProps): JSX.Element {
                                 'Color HealthBar-' +
                                 player.state.health.toString()
                             }
-                        ></div>
+                        >
+                            <div
+                                className={
+                                    side === 'right' ? 'rightContainerText' : ''
+                                }
+                                style={{ marginLeft: '1.5%' }}
+                            >
+                                {player.name}
+                            </div>
+                        </div>
                     </div>
                 </div>
             ))}
