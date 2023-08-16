@@ -514,6 +514,7 @@
     width: 80%;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 
@@ -565,4 +566,13 @@
                     rgb(0, 84, 185) 25%,
                     rgba(0, 135, 176, 1) 100%
     );
+}
+
+.primary {
+    top:0;
+    position: absolute;
+    background-color: transparent;
+    height: 3vh;
+    right: 0;
+    /* Left player primary weapon */
 }

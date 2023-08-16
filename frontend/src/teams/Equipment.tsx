@@ -3,29 +3,14 @@ import { Bomb, Defuse } from '../assets/Icons';
 import { type Player } from '../data_interface';
 import React from 'react';
 
-export function getPrimaryWeapon(side: string, player: Player): JSX.Element {
-    let playerSide = side === 'L' ? 'GunL' : 'GunR';
-
-    // If player somehow doesn't have weapons or a knife
+export function getPrimaryWeapon(player: Player): JSX.Element {
     if (player.weapons == null || player.weapons.weapon_0 == null) {
-        return (
-            <img
-                alt="Primary Weapon"
-                className={playerSide}
-                src={gunMap.get('')}
-            ></img>
-        );
+        return <img alt="Primary Weapon" src={gunMap.get('')}></img>;
     }
 
     // If player is dead, no need to render any image, just returns a blank png
     if (player.state.health === 0) {
-        return (
-            <img
-                alt="Primary Weapon"
-                className={playerSide}
-                src={gunMap.get('')}
-            ></img>
-        );
+        return <img alt="Primary Weapon" src={gunMap.get('')}></img>;
     }
 
     let gun: any;
@@ -63,25 +48,20 @@ export function getPrimaryWeapon(side: string, player: Player): JSX.Element {
 
     // If we get here, then there are no pistols or primary weapons (ie. Just a knife or util)
     if (primary === '') {
-        if (player.weapons.weapon_0.state !== 'active') {
-            playerSide = playerSide + 'u'; // 'u' implies the weapon is unequipped, used to gray out img
-        }
         return (
             <img
                 alt="knife"
-                className={playerSide}
+                className="primary"
                 src={gunMap.get(player.weapons.weapon_0.name)}
             />
         );
     }
 
-    if (!equipped) {
-        playerSide = playerSide + 'u';
-    }
     return (
         <img
             alt="weapon"
-            className={playerSide}
+            className="primary"
+            style={equipped ? {} : { opacity: 0.3 }}
             src={gunMap.get(primary)}
         ></img>
     );

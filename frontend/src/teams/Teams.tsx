@@ -268,6 +268,7 @@ export function Container({
                                       ' | ' +
                                       player.name}
                             </div>
+                            <div>{getPrimaryWeapon(player)}</div>
                         </div>
                     </div>
                 </div>
