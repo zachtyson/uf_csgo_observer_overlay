@@ -1,5 +1,6 @@
 import './Teams.scss';
-import React from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import React, { useEffect, useState } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ArmorHelmet, ArmorFull, Skull } from '../assets/Icons';
@@ -30,6 +31,7 @@ interface ArmorKitHealthProps {
 interface ContainerProps {
     players: Player[];
     side: string;
+    currentSpec: Player | null;
 }
 
 function getHealthColor(health: number): string {
@@ -217,12 +219,29 @@ export function ArmorKitHealth({
     );
 }
 
-export function Container({ players, side }: ContainerProps): JSX.Element {
+export function Container({
+    players,
+    side,
+    currentSpec,
+}: ContainerProps): JSX.Element {
     const className = 'container ' + side + 'Container';
+    let currentSpecPlayer: Player | null = null;
+    if (currentSpec != null && players != null && currentSpec.steamid !== '1') {
+        for (let i = 0; i < players.length; i++) {
+            if (players[i].observer_slot === currentSpec.observer_slot) {
+                currentSpecPlayer = players[i];
+            }
+        }
+    }
     return (
         <div className={className}>
             {players.map((player) => (
-                <div className="unit" key={player.id}>
+                <div
+                    className={
+                        player === currentSpecPlayer ? 'unit spec' : 'unit'
+                    }
+                    key={player.id}
+                >
                     <div className="armorHealthSubsection">
                         {ArmorKitHealth({ player, side })}
                     </div>
@@ -257,18 +276,33 @@ const Teams: React.FC<TeamProps> = ({ data, config }) => {
     if (data == null) {
         return <div></div>;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [currentSpec, setCurrentSpec] = useState<Player | any>(null);
     if (config == null) return <div>Loading...</div>;
     if (data.allplayers == null) return <div>Loading...</div>;
-
     const allPlayers = data.allplayers;
     // convert to array
+    useEffect(() => {
+        // Here, you might derive some new value for currentSpec based on data
+        const newSpec = data.player;
+        // eslint-disable-next-line no-console
+        setCurrentSpec(newSpec);
+    }, [data]); // <-- Note the dependency array
     const playerArray = Object.keys(allPlayers).map((key) => allPlayers[key]);
     const leftPlayers = getLeftPlayers(playerArray);
     const rightPlayers = getRightPlayers(playerArray);
     return (
         <div>
-            <Container players={leftPlayers} side={'left'} />
-            <Container players={rightPlayers} side={'right'} />
+            <Container
+                players={leftPlayers}
+                side={'left'}
+                currentSpec={currentSpec}
+            />
+            <Container
+                players={rightPlayers}
+                side={'right'}
+                currentSpec={currentSpec}
+            />
         </div>
     );
 };
