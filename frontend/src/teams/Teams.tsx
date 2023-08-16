@@ -27,11 +27,6 @@ interface ArmorKitHealthProps {
     side: string;
 }
 
-interface HealthArmorDivProps {
-    player: Player;
-    side: string;
-}
-
 interface ContainerProps {
     players: Player[];
     side: string;
@@ -184,43 +179,26 @@ function getHealthColor(health: number): string {
 //     );
 // }
 
-function HealthArmorDiv({ player, side }: HealthArmorDivProps): JSX.Element {
-    const playerHealth = player.state.health;
-    const healthBarClassName =
-        'HealthBarBase HealthBar' +
-        player.team +
-        'Color HealthBar-' +
-        playerHealth.toString();
-    return (
-        <div className="unit">
-            <div className="armorHealthSubsection">
-                {ArmorKitHealth({ player, side })}
-            </div>
-            <div className="healthBarSection">
-                <div className={healthBarClassName}></div>
-            </div>
-        </div>
-    );
-}
-
 export function Container({ players, side }: ContainerProps): JSX.Element {
-    if (side !== 'L') {
-        return (
-            <div className="container rightContainer">
-                {players.map((player) => (
-                    <HealthArmorDiv
-                        key={player.id}
-                        player={player}
-                        side={side}
-                    />
-                ))}
-            </div>
-        );
-    }
+    const className = 'container ' + side + 'Container';
     return (
-        <div className="container leftContainer">
+        <div className={className}>
             {players.map((player) => (
-                <HealthArmorDiv key={player.id} player={player} side={side} />
+                <div className="unit" key={player.id}>
+                    <div className="armorHealthSubsection">
+                        {ArmorKitHealth({ player, side })}
+                    </div>
+                    <div className="healthBarSection">
+                        <div
+                            className={
+                                'HealthBarBase HealthBar' +
+                                player.team +
+                                'Color HealthBar-' +
+                                player.state.health.toString()
+                            }
+                        ></div>
+                    </div>
+                </div>
             ))}
         </div>
     );
@@ -239,7 +217,7 @@ export function ArmorKitHealth({
     return (
         <div>
             <p
-                className={side === 'R' ? 'rightContainerText' : ''}
+                className={side === 'right' ? 'rightContainerText' : ''}
                 style={{
                     color: getHealthColor(health),
                     // eslint-disable-next-line no-constant-condition
@@ -278,8 +256,8 @@ const Teams: React.FC<TeamProps> = ({ data, config }) => {
     const rightPlayers = getRightPlayers(playerArray);
     return (
         <div className="App">
-            <Container players={leftPlayers} side={'L'} />
-            <Container players={rightPlayers} side={'R'} />
+            <Container players={leftPlayers} side={'left'} />
+            <Container players={rightPlayers} side={'right'} />
         </div>
     );
 };
