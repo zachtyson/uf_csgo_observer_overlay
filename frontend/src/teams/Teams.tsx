@@ -241,7 +241,9 @@ export function Container({ players, side }: ContainerProps): JSX.Element {
                                 }
                                 style={{ marginLeft: '1.5%' }}
                             >
-                                {player.name}
+                                {player.name +
+                                    ' | ' +
+                                    player.observer_slot.toString()}
                             </div>
                         </div>
                     </div>
