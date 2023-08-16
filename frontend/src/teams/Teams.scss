@@ -467,22 +467,9 @@
 //    }
 //}
 
-.App {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .container {
     position: absolute;
     bottom: 0;
-    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -524,11 +511,6 @@
     flex-direction: column;
 }
 
-
-
-.topSubsection {
-    height: 50%;
-}
 
 .armorHealthSubsection {
     width: 20%;

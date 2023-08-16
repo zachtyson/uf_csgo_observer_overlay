@@ -179,31 +179,6 @@ function getHealthColor(health: number): string {
 //     );
 // }
 
-export function Container({ players, side }: ContainerProps): JSX.Element {
-    const className = 'container ' + side + 'Container';
-    return (
-        <div className={className}>
-            {players.map((player) => (
-                <div className="unit" key={player.id}>
-                    <div className="armorHealthSubsection">
-                        {ArmorKitHealth({ player, side })}
-                    </div>
-                    <div className="healthBarSection">
-                        <div
-                            className={
-                                'HealthBarBase HealthBar' +
-                                player.team +
-                                'Color HealthBar-' +
-                                player.state.health.toString()
-                            }
-                        ></div>
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
-}
-
 export function ArmorKitHealth({
     player,
     side,
@@ -242,6 +217,31 @@ export function ArmorKitHealth({
     );
 }
 
+export function Container({ players, side }: ContainerProps): JSX.Element {
+    const className = 'container ' + side + 'Container';
+    return (
+        <div className={className}>
+            {players.map((player) => (
+                <div className="unit" key={player.id}>
+                    <div className="armorHealthSubsection">
+                        {ArmorKitHealth({ player, side })}
+                    </div>
+                    <div className="healthBarSection">
+                        <div
+                            className={
+                                'HealthBarBase HealthBar' +
+                                player.team +
+                                'Color HealthBar-' +
+                                player.state.health.toString()
+                            }
+                        ></div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+}
+
 const Teams: React.FC<TeamProps> = ({ data, config }) => {
     if (data == null) {
         return <div></div>;
@@ -255,7 +255,7 @@ const Teams: React.FC<TeamProps> = ({ data, config }) => {
     const leftPlayers = getLeftPlayers(playerArray);
     const rightPlayers = getRightPlayers(playerArray);
     return (
-        <div className="App">
+        <div>
             <Container players={leftPlayers} side={'left'} />
             <Container players={rightPlayers} side={'right'} />
         </div>
