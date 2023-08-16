@@ -3,6 +3,26 @@ import { Bomb, Defuse } from '../assets/Icons';
 import { type Player } from '../data_interface';
 import React from 'react';
 
+
+export function getRightPlayers(players: Player[]): Player[] {
+    const rightPlayers = [];
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].observer_slot > 5 || players[i].observer_slot === 0) {
+            rightPlayers.push(players[i]);
+        }
+    }
+    return rightPlayers;
+}
+export function getLeftPlayers(players: Player[]): Player[] {
+    const leftPlayers = [];
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].observer_slot < 6 && players[i].observer_slot !== 0) {
+            leftPlayers.push(players[i]);
+        }
+    }
+    return leftPlayers;
+}
+
 export function getPrimaryWeapon(player: Player): JSX.Element {
     if (player.weapons == null || player.weapons.weapon_0 == null) {
         return <img alt="Primary Weapon" src={gunMap.get('')}></img>;

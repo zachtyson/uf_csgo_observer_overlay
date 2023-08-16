@@ -14,6 +14,8 @@ import {
     hasKit,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getNades,
+    getLeftPlayers,
+    getRightPlayers,
 } from './Equipment';
 import { type RootObject, type Player } from '../data_interface';
 import { type TeamData } from '../config_interface';
@@ -336,22 +338,3 @@ const Teams: React.FC<TeamProps> = ({ data, config }) => {
     );
 };
 export default Teams;
-
-export function getRightPlayers(players: Player[]): Player[] {
-    const rightPlayers = [];
-    for (let i = 0; i < players.length; i++) {
-        if (players[i].observer_slot > 5 || players[i].observer_slot === 0) {
-            rightPlayers.push(players[i]);
-        }
-    }
-    return rightPlayers;
-}
-export function getLeftPlayers(players: Player[]): Player[] {
-    const leftPlayers = [];
-    for (let i = 0; i < players.length; i++) {
-        if (players[i].observer_slot < 6 && players[i].observer_slot !== 0) {
-            leftPlayers.push(players[i]);
-        }
-    }
-    return leftPlayers;
-}
