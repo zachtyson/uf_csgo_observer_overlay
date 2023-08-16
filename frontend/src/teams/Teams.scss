@@ -501,6 +501,10 @@
     margin-right:  2%;
 }
 
+.rightContainerText {
+    transform: scaleX(-1);
+}
+
 
 .unit {
     width: 20vw;  /* 20% of the viewport width */
@@ -510,14 +514,21 @@
     flex-direction: row;
 }
 
-.rightSection {
+.healthBarSection {
     width: 80%;
     display: flex;
     flex-direction: column;
 }
 
-.topSubsection {
+.right {
+    transform: scaleX(-1);
+    svg {
+        transform: scaleX(-1);
+    }
+}
 
+
+.topSubsection {
     height: 50%;
 }
 
@@ -570,4 +581,3 @@
                     rgba(0, 135, 176, 1) 100%
     );
 }
-

@@ -27,16 +27,14 @@ interface ArmorKitHealthProps {
     side: string;
 }
 
-interface HealthArmorDivLProps {
+interface HealthArmorDivProps {
     player: Player;
+    side: string;
 }
 
-interface RightContainerProps {
-    rightPlayers: Player[];
-}
-
-interface HealthArmorDivRProps {
-    player: Player;
+interface ContainerProps {
+    players: Player[];
+    side: string;
 }
 
 function getHealthColor(health: number): string {
@@ -186,38 +184,40 @@ function getHealthColor(health: number): string {
 //     );
 // }
 
-function HealthArmorDivL({ player }: HealthArmorDivLProps): JSX.Element {
-    const side = 'L';
+function HealthArmorDiv({ player, side }: HealthArmorDivProps): JSX.Element {
     const playerHealth = player.state.health;
     const healthBarClassName =
-        'LbarBase LbarTColor Lbar-' + playerHealth.toString();
+        'LbarBase Lbar' + player.team + 'Color Lbar-' + playerHealth.toString();
     return (
         <div className="unit">
             <div className="armorHealthSubsection">
                 {ArmorKitHealth({ player, side })}
             </div>
-            <div className="rightSection">
+            <div className="healthBarSection">
                 <div className={healthBarClassName}></div>
             </div>
         </div>
     );
 }
 
-interface LeftContainerProps {
-    leftPlayers: Player[];
-}
-
-export function LeftContainer({
-    leftPlayers,
-}: LeftContainerProps): JSX.Element {
-    const leftDivs = [];
-    for (let i = 0; i < leftPlayers.length; i++) {
-        leftDivs.push(<HealthArmorDivL player={leftPlayers[i]} />);
+export function Container({ players, side }: ContainerProps): JSX.Element {
+    if (side !== 'L') {
+        return (
+            <div className="container rightContainer right">
+                {players.map((player) => (
+                    <HealthArmorDiv
+                        key={player.id}
+                        player={player}
+                        side={side}
+                    />
+                ))}
+            </div>
+        );
     }
     return (
         <div className="container leftContainer">
-            {leftPlayers.map((player) => (
-                <HealthArmorDivL key={player.id} player={player} />
+            {players.map((player) => (
+                <HealthArmorDiv key={player.id} player={player} side={side} />
             ))}
         </div>
     );
@@ -233,29 +233,17 @@ export function ArmorKitHealth({
     const helmet = player.state.helmet;
     const kit = hasKit(player);
     const bomb = hasBomb(player);
-    if (side !== 'L') {
-        return (
-            <div>
-                <p style={{ color: getHealthColor(health) }}>{health}</p>
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                >
-                    {/* Your content here */}
-                    {kit}
-                    {bomb}
-                    {helmet ? <ArmorHelmet /> : armor > 0 && <ArmorFull />}
-                </div>
-            </div>
-        );
-    }
     return (
         <div>
-            <p style={{ color: getHealthColor(health) }}>{health}</p>
+            <p
+                className={side === 'R' ? 'rightContainerText' : ''}
+                style={{
+                    color: getHealthColor(health),
+                    // eslint-disable-next-line no-constant-condition
+                }}
+            >
+                {health}
+            </p>
             <div
                 style={{
                     display: 'flex',
@@ -269,30 +257,6 @@ export function ArmorKitHealth({
                 {bomb}
                 {helmet != null ? <ArmorHelmet /> : armor > 0 && <ArmorFull />}
             </div>
-        </div>
-    );
-}
-
-function HealthArmorDivR({ player }: HealthArmorDivRProps): JSX.Element {
-    const side = 'R';
-    return (
-        <div className="unit">
-            <div className="rightSection"></div>
-            <div className="armorHealthSubsection">
-                {ArmorKitHealth({ player, side })}
-            </div>
-        </div>
-    );
-}
-
-export function RightContainer({
-    rightPlayers,
-}: RightContainerProps): JSX.Element {
-    return (
-        <div className="container rightContainer">
-            {rightPlayers.map((player) => (
-                <HealthArmorDivR key={player.id} player={player} />
-            ))}
         </div>
     );
 }
@@ -311,8 +275,8 @@ const Teams: React.FC<TeamProps> = ({ data, config }) => {
     const rightPlayers = getRightPlayers(playerArray);
     return (
         <div className="App">
-            <LeftContainer leftPlayers={leftPlayers} />
-            <RightContainer rightPlayers={rightPlayers} />
+            <Container players={leftPlayers} side={'L'} />
+            <Container players={rightPlayers} side={'R'} />
         </div>
     );
 };
@@ -327,7 +291,6 @@ export function getRightPlayers(players: Player[]): Player[] {
     }
     return rightPlayers;
 }
-
 export function getLeftPlayers(players: Player[]): Player[] {
     const leftPlayers = [];
     for (let i = 0; i < players.length; i++) {
