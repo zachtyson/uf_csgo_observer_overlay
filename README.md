@@ -1,11 +1,12 @@
 # CSGO Observer Overlay
 
-Custom overlay for CSGO Casters and Observers which uses an Express API and a React Frontend
+Custom overlay for CSGO Casters and Observers which uses an Express for backend, React for frontend, and Java for GUI.
+![img.png](img.png)
 
 ## Setup
 
 -   The Java Runtime Environment (JRE) is required to run the GUI and can be downloaded [here](https://www.java.com/en/download/)
--   Place `gamestate_integration_uf.cfg` in your CSGO cfg folder (`C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\cfg`)
+-   Place `gamestate_integration_uf.cfg` in your CSGO cfg folder (`C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\cfg`) (this is the default location and may be different for you)
 -   Download the latest release
 -   Extract the zip file
 -   Run `Main.exe`
@@ -13,16 +14,6 @@ Custom overlay for CSGO Casters and Observers which uses an Express API and a Re
 -   Open CSGO and join a match as a spectator
 -   Run `cl_draw_only_deathnotices 1` in console to get rid of default HUD
 -   Open OBS and add a Browser Source with URL `http://localhost:3000/` and width/height `1920x1080`
-
-## Startup
-
--   Launch CSGO
--   In root directory:
-    -   `npm run dev` (Runs client and server concurrently in same terminal)
-    -   **OR**
-    -   `npm run backend:start` & `npm run frontend:start` (Each command in a separate terminal, easier to keep track of console logging)
--   Join CSGO match as spectator
-    -   Run `cl_draw_only_deathnotices 1` in console to get rid of default HUD
 
 ## OBS Setup
 
