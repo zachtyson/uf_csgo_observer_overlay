@@ -250,7 +250,7 @@ export function Container({
                             className={
                                 'HealthBarBase HealthBar' +
                                 player.team +
-                                'Color HealthBar-' +
+                                'Color HealthBar' +
                                 player.state.health.toString()
                             }
                         >
