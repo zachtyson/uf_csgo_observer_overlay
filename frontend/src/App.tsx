@@ -80,11 +80,8 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
     return (
         <div>
             <Scoreboard data={response} config={config} />{' '}
-            {/* Pass the object as a prop */}
             <Teams data={response} config={config} />{' '}
-            {/* Pass the object as a prop */}
             <CurrentPlayer data={response} config={config} />{' '}
-            {/* Pass the object as a prop */}
         </div>
     );
 };
