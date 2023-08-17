@@ -185,6 +185,7 @@ function PlayerDiv({ player, side, currentSpec }: PlayerProps): JSX.Element {
                 </div>
                 <div className="utilityBarSection">
                     <div>{getSecondaryWeapon(player)}</div>
+                    <div>{getNades(player)}</div>
                     <div
                         className={
                             side === 'right' ? 'kad rightContainerText' : 'kad'

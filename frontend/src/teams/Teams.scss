@@ -393,49 +393,6 @@
 //    }
 //}
 //
-//.Nades {
-//    height: 100%;
-//    width: 80px;
-//    min-width: 100px;
-//    max-height: 30px;
-//
-//    .Nade {
-//        max-height: 28px;
-//    }
-//
-//    .aInc {
-//        height: 100%;
-//        margin-bottom: 2px;
-//    }
-//
-//    .aMol {
-//        height: 100%;
-//        margin-bottom: 2px;
-//    }
-//
-//    .bSmo {
-//        height: 82%;
-//        margin: 1.5px;
-//        margin-top: 0px;
-//    }
-//
-//    .cFla {
-//        height: 75%;
-//        margin-right: 1px;
-//        margin-left: 1px;
-//        margin-bottom: 2px;
-//    }
-//
-//    .dHe {
-//        height: 73%;
-//    }
-//
-//    .eDec {
-//        height: 75%;
-//        margin-right: 1px;
-//        margin-left: 1px;
-//        margin-bottom: 2px;
-//    }
 //}
 //
 //.secondary {
@@ -673,4 +630,38 @@
     background-color: $Background-opacity;
     height: 50%;
     opacity: 80%;
+}
+
+.teamNades {
+    img {
+        height: 2.5vh;
+        margin-left: 0.1vw;
+    }
+    right: 30%;
+    position: absolute;
+    bottom: 0;
+
+    .weapon_hegrenade {
+        height: 2vh;
+        margin-bottom: 0.1vh;
+        margin-left: 0.1vw;
+    }
+    .weapon_flashbang {
+        margin-right: 0.1vh;
+        margin-bottom: 0.1vh;
+    }
+    .weapon_incgrenade {
+        margin-right: 0.1vh;
+    }
+    .weapon_smokegrenade {
+        height: 2.3vh;
+        margin-bottom: 0.1vh;
+    }
+    .weapon_molotov {
+        height: 2.6vh;
+    }
+    .weapon_decoy {
+        height: 2.3vh;
+        margin-bottom: 0.1vh;
+    }
 }
