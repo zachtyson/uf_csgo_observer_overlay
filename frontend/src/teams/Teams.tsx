@@ -236,18 +236,14 @@ const Teams: React.FC<TeamProps> = ({ data, config }) => {
     if (data == null) {
         return <div></div>;
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [currentSpec, setCurrentSpec] = useState<Player | any>(null);
     if (config == null) return <div>Loading...</div>;
     if (data.allplayers == null) return <div>Loading...</div>;
     const allPlayers = data.allplayers;
-    // convert to array
     useEffect(() => {
-        // Here, you might derive some new value for currentSpec based on data
         const newSpec = data.player;
-        // eslint-disable-next-line no-console
         setCurrentSpec(newSpec);
-    }, [data]); // <-- Note the dependency array
+    }, [data]);
     const playerArray = Object.keys(allPlayers).map((key) => allPlayers[key]);
     const leftPlayers = getLeftPlayers(playerArray);
     const rightPlayers = getRightPlayers(playerArray);
