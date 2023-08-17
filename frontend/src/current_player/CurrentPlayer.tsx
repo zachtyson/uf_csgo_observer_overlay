@@ -1,9 +1,13 @@
 import './CurrentPlayer.scss';
 import React from 'react';
 import {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     HealthFull,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ArmorNone,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ArmorFull,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ArmorHelmet,
     Defuse,
     SmallBomb,
@@ -28,6 +32,7 @@ window.addEventListener('keydown', (event) => {
     }
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function printTeamLogo(side: string, teamOneLogo: any, teamTwoLogo: any): any {
     if (side === 'CT') {
         if (swap === 0) {
@@ -60,6 +65,7 @@ function getNadeClass(nade: string): string {
     return `Nade ${nade}]}`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Grenades(player: Player): JSX.Element {
     if (player == null || player.weapons == null) return <div />;
     let x = '';
@@ -113,6 +119,7 @@ function Grenades(player: Player): JSX.Element {
         </div>
     );
 }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getAmmo(player: Player, weapon: Weapon): JSX.Element {
     if (player == null) {
         return <div />;
@@ -137,6 +144,7 @@ function getAmmo(player: Player, weapon: Weapon): JSX.Element {
     );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function printHealthBar(side: string, player: Player): JSX.Element {
     let x;
     if (side === 'left') {
@@ -198,99 +206,101 @@ const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data, config }) => {
         };
     }
 
-    if (player != null) {
-        return (
-            <div className="currentPlayer">
-                <div className="playerBlock">
-                    <div className="playerInfoTop">
-                        <div className="playerVitals">
-                            <div className="health">
-                                <HealthFull
-                                    className="icon"
-                                    style={{ fill: 'white' }}
-                                />
-                                <div className="vitalNum">
-                                    {' '}
-                                    {player.state.health}{' '}
-                                </div>
-                            </div>
-                            <div className="armor">
-                                {player.state.helmet ? (
-                                    <ArmorHelmet className="icon" />
-                                ) : player.state.armor > 0 ? (
-                                    <ArmorFull className="icon" />
-                                ) : (
-                                    <ArmorNone className="icon" />
-                                )}
-                                <div className="vitalNum">
-                                    {' '}
-                                    {player.state.armor}{' '}
-                                </div>
-                            </div>
-                        </div>
-                        <div className="player-id">
-                            <div
-                                className={
-                                    player.team === 'CT' ? 'ct-name' : 't-name'
-                                }
-                            >
-                                {' '}
-                                <p className="pLeft">{player.name}</p>
-                            </div>
-                            {printHealthBar('left', player)}
-                        </div>
-                    </div>
-                    <div className="playerInfoBottom">
-                        <div className="team">
-                            <img
-                                className="teamImg"
-                                src={printTeamLogo(
-                                    player.team,
-                                    config.teamOneLogo,
-                                    config.teamTwoLogo,
-                                )}
-                                alt=""
-                            />
-                        </div>
-                        <div className="playerInfo">
-                            <div className="player-score">
-                                <div className="score-container">
-                                    <div className="label">K</div>
-                                    <div className="value">
-                                        {player.match_stats.kills}{' '}
-                                    </div>
-                                </div>
-
-                                <div className="score-container">
-                                    <div className="label">A</div>
-                                    <div className="value">
-                                        {player.match_stats.assists}{' '}
-                                    </div>
-                                </div>
-
-                                <div className="score-container">
-                                    <div className="label">D</div>
-                                    <div className="value">
-                                        {player.match_stats.deaths}{' '}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="player-equipment">
-                                <div style={{ height: '50%' }}>
-                                    {Grenades(player)}
-                                </div>
-                                <div style={{ height: '50%' }}>
-                                    {getAmmo(player, weapon)}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    } else {
-        return <div />;
-    }
+    // if (player != null) {
+    //     return (
+    //         <div className="currentPlayer">
+    //             <div className="playerBlock">
+    //                 <div className="playerInfoTop">
+    //                     <div className="playerVitals">
+    //                         <div className="health">
+    //                             <HealthFull
+    //                                 className="icon"
+    //                                 style={{ fill: 'white' }}
+    //                             />
+    //                             <div className="vitalNum">
+    //                                 {' '}
+    //                                 {player.state.health}{' '}
+    //                             </div>
+    //                         </div>
+    //                         <div className="armor">
+    //                             {player.state.helmet ? (
+    //                                 <ArmorHelmet className="icon" />
+    //                             ) : player.state.armor > 0 ? (
+    //                                 <ArmorFull className="icon" />
+    //                             ) : (
+    //                                 <ArmorNone className="icon" />
+    //                             )}
+    //                             <div className="vitalNum">
+    //                                 {' '}
+    //                                 {player.state.armor}{' '}
+    //                             </div>
+    //                         </div>
+    //                     </div>
+    //                     <div className="player-id">
+    //                         <div
+    //                             className={
+    //                                 player.team === 'CT' ? 'ct-name' : 't-name'
+    //                             }
+    //                         >
+    //                             {' '}
+    //                             <p className="pLeft">{player.name}</p>
+    //                         </div>
+    //                         {printHealthBar('left', player)}
+    //                     </div>
+    //                 </div>
+    //                 <div className="playerInfoBottom">
+    //                     <div className="team">
+    //                         <img
+    //                             className="teamImg"
+    //                             src={printTeamLogo(
+    //                                 player.team,
+    //                                 config.teamOneLogo,
+    //                                 config.teamTwoLogo,
+    //                             )}
+    //                             alt=""
+    //                         />
+    //                     </div>
+    //                     <div className="playerInfo">
+    //                         <div className="player-score">
+    //                             <div className="score-container">
+    //                                 <div className="label">K</div>
+    //                                 <div className="value">
+    //                                     {player.match_stats.kills}{' '}
+    //                                 </div>
+    //                             </div>
+    //
+    //                             <div className="score-container">
+    //                                 <div className="label">A</div>
+    //                                 <div className="value">
+    //                                     {player.match_stats.assists}{' '}
+    //                                 </div>
+    //                             </div>
+    //
+    //                             <div className="score-container">
+    //                                 <div className="label">D</div>
+    //                                 <div className="value">
+    //                                     {player.match_stats.deaths}{' '}
+    //                                 </div>
+    //                             </div>
+    //                         </div>
+    //                         <div className="player-equipment">
+    //                             <div style={{ height: '50%' }}>
+    //                                 {Grenades(player)}
+    //                             </div>
+    //                             <div style={{ height: '50%' }}>
+    //                                 {getAmmo(player, weapon)}
+    //                             </div>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     );
+    // } else {
+    //     return <div />;
+    // }
+    if (player == null) return <div />;
+    return <div className="currentPlayer"></div>;
 };
 
 export default CurrentPlayer;
