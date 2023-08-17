@@ -3,29 +3,33 @@ import { Bomb, Defuse } from '../assets/Icons';
 import { type Player } from '../data_interface';
 import React from 'react';
 
-export function getPrimaryWeapon(side: string, player: Player): JSX.Element {
-    let playerSide = side === 'L' ? 'GunL' : 'GunR';
+export function getRightPlayers(players: Player[]): Player[] {
+    const rightPlayers = [];
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].observer_slot > 5 || players[i].observer_slot === 0) {
+            rightPlayers.push(players[i]);
+        }
+    }
+    return rightPlayers;
+}
+export function getLeftPlayers(players: Player[]): Player[] {
+    const leftPlayers = [];
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].observer_slot < 6 && players[i].observer_slot !== 0) {
+            leftPlayers.push(players[i]);
+        }
+    }
+    return leftPlayers;
+}
 
-    // If player somehow doesn't have weapons or a knife
+export function getPrimaryWeapon(player: Player): JSX.Element {
     if (player.weapons == null || player.weapons.weapon_0 == null) {
-        return (
-            <img
-                alt="Primary Weapon"
-                className={playerSide}
-                src={gunMap.get('')}
-            ></img>
-        );
+        return <img alt="Primary Weapon" src={gunMap.get('')}></img>;
     }
 
     // If player is dead, no need to render any image, just returns a blank png
     if (player.state.health === 0) {
-        return (
-            <img
-                alt="Primary Weapon"
-                className={playerSide}
-                src={gunMap.get('')}
-            ></img>
-        );
+        return <img alt="Primary Weapon" src={gunMap.get('')}></img>;
     }
 
     let gun: any;
@@ -63,52 +67,34 @@ export function getPrimaryWeapon(side: string, player: Player): JSX.Element {
 
     // If we get here, then there are no pistols or primary weapons (ie. Just a knife or util)
     if (primary === '') {
-        if (player.weapons.weapon_0.state !== 'active') {
-            playerSide = playerSide + 'u'; // 'u' implies the weapon is unequipped, used to gray out img
-        }
         return (
             <img
                 alt="knife"
-                className={playerSide}
+                className="primary"
                 src={gunMap.get(player.weapons.weapon_0.name)}
             />
         );
     }
 
-    if (!equipped) {
-        playerSide = playerSide + 'u';
-    }
     return (
         <img
             alt="weapon"
-            className={playerSide}
+            className="primary"
+            style={equipped ? {} : { opacity: 0.4 }}
             src={gunMap.get(primary)}
         ></img>
     );
 }
 
-export function getSecondaryWeapon(side: string, player: Player): JSX.Element {
-    let playerSide = side === 'L' ? 'GunL2' : 'GunR2';
-
+export function getSecondaryWeapon(player: Player): JSX.Element {
+    let equipped = true; // Assumes weapon is equipped unless told otherwise
     let secondary = ''; // Initialize secondary weapon name to ""
     if (player.weapons == null || player.weapons.weapon_0 == null) {
-        return (
-            <img
-                alt="Primary Weapon"
-                className={playerSide}
-                src={gunMap.get('')}
-            ></img>
-        );
+        return <img alt="Primary Weapon" src={gunMap.get('')}></img>;
     }
 
     if (!hasPrimary(player)) {
-        return (
-            <img
-                alt="no primary"
-                className={playerSide}
-                src={gunMap.get('')}
-            ></img>
-        );
+        return <img alt="no primary" src={gunMap.get('')}></img>;
     }
 
     let gun;
@@ -116,27 +102,20 @@ export function getSecondaryWeapon(side: string, player: Player): JSX.Element {
         gun = player.weapons[key];
         if (gun.type === 'Pistol') {
             secondary = gun.name;
-            if (gun.state !== 'active') {
-                playerSide = playerSide + 'u';
-            }
+            equipped = gun.state === 'active';
         }
     });
     if (gunMap.get(secondary) != null) {
         return (
             <img
                 alt="gun"
-                className={playerSide}
+                className="secondary"
+                style={equipped ? {} : { opacity: 0.5 }}
                 src={gunMap.get(secondary)}
             ></img>
         );
     }
-    return (
-        <img
-            alt="no gun"
-            className={playerSide}
-            src={gunMap.get(secondary)}
-        ></img>
-    );
+    return <img alt="no gun" src={gunMap.get(secondary)}></img>;
 }
 
 function hasPrimary(player: Player): boolean {
@@ -189,8 +168,7 @@ export function hasKit(player: Player): JSX.Element {
     return <div></div>;
 }
 
-export function getNades(side: string, player: Player): JSX.Element {
-    const playerSide = side === 'L' ? 'NadesL' : 'NadesR';
+export function getNades(player: Player): JSX.Element {
     if (player.weapons == null || player.weapons.weapon_0 == null) {
         return <div className="leftTeamNades"></div>;
     }
@@ -199,6 +177,7 @@ export function getNades(side: string, player: Player): JSX.Element {
     let gun;
     const nades = Array(4).fill('');
     let spot = 0;
+    let equippedIndex = -1;
 
     Object.keys(player.weapons).forEach(function (key) {
         gun = player.weapons[key];
@@ -206,6 +185,9 @@ export function getNades(side: string, player: Player): JSX.Element {
             grenade = gun.name;
             nades[spot] = grenade;
             spot++;
+            if (gun.state === 'active') {
+                equippedIndex = spot - 1;
+            }
         }
     });
 
@@ -216,72 +198,43 @@ export function getNades(side: string, player: Player): JSX.Element {
     nades.reverse();
 
     if (gunMap.get(grenade) !== null) {
-        if (side === 'L') {
-            return leftTeamNades(nades);
-        }
-        return rightTeamNades(nades);
+        return teamNades(nades, equippedIndex);
     }
 
     return (
         <div className="leftTeamNades">
-            <img
-                alt="no nades"
-                className={playerSide}
-                src={gunMap.get(grenade)}
-            />
+            <img alt="no nades" src={gunMap.get(grenade)} />
         </div>
     );
 }
 
-function leftTeamNades(nades: string[]): JSX.Element {
+function teamNades(nades: string[], equippedIndex: number): JSX.Element {
+    // If you're wondering why the code is so ugly and the css is weird, it's because nade svgs are non-uniform and I'm trying to make them all line up
     return (
-        <div className="leftTeamNades">
+        <div className="teamNades">
             <img
                 alt="nades"
-                className={`Nade ${nades[3]}`}
+                className={`${nades[3]}`}
                 src={gunMap.get(nades[3])}
+                style={equippedIndex === 3 ? {} : { opacity: 0.5 }}
             />
             <img
                 alt="nades"
-                className={`Nade ${nades[2]}`}
+                className={`${nades[2]}`}
                 src={gunMap.get(nades[2])}
+                style={equippedIndex === 2 ? {} : { opacity: 0.5 }}
             />
             <img
                 alt="nades"
-                className={`Nade ${nades[1]}`}
+                className={`${nades[1]}`}
                 src={gunMap.get(nades[1])}
+                style={equippedIndex === 1 ? {} : { opacity: 0.5 }}
             />
             <img
                 alt="nades"
-                className={`Nade ${nades[0]}`}
+                className={`${nades[0]}`}
                 src={gunMap.get(nades[0])}
-            />
-        </div>
-    );
-}
-
-function rightTeamNades(nades: string[]): JSX.Element {
-    return (
-        <div className="rightTeamNades">
-            <img
-                alt="nades"
-                className={`Nade ${nades[3]}`}
-                src={gunMap.get(nades[3])}
-            />
-            <img
-                alt="nades"
-                className={`Nade ${nades[2]}`}
-                src={gunMap.get(nades[2])}
-            />
-            <img
-                alt="nades"
-                className={`Nade ${nades[1]}`}
-                src={gunMap.get(nades[1])}
-            />
-            <img
-                alt="nades"
-                className={`Nade ${nades[0]}`}
-                src={gunMap.get(nades[0])}
+                style={equippedIndex === 0 ? {} : { opacity: 0.5 }}
             />
         </div>
     );
