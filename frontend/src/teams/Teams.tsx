@@ -25,7 +25,7 @@ interface TeamProps {
     config: TeamData | null;
 }
 
-interface ArmorKitHealthProps {
+interface PlayerSideProps {
     player: Player;
     side: string;
 }
@@ -44,10 +44,7 @@ function getHealthColor(health: number): string {
     }
     return 'red';
 }
-export function ArmorKitHealth({
-    player,
-    side,
-}: ArmorKitHealthProps): JSX.Element {
+export function ArmorKitHealth({ player, side }: PlayerSideProps): JSX.Element {
     // health,armor,side,helmet,kit,bomb
     const health = player.state.health;
     const armor = player.state.armor;
@@ -88,62 +85,66 @@ interface PlayerProps {
     currentSpec: Player | null;
 }
 
-function PlayerDiv({ player, side, currentSpec }: PlayerProps): JSX.Element {
-    if (player.state.health === 0) {
-        return (
-            <div className="dead">
-                <div className="deadSkullSection">
-                    <Skull></Skull>
-                </div>
-                <div className="deadNameKADSection">
+function DeadPlayer({ player, side }: PlayerSideProps): JSX.Element {
+    return (
+        <div className="dead">
+            <div className="deadSkullSection">
+                <Skull></Skull>
+            </div>
+            <div className="deadNameKADSection">
+                <div
+                    className={
+                        side === 'right'
+                            ? 'rightContainerText deadName'
+                            : 'deadName'
+                    }
+                >
                     <div
-                        className={
-                            side === 'right'
-                                ? 'rightContainerText deadName'
-                                : 'deadName'
-                        }
+                        style={{
+                            ...(side === 'left'
+                                ? { marginLeft: '1.5%' }
+                                : { marginRight: '1.5%' }),
+                        }}
                     >
-                        <div
-                            style={{
-                                ...(side === 'left'
-                                    ? { marginLeft: '1.5%' }
-                                    : { marginRight: '1.5%' }),
-                            }}
-                        >
-                            {' '}
-                            {side === 'right'
-                                ? player.name +
-                                  ' | ' +
-                                  player.observer_slot.toString()
-                                : player.observer_slot.toString() +
-                                  ' | ' +
-                                  player.name}
-                        </div>
+                        {' '}
+                        {side === 'right'
+                            ? player.name +
+                              ' | ' +
+                              player.observer_slot.toString()
+                            : player.observer_slot.toString() +
+                              ' | ' +
+                              player.name}
                     </div>
+                </div>
+                <div
+                    className={
+                        side === 'right'
+                            ? 'rightContainerText deadKAD'
+                            : 'deadKAD'
+                    }
+                >
                     <div
-                        className={
-                            side === 'right'
-                                ? 'rightContainerText deadKAD'
-                                : 'deadKAD'
-                        }
+                        style={{
+                            ...(side === 'left'
+                                ? { marginLeft: '1.5%' }
+                                : { marginRight: '1.5%' }),
+                        }}
                     >
-                        <div
-                            style={{
-                                ...(side === 'left'
-                                    ? { marginLeft: '1.5%' }
-                                    : { marginRight: '1.5%' }),
-                            }}
-                        >
-                            {player.match_stats.kills.toString() +
-                                ' / ' +
-                                player.match_stats.assists.toString() +
-                                ' / ' +
-                                player.match_stats.deaths.toString()}
-                        </div>
+                        {player.match_stats.kills.toString() +
+                            ' / ' +
+                            player.match_stats.assists.toString() +
+                            ' / ' +
+                            player.match_stats.deaths.toString()}
                     </div>
                 </div>
             </div>
-        );
+        </div>
+    );
+}
+
+function PlayerDiv({ player, side, currentSpec }: PlayerProps): JSX.Element {
+    if (player.state.health === 0) {
+        return <DeadPlayer player={player} side={side} />;
     }
     return (
         <div
