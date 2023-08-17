@@ -182,6 +182,17 @@ function printHealthBar(side: string, player: Player): JSX.Element {
     return <div className={x + 'Chart'}>{<div className={x + 'bar-D'} />}</div>;
 }
 
+interface sectionProps {
+    player: Player;
+}
+
+function LeftSection({ player }: sectionProps): JSX.Element {
+    return <div className="leftCurrentSection" />;
+}
+function RightSection({ player }: sectionProps): JSX.Element {
+    return <div className="rightCurrentSection" />;
+}
+
 const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data, config }) => {
     if (data == null) return <div />;
     if (config == null) return <div />;
@@ -300,7 +311,12 @@ const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data, config }) => {
     //     return <div />;
     // }
     if (player == null) return <div />;
-    return <div className="currentPlayer"></div>;
+    return (
+        <div className="currentPlayer">
+            <LeftSection player={player} />
+            <RightSection player={player} />
+        </div>
+    );
 };
 
 export default CurrentPlayer;

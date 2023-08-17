@@ -337,8 +337,21 @@
     width: 25vw;
     height: 10vh;
     position: absolute;
-    background-color: red;
+    display: flex;
+    flex-direction: row;
     left: 50%;
     bottom: 5%;
     transform: translate(-50%, -50%);
+}
+
+.leftCurrentSection {
+    background-color: red;
+    width: 40%;
+    height: 100%;
+}
+
+.rightCurrentSection {
+    background-color: blue;
+    width: 60%;
+    height: 100%;
 }
