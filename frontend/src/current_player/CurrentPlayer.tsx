@@ -176,7 +176,7 @@ function printHealthBar(side: string, player: Player): JSX.Element {
 
 const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data, config }) => {
     if (data == null) return <div />;
-    if (config == null) return <div>Loading...</div>;
+    if (config == null) return <div />;
     const player = data.player;
     let weapon: Weapon | null = null;
     // Iterate over the weapon object to a weapon where weapons.state == active
