@@ -44,145 +44,6 @@ function getHealthColor(health: number): string {
     }
     return 'red';
 }
-
-// function printArmorKitHealth(player: Player, side: string): JSX.Element {
-//     if (side !== 'L') {
-//         return (
-//             <div>
-//                 {' '}
-//                 <p style={{ color: getHealthColor(player.state.health) }}>
-//                     {player.state.health}
-//                 </p>
-//                 {player.state.helmet ? (
-//                     <ArmorHelmet />
-//                 ) : (
-//                     player.state.armor > 0 && <ArmorFull />
-//                 )}
-//                 {hasBomb(player)}
-//                 {hasKit(player)}
-//             </div>
-//         );
-//     }
-//     return (
-//         <div>
-//             <p style={{ color: getHealthColor(player.state.health) }}>
-//                 {player.state.health}
-//             </p>
-//             {hasKit(player)}
-//             {hasBomb(player)}
-//             {player.state.helmet ? (
-//                 <ArmorHelmet />
-//             ) : (
-//                 player.state.armor > 0 && <ArmorFull />
-//             )}
-//         </div>
-//     );
-// }
-
-// function printHealthBar(player: Player, side: string): JSX.Element {
-//     let x = '';
-//     if (side === 'L') {
-//         x = 'L';
-//     } else {
-//         x = 'R';
-//     }
-//     let y = '';
-//     if (player.team === 'CT') {
-//         y = 'CT';
-//     } else {
-//         y = 'T';
-//     }
-//     if (player.state.health > 0) {
-//         return (
-//             <div className={x + 'Chart'}>
-//                 {
-//                     <div
-//                         className={
-//                             side === 'L'
-//                                 ? 'Lbar' +
-//                                   y.toString() +
-//                                   '-' +
-//                                   player.state.health.toString()
-//                                 : 'Rbar' +
-//                                   y.toString() +
-//                                   '-' +
-//                                   player.state.health.toString()
-//                         }
-//                     />
-//                 }
-//             </div>
-//         );
-//     }
-//     return <div className={x + 'Chart'}>{<div className={x + 'bar-D'} />}</div>;
-// }
-
-// function printTeam(team: Player[], side: string, p: Player): JSX.Element {
-//     return (
-//         <div className={side === 'L' ? 'Lplayers' : 'Rplayers'}>
-//             {team?.map((player: Player, index: number) => (
-//                 <div
-//                     className={
-//                         (player.state.health === 0 ? 'dead ' : 'alive ') +
-//                         (side === 'L' ? 'LplayerBlock' : 'RplayerBlock')
-//                     }
-//                     key={player.observer_slot}
-//                     id={player.observer_slot === p.observer_slot ? 'spec' : ''}
-//                 >
-//                     <div className={side === 'L' ? 'LArmor' : 'RArmor'}>
-//                         {player.state.health > 0 ? (
-//                             <div>{printArmorKitHealth(player, side)}</div>
-//                         ) : (
-//                             <Skull className="skull" />
-//                         )}
-//                     </div>
-//                     <div>
-//                         <div
-//                             className={
-//                                 side === 'L' ? 'LplayerInfo' : 'RplayerInfo'
-//                             }
-//                         >
-//                             <div className="healthBarText">
-//                                 <div>{getPrimaryWeapon(side, player)}</div>
-//
-//                                 {side === 'L' ? (
-//                                     <p className="pLeft">
-//                                         {player.observer_slot} | {player.name}{' '}
-//                                     </p>
-//                                 ) : (
-//                                     <p className="pRight">
-//                                         {player.name} | {player.observer_slot}{' '}
-//                                     </p>
-//                                 )}
-//                             </div>
-//                             {printHealthBar(player, side)}
-//                         </div>
-//
-//                         <div
-//                             className={
-//                                 side === 'L' ? 'subTextLeft' : 'subTextRight'
-//                             }
-//                         >
-//                             <div className="secondary">
-//                                 {getSecondaryWeapon(side, player)}
-//                             </div>
-//                             <div className="Nades">
-//                                 {getNades(side, player)}
-//                             </div>
-//                             <div className="playerStats">
-//                                 <p>
-//                                     {player.match_stats.kills} /{' '}
-//                                     {player.match_stats.assists} /{' '}
-//                                     {player.match_stats.deaths}
-//                                 </p>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//             ))}
-//         </div>
-//     );
-// }
-
 export function ArmorKitHealth({
     player,
     side,
@@ -229,8 +90,60 @@ interface PlayerProps {
 
 function PlayerDiv({ player, side, currentSpec }: PlayerProps): JSX.Element {
     if (player.state.health === 0) {
-        // dead players are not rendered for now
-        return <div></div>;
+        return (
+            <div className="dead">
+                <div className="deadSkullSection">
+                    <Skull></Skull>
+                </div>
+                <div className="deadNameKADSection">
+                    <div
+                        className={
+                            side === 'right'
+                                ? 'rightContainerText deadName'
+                                : 'deadName'
+                        }
+                    >
+                        <div
+                            style={{
+                                ...(side === 'left'
+                                    ? { marginLeft: '1.5%' }
+                                    : { marginRight: '1.5%' }),
+                            }}
+                        >
+                            {' '}
+                            {side === 'right'
+                                ? player.name +
+                                  ' | ' +
+                                  player.observer_slot.toString()
+                                : player.observer_slot.toString() +
+                                  ' | ' +
+                                  player.name}
+                        </div>
+                    </div>
+                    <div
+                        className={
+                            side === 'right'
+                                ? 'rightContainerText deadKAD'
+                                : 'deadKAD'
+                        }
+                    >
+                        <div
+                            style={{
+                                ...(side === 'left'
+                                    ? { marginLeft: '1.5%' }
+                                    : { marginRight: '1.5%' }),
+                            }}
+                        >
+                            {player.match_stats.kills.toString() +
+                                ' / ' +
+                                player.match_stats.assists.toString() +
+                                ' / ' +
+                                player.match_stats.deaths.toString()}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     }
     return (
         <div
