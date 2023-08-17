@@ -1,4 +1,4 @@
-import './current_player.scss';
+import './CurrentPlayer.scss';
 import React from 'react';
 import {
     HealthFull,

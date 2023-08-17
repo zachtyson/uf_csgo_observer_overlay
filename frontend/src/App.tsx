@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { io, type Socket } from 'socket.io-client';
 import Scoreboard from './scoreboard/Scoreboard';
 import Teams from './teams/Teams';
-import CurrentPlayer from './current_player/current_player';
+import CurrentPlayer from './current_player/CurrentPlayer';
 import { type ConfigData } from './config_interface';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
