@@ -3,6 +3,15 @@ import fs from 'fs';
 import http from 'http';
 import socketIo from 'socket.io';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let halfLength = 15; // 30 rounds in a game, 15 rounds in a half
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let maxRounds = 30; // 30 rounds in a game, 15 rounds in a half
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let overtimeHalfLength = 3; // 6 rounds in overtime, 3 rounds in a half
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let teamOneStartingSide = 'CT';
+
 async function getConfig(): Promise<any> {
     // read config.json
     try {
@@ -97,6 +106,10 @@ async function startServer(): Promise<void> {
     } else {
         port = config.application.port;
         host = config.application.host;
+        teamOneStartingSide = config.team_data.teamOneStartingSide;
+        halfLength = config.team_data.halfLength;
+        maxRounds = config.team_data.maxRounds;
+        overtimeHalfLength = config.team_data.overtimeHalfLength;
     }
     try {
         const app = express();
