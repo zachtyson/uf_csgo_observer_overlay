@@ -224,7 +224,7 @@ function LeftSection({ player, config }: sectionProps): JSX.Element {
 function RightSection({ player }: sectionProps): JSX.Element {
     return (
         <div className="rightCurrentSection">
-            <div className="upper backgroundSolid">
+            <div className="upper backgroundOpacity">
                 <div
                     className={
                         'currentPlayerHealthBarBase HealthBar' +
@@ -235,7 +235,7 @@ function RightSection({ player }: sectionProps): JSX.Element {
                 />
                 <div className="currentPlayerName"> {player.name} </div>
             </div>
-            <div className="lower backgroundOpacity">
+            <div className="lower backgroundOpacity2">
                 <div className="currentPlayerKAD">
                     <div className="currentPlayerStat">
                         <div className="currentPlayerStatValue">K</div>
