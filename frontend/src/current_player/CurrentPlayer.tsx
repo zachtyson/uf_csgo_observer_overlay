@@ -159,11 +159,20 @@ function LeftSection({ player, config }: sectionProps): JSX.Element {
         <div className="leftCurrentSection">
             <div className="upper backgroundSolid">
                 <div className="healthRow">
-                    <HealthFull /> {player.state.health}
+                    <div className="currentPlayerHealthArmorValue">
+                        <HealthFull />
+                    </div>
+                    <div className="currentPlayerHealthArmorValue">
+                        <p>{player.state.health}</p>
+                    </div>
                 </div>
                 <div className="healthRow">
-                    <ArmorCurrent player={player} config={config} />{' '}
-                    {player.state.armor}
+                    <div className="currentPlayerHealthArmorValue">
+                        <ArmorCurrent player={player} config={config} />
+                    </div>
+                    <div className="currentPlayerHealthArmorValue">
+                        <p>{player.state.armor}</p>
+                    </div>
                 </div>
             </div>
             <div className="lower backgroundOpacity teamImg">
