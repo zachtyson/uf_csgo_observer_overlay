@@ -86,6 +86,8 @@ export interface Player {
 export interface AllPlayers {
     teamOne: Player[] | null;
     teamTwo: Player[] | null;
+    teamOneSide?: string;
+    teamTwoSide?: string;
 }
 
 export interface PhaseCountdowns {
