@@ -1,36 +1,13 @@
 import React from 'react';
-import {
-    type RootObject,
-    type AllPlayers,
-    type Player,
-} from '../data_interface';
+import { type RootObject } from '../data_interface';
 import './Scoreboard.scss';
 import { Defuse, FlashingBomb } from '../assets/Icons';
 import { type TeamData } from '../config_interface';
 
-let teamOneSide: string = 'CT';
-let swap = 0;
 interface ScoreboardProps {
     data: RootObject; // Update the type according to your data structure
     config: TeamData | null;
 }
-
-window.addEventListener('keydown', (event) => {
-    if (event.key === '`') {
-        if (swap === 0) {
-            swap = 1;
-        } else {
-            swap = 0;
-        }
-    }
-    if (event.key === '0') {
-        if (teamOneSide === 'CT') {
-            teamOneSide = 'T';
-        } else {
-            teamOneSide = 'CT';
-        }
-    }
-});
 
 function printRound(num: number, CTScore: number, TScore: number): JSX.Element {
     if (num <= 29) {
@@ -89,39 +66,30 @@ function printTime(
     return <div className="time">{formattedSeconds}</div>;
 }
 
-function printTeamLogo(side: boolean, teamOneLogo: any, teamTwoLogo: any): any {
-    if (side) {
-        if (swap === 0) {
-            return teamOneLogo;
-        } else {
-            return teamTwoLogo;
-        }
-    } else {
-        if (swap === 0) {
-            return teamTwoLogo;
-        } else {
-            return teamOneLogo;
-        }
-    }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function printCTWinLogo(teamOneLogo: any, teamTwoLogo: any): any {
-    if (swap !== 0) {
-        return teamTwoLogo;
-    } else {
-        return teamOneLogo;
-    }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function printTWinLogo(teamOneLogo: any, teamTwoLogo: any): any {
-    if (swap !== 0) {
+function printTeamLogo(side: string, teamOneLogo: any, teamTwoLogo: any): any {
+    if (side === 'L') {
         return teamOneLogo;
     } else {
         return teamTwoLogo;
     }
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// function printCTWinLogo(teamOneLogo: any, teamTwoLogo: any): any {
+//     if (swap !== 0) {
+//         return teamTwoLogo;
+//     } else {
+//         return teamOneLogo;
+//     }
+// }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// function printTWinLogo(teamOneLogo: any, teamTwoLogo: any): any {
+//     if (swap !== 0) {
+//         return teamOneLogo;
+//     } else {
+//         return teamTwoLogo;
+//     }
+// }
 
 function printTeamName(
     side: string,
@@ -130,40 +98,22 @@ function printTeamName(
 ): string {
     // team one is always at left
     // team one should start ct, if they don't, press 0
-    if (side === 'R') {
-        if (teamOneSide === 'T') {
-            return teamOneName;
-        }
-        return teamTwoName;
-    } else {
-        if (teamOneSide === 'T') {
-            return teamTwoName;
-        }
+    if (side === 'L') {
         return teamOneName;
     }
-}
-
-function hasCTPlayerOnSlots1To5(allPlayers: AllPlayers): boolean {
-    if (allPlayers == null) {
-        return false;
-    }
-    return Object.values(allPlayers).some(
-        (player: Player) =>
-            player.team === 'CT' &&
-            player.observer_slot >= 1 &&
-            player.observer_slot <= 5,
-    );
+    return teamTwoName;
 }
 
 const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
     if (data == null) return <div>Loading...</div>;
     if (config == null) return <div>Loading...</div>;
-    teamOneSide = config.teamOneStartingSide;
+    const teamOneSide = data.allplayers.teamOneSide;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const teamTwoSide = data.allplayers.teamTwoSide;
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { team_ct, team_t } = data.map;
     // console.log(data);
-    const isLeftCT: boolean = hasCTPlayerOnSlots1To5(data.allplayers);
     if (data.phase_countdowns === undefined) return <div>Loading...</div>;
     return (
         <div className="parent">
@@ -179,7 +129,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
                 <div className="teamImage">
                     <img
                         src={printTeamLogo(
-                            isLeftCT,
+                            'L',
                             config.teamOneLogo,
                             config.teamTwoLogo,
                         )}
@@ -189,10 +139,12 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
                 <div className="teamScore">
                     <p
                         className={
-                            isLeftCT ? 'defender-score' : 'attacker-score'
+                            teamOneSide === 'CT'
+                                ? 'defender-score'
+                                : 'attacker-score'
                         }
                     >
-                        {isLeftCT ? team_ct.score : team_t.score}
+                        {teamOneSide === 'CT' ? team_ct.score : team_t.score}
                     </p>
                 </div>
                 <div className="matchInfo">
@@ -202,16 +154,18 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
                 <div className="teamScore">
                     <p
                         className={
-                            isLeftCT ? 'attacker-score' : 'defender-score'
+                            teamOneSide === 'CT'
+                                ? 'attacker-score'
+                                : 'defender-score'
                         }
                     >
-                        {isLeftCT ? team_t.score : team_ct.score}
+                        {teamOneSide === 'CT' ? team_t.score : team_ct.score}
                     </p>
                 </div>
                 <div className="teamImage">
                     <img
                         src={printTeamLogo(
-                            !isLeftCT,
+                            'R',
                             config.teamOneLogo,
                             config.teamTwoLogo,
                         )}
