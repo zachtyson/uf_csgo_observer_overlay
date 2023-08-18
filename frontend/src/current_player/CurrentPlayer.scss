@@ -415,25 +415,6 @@
 }
 
 
-
-.HealthBarTColor {
-    background: linear-gradient(
-                    90deg,
-                    rgba(156, 36, 0, 1) 0%,
-                    rgba(152, 79, 0, 1) 25%,
-                    rgba(213, 96, 0, 1) 100%
-    );
-}
-
-.HealthBarCTColor {
-    background: linear-gradient(
-                    90deg,
-                    rgb(0, 63, 176) 0%,
-                    rgb(0, 84, 185) 25%,
-                    rgba(0, 135, 176, 1) 100%
-    );
-}
-
 .currentPlayerName {
     position: absolute;
     margin-left: 0.5vw;
@@ -441,4 +422,27 @@
     align-items: center;
     height: 100%;
     width: 100%;
+}
+
+.currentPlayerKAD {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 50%;
+    flex-direction: row;
+}
+
+.currentPlayerStat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 20%;
+    flex-direction: column;
+}
+
+.currentPlayerStatValue {
+    font-size: 2vh;
+    color: white;
 }

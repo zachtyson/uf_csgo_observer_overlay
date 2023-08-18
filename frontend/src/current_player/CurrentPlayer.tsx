@@ -235,7 +235,28 @@ function RightSection({ player }: sectionProps): JSX.Element {
                 />
                 <div className="currentPlayerName"> {player.name} </div>
             </div>
-            <div className="lower"></div>
+            <div className="lower backgroundOpacity">
+                <div className="currentPlayerKAD">
+                    <div className="currentPlayerStat">
+                        <div className="currentPlayerStatValue">K</div>
+                        <div className="currentPlayerStatValue">
+                            {player.match_stats.kills}
+                        </div>
+                    </div>
+                    <div className="currentPlayerStat">
+                        <div className="currentPlayerStatValue">A</div>
+                        <div className="currentPlayerStatValue">
+                            {player.match_stats.assists}
+                        </div>
+                    </div>
+                    <div className="currentPlayerStat">
+                        <div className="currentPlayerStatValue">D</div>
+                        <div className="currentPlayerStatValue">
+                            {player.match_stats.deaths}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
