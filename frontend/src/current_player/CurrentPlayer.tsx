@@ -184,6 +184,7 @@ function printHealthBar(side: string, player: Player): JSX.Element {
 
 interface sectionProps {
     player: Player;
+    config: TeamData;
 }
 
 function ArmorCurrent({ player }: sectionProps): JSX.Element {
@@ -195,7 +196,7 @@ function ArmorCurrent({ player }: sectionProps): JSX.Element {
     return <ArmorNone />;
 }
 
-function LeftSection({ player }: sectionProps): JSX.Element {
+function LeftSection({ player, config }: sectionProps): JSX.Element {
     return (
         <div className="leftCurrentSection">
             <div className="upper backgroundSolid">
@@ -203,10 +204,20 @@ function LeftSection({ player }: sectionProps): JSX.Element {
                     <HealthFull /> {player.state.health}
                 </div>
                 <div className="healthRow">
-                    <ArmorCurrent player={player} /> {player.state.armor}
+                    <ArmorCurrent player={player} config={config} />{' '}
+                    {player.state.armor}
                 </div>
             </div>
-            <div className="lower backgroundOpacity"></div>
+            <div className="lower backgroundOpacity teamImg">
+                <img
+                    src={printTeamLogo(
+                        player.team,
+                        config.teamOneLogo,
+                        config.teamTwoLogo,
+                    )}
+                    alt="team logo"
+                />
+            </div>
         </div>
     );
 }
@@ -339,8 +350,8 @@ const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data, config }) => {
     if (player == null) return <div />;
     return (
         <div className="currentPlayer">
-            <LeftSection player={player} />
-            <RightSection player={player} />
+            <LeftSection player={player} config={config} />
+            <RightSection player={player} config={config} />
         </div>
     );
 };
