@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { json } from 'express';
 import fs from 'fs';
 import http from 'http';
 import socketIo from 'socket.io';
@@ -12,6 +12,41 @@ async function getConfig(): Promise<any> {
         console.error('Error reading config.json:', err);
         return null;
     }
+}
+
+type PlayerADRStore = Record<string, Record<number, number>>;
+
+const playerADRStore: PlayerADRStore = {};
+
+type PlayerADR = Record<string, number>;
+
+const playerADR: PlayerADR = {};
+
+function updateData(userId: string, roundNum: number, value: number): void {
+    if (playerADRStore[userId] == null) {
+        playerADRStore[userId] = {};
+    }
+
+    if (playerADRStore[userId][roundNum] !== value) {
+        playerADRStore[userId][roundNum] = value;
+    }
+}
+
+function getADRForUser(userId: string): number {
+    const levels = playerADRStore[userId];
+    const totalLevels = Object.keys(levels).length;
+
+    const sum = Object.values(levels).reduce((acc, curr) => acc + curr, 0);
+
+    if (totalLevels === 0) {
+        return 0;
+    }
+
+    if (totalLevels === 1) {
+        return sum;
+    }
+
+    return Math.round(sum / (totalLevels - 1));
 }
 
 async function startServer(): Promise<void> {
@@ -57,6 +92,27 @@ async function startServer(): Promise<void> {
                             io.emit('spec', true);
                             // log.info("[SYSTEM] Sent data to frontend via socket");
                             io.emit('data', jsonData);
+                            const keys = Object.keys(jsonData.allplayers);
+                            for (let i = 0; i < keys.length; i++) {
+                                const steamID = keys[i];
+                                const player = jsonData.allplayers[steamID];
+                                if (player != null) {
+                                    const adr = player.state.round_totaldmg;
+                                    const roundNum = jsonData.map.round;
+                                    if (jsonData.round.phase === 'over') {
+                                        updateData(steamID, roundNum - 1, adr);
+                                    } else {
+                                        updateData(steamID, roundNum, adr);
+                                    }
+                                    if (jsonData.round.phase === 'freezetime') {
+                                        getADRForUser(steamID);
+                                        playerADR[steamID] =
+                                            getADRForUser(steamID);
+                                    }
+                                }
+                            }
+                            // console.log(playerADRStore);
+                            // console.log(playerADR);
                         }
                     } catch (e) {
                         // log.error(`[WEBDATA] Error retrieving data from API: ${e}`);
