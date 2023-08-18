@@ -83,7 +83,10 @@ export interface Player {
     adr?: number;
 }
 
-export type AllPlayers = Record<string, Player>;
+export interface AllPlayers {
+    teamOne: Player[] | null;
+    teamTwo: Player[] | null;
+}
 
 export interface PhaseCountdowns {
     phase: string;

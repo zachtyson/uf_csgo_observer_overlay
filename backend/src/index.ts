@@ -178,6 +178,8 @@ async function startServer(): Promise<void> {
                                 jsonData.allplayers,
                                 jsonData.map.round,
                             );
+                            delete jsonData.allplayers;
+                            jsonData.allplayers = {};
                             jsonData.allplayers.teamOne = teamOne;
                             jsonData.allplayers.teamTwo = teamTwo;
                             io.emit('data', jsonData);
