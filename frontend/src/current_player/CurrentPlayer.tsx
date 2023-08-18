@@ -1,13 +1,9 @@
 import './CurrentPlayer.scss';
 import React from 'react';
 import {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     HealthFull,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ArmorNone,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ArmorFull,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ArmorHelmet,
     Defuse,
     Bullets,
@@ -32,7 +28,6 @@ window.addEventListener('keydown', (event) => {
     }
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function printTeamLogo(side: string, teamOneLogo: any, teamTwoLogo: any): any {
     if (side === 'CT') {
         if (swap === 0) {
@@ -109,7 +104,6 @@ function teamNades(nades: string[]): JSX.Element {
     );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getAmmo(player: Player, weapon: Weapon | undefined): JSX.Element {
     if (player == null) {
         return <div />;
