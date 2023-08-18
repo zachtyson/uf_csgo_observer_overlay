@@ -298,7 +298,6 @@ const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data, config }) => {
             paintkit: 'default',
         };
     }
-    if (player == null) return <div />;
     return (
         <div className="currentPlayer">
             <LeftSection player={player} config={config} />
