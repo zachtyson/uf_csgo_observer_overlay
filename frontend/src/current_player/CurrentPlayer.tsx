@@ -267,6 +267,8 @@ const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data, config }) => {
     if (data == null) return <div />;
     if (config == null) return <div />;
     const player = data.player;
+    if (player == null) return <div />;
+    if (player.team == null) return <div />;
     let weapon: Weapon | null = null;
     // Iterate over the weapon object to a weapon where weapons.state == active
     for (let i = 0; i < Object.keys(data.player.weapons).length; i++) {
