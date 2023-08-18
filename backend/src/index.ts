@@ -1,4 +1,4 @@
-import express, { json } from 'express';
+import express from 'express';
 import fs from 'fs';
 import http from 'http';
 import socketIo from 'socket.io';
@@ -125,31 +125,30 @@ function getTeamTwo(allplayers: any, round: number): any[] {
     return teamTwo;
 }
 
-function getSideForRound(
-    round: number,
+function getSideForTeamOne(
+    currRound: number,
     halfLength: number,
     maxRounds: number,
     overtimeHalfLength: number,
-    teamOneCurrentSide: teamType,
+    teamOneStartingSide: teamType,
+    phase: string,
 ): teamType {
-    if (round < maxRounds) {
+    if (currRound < maxRounds) {
         if (teamOneStartingSide === 'CT') {
-            return round < halfLength ? 'CT' : 'T';
+            return currRound < halfLength ? 'CT' : 'T';
         }
-        return round < halfLength ? 'T' : 'CT';
+        return currRound < halfLength ? 'T' : 'CT';
     } else {
         // We're in overtime
-        const overtimeRound = round - maxRounds;
-        const overtimePeriod = Math.floor(
-            overtimeRound / (2 * overtimeHalfLength),
-        );
+        const overtimeRound = currRound - maxRounds;
+        const period = Math.floor(overtimeRound / overtimeHalfLength) % 4;
 
-        // Even overtime periods start with T, odd overtime periods start with CT
-        const isTEvenPeriod = overtimePeriod % 2 === 0;
-        if (overtimeRound % (2 * overtimeHalfLength) < overtimeHalfLength) {
-            return isTEvenPeriod ? 'T' : 'CT';
+        if (period === 0 || period === 3) {
+            // Non-starting side for teamOne
+            return teamOneStartingSide === 'T' ? 'CT' : 'T';
         } else {
-            return isTEvenPeriod ? 'CT' : 'T';
+            // Starting side for teamOne
+            return teamOneStartingSide;
         }
     }
 }
@@ -181,18 +180,17 @@ function splitPlayersIntoTeams(jsonData: any): void {
     if (jsonData.map == null || jsonData.map.round == null) {
         return;
     }
-    const round = jsonData.map.round;
-    const side = getSideForRound(
-        round,
+    const currRound = jsonData.map.round;
+    let side = getSideForTeamOne(
+        currRound,
         halfLength,
         maxRounds,
         overtimeHalfLength,
-        teamOneCurrentSide,
+        teamOneStartingSide,
+        jsonData.map.phase,
     );
     if (jsonData.map.phase === 'intermission') {
-        const temp = teamOne;
-        jsonData.allplayers.teamOne = teamTwo;
-        jsonData.allplayers.teamTwo = temp;
+        side = side === 'CT' ? 'T' : 'CT';
     }
     teamOneCurrentSide = side;
     jsonData.allplayers.teamOneSide = side;
