@@ -120,21 +120,23 @@
 
 
 .HealthBarTColor {
-    background: linear-gradient(
-                    90deg,
-                    rgba(156, 36, 0, 1) 0%,
-                    rgba(152, 79, 0, 1) 25%,
-                    rgba(213, 96, 0, 1) 100%
-    );
+    //background: linear-gradient(
+    //                90deg,
+    //                rgba(156, 36, 0, 1) 0%,
+    //                rgba(152, 79, 0, 1) 25%,
+    //                rgba(213, 96, 0, 1) 100%
+    //);
+    background: $T-color;
 }
 
 .HealthBarCTColor {
-    background: linear-gradient(
-                    90deg,
-                    rgb(0, 63, 176) 0%,
-                    rgb(0, 84, 185) 25%,
-                    rgba(0, 135, 176, 1) 100%
-    );
+    //background: linear-gradient(
+    //                90deg,
+    //                rgb(0, 63, 176) 0%,
+    //                rgb(0, 84, 185) 25%,
+    //                rgba(0, 135, 176, 1) 100%
+    //);
+    background: $CT-color;
 }
 
 .primary {
