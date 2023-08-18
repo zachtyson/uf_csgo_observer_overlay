@@ -186,11 +186,37 @@ interface sectionProps {
     player: Player;
 }
 
+function ArmorCurrent({ player }: sectionProps): JSX.Element {
+    if (player.state.helmet) {
+        return <ArmorHelmet />;
+    } else if (player.state.armor > 0) {
+        return <ArmorFull />;
+    }
+    return <ArmorNone />;
+}
+
 function LeftSection({ player }: sectionProps): JSX.Element {
-    return <div className="leftCurrentSection" />;
+    return (
+        <div className="leftCurrentSection">
+            <div className="upper backgroundSolid">
+                <div className="healthRow">
+                    <HealthFull /> {player.state.health}
+                </div>
+                <div className="healthRow">
+                    <ArmorCurrent player={player} /> {player.state.armor}
+                </div>
+            </div>
+            <div className="lower backgroundOpacity"></div>
+        </div>
+    );
 }
 function RightSection({ player }: sectionProps): JSX.Element {
-    return <div className="rightCurrentSection" />;
+    return (
+        <div className="rightCurrentSection">
+            <div className="upper"></div>
+            <div className="lower"></div>
+        </div>
+    );
 }
 
 const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data, config }) => {
