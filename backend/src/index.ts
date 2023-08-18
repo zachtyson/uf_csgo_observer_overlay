@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { json } from 'express';
 import fs from 'fs';
 import http from 'http';
 import socketIo from 'socket.io';
@@ -10,7 +10,9 @@ let maxRounds = 30; // 30 rounds in a game, 15 rounds in a half
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let overtimeHalfLength = 3; // 6 rounds in overtime, 3 rounds in a half
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-let teamOneStartingSide = 'CT';
+type teamType = 'T' | 'CT';
+let teamOneCurrentSide: teamType = 'CT';
+let teamOneStartingSide: teamType = 'CT';
 
 async function getConfig(): Promise<any> {
     // read config.json
@@ -101,7 +103,7 @@ function getTeamOne(allplayers: any, round: number): any[] {
     for (let i = 0; i < keys.length; i++) {
         const steamID = keys[i];
         const player = allplayers[steamID];
-        if (player.team === teamOneStartingSide) {
+        if (player.team === teamOneCurrentSide) {
             player.steamid = steamID;
             teamOne.push(player);
         }
@@ -115,7 +117,7 @@ function getTeamTwo(allplayers: any, round: number): any[] {
     for (let i = 0; i < keys.length; i++) {
         const steamID = keys[i];
         const player = allplayers[steamID];
-        if (player.team !== teamOneStartingSide) {
+        if (player.team !== teamOneCurrentSide) {
             player.steamid = steamID;
             teamTwo.push(player);
         }
@@ -123,13 +125,79 @@ function getTeamTwo(allplayers: any, round: number): any[] {
     return teamTwo;
 }
 
+function getSideForRound(
+    round: number,
+    halfLength: number,
+    maxRounds: number,
+    overtimeHalfLength: number,
+    teamOneCurrentSide: teamType,
+): teamType {
+    if (round < maxRounds) {
+        if (teamOneStartingSide === 'CT') {
+            return round < halfLength ? 'CT' : 'T';
+        }
+        return round < halfLength ? 'T' : 'CT';
+    } else {
+        // We're in overtime
+        const overtimeRound = round - maxRounds;
+        const overtimePeriod = Math.floor(
+            overtimeRound / (2 * overtimeHalfLength),
+        );
+
+        // Even overtime periods start with T, odd overtime periods start with CT
+        const isTEvenPeriod = overtimePeriod % 2 === 0;
+        if (overtimeRound % (2 * overtimeHalfLength) < overtimeHalfLength) {
+            return isTEvenPeriod ? 'T' : 'CT';
+        } else {
+            return isTEvenPeriod ? 'CT' : 'T';
+        }
+    }
+}
+
 function splitPlayersIntoTeams(jsonData: any): void {
+    if (
+        jsonData.allplayers == null ||
+        jsonData.map == null ||
+        jsonData.map.round == null
+    ) {
+        return;
+    }
+    // teamOne swaps sides every half (15 rounds) or overtime (3 rounds)
+    // So it can be like this:
+    // 1st half: CT (rounds 0 - 14)
+    // 2nd half: T (rounds 15 - 29)
+    // 1st overtime: T (rounds 30 - 32)
+    // 2nd overtime: CT (rounds 33 - 35)
+    // 3rd overtime: CT (rounds 36 - 38)
+    // 4th overtime: T (rounds 39 - 41)
+    // etc.
     teamOne = getTeamOne(jsonData.allplayers, jsonData.map.round);
     teamTwo = getTeamTwo(jsonData.allplayers, jsonData.map.round);
+    // If it is round 15,30,33,39, etc. then we need to swap sides because I HATE VALVE
     delete jsonData.allplayers;
     jsonData.allplayers = {};
     jsonData.allplayers.teamOne = teamOne;
     jsonData.allplayers.teamTwo = teamTwo;
+    if (jsonData.map == null || jsonData.map.round == null) {
+        return;
+    }
+    const round = jsonData.map.round;
+    const side = getSideForRound(
+        round,
+        halfLength,
+        maxRounds,
+        overtimeHalfLength,
+        teamOneCurrentSide,
+    );
+    if (jsonData.map.phase === 'intermission') {
+        const temp = teamOne;
+        jsonData.allplayers.teamOne = teamTwo;
+        jsonData.allplayers.teamTwo = temp;
+    }
+    teamOneCurrentSide = side;
+    jsonData.allplayers.teamOneSide = side;
+    jsonData.allplayers.teamTwoSide = side === 'CT' ? 'T' : 'CT';
+    console.log(`Current side: ${side}`);
 }
 
 async function startServer(): Promise<void> {
@@ -147,6 +215,7 @@ async function startServer(): Promise<void> {
     } else {
         port = config.application.port;
         host = config.application.host;
+        teamOneCurrentSide = config.team_data.teamOneStartingSide;
         teamOneStartingSide = config.team_data.teamOneStartingSide;
         halfLength = config.team_data.halfLength;
         maxRounds = config.team_data.maxRounds;
