@@ -5,6 +5,9 @@ export interface TeamData {
     teamTwoName: string;
     teamOneStartingSide: string;
     bombTime: number;
+    halfLength: number;
+    overtimeHalfLength: number;
+    maxRounds: number;
 }
 
 interface ApplicationData {
