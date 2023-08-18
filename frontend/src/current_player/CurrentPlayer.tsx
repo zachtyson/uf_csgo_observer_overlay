@@ -51,7 +51,7 @@ export function getCurrentPlayerNades(player: Player): JSX.Element {
 
     let grenade = '';
     let gun;
-    const nades = Array(4).fill('');
+    const nades = Array(4).fill('currentPlayerNoNade');
     let spot = 0;
 
     Object.keys(player.weapons).forEach(function (key) {
@@ -67,7 +67,6 @@ export function getCurrentPlayerNades(player: Player): JSX.Element {
         return <div></div>;
     }
     nades.sort((a, b) => a.localeCompare(b));
-    nades.reverse();
 
     if (gunMap.get(grenade) !== null) {
         return teamNades(nades);
@@ -77,29 +76,36 @@ export function getCurrentPlayerNades(player: Player): JSX.Element {
 }
 
 function teamNades(nades: string[]): JSX.Element {
-    // If you're wondering why the code is so ugly and the css is weird, it's because nade svgs are non-uniform and I'm trying to make them all line up
     return (
         <div className="currentPlayerNades">
-            <img
-                alt="nades"
-                className={`${nades[3]}`}
-                src={gunMap.get(nades[3])}
-            />
-            <img
-                alt="nades"
-                className={`${nades[2]}`}
-                src={gunMap.get(nades[2])}
-            />
-            <img
-                alt="nades"
-                className={`${nades[1]}`}
-                src={gunMap.get(nades[1])}
-            />
-            <img
-                alt="nades"
-                className={`${nades[0]}`}
-                src={gunMap.get(nades[0])}
-            />
+            <div style={{ width: '25%' }}>
+                <img
+                    alt=""
+                    className={`currentPlayer${nades[3]}`}
+                    src={gunMap.get(nades[3])}
+                />
+            </div>
+            <div style={{ width: '25%' }}>
+                <img
+                    alt=""
+                    className={`currentPlayer${nades[2]}`}
+                    src={gunMap.get(nades[2])}
+                />
+            </div>
+            <div style={{ width: '25%' }}>
+                <img
+                    alt=""
+                    className={`currentPlayer${nades[1]}`}
+                    src={gunMap.get(nades[1])}
+                />
+            </div>
+            <div style={{ width: '25%' }}>
+                <img
+                    alt=""
+                    className={`currentPlayer${nades[0]}`}
+                    src={gunMap.get(nades[0])}
+                />
+            </div>
         </div>
     );
 }
