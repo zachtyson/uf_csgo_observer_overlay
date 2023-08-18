@@ -144,6 +144,9 @@ function PlayerDiv({ player, side, currentSpec }: PlayerProps): JSX.Element {
     if (player.state.health === 0) {
         return <DeadPlayer player={player} side={side} />;
     }
+    if (player.observer_slot === undefined) {
+        return <div></div>;
+    }
     return (
         <div
             className={player === currentSpec ? 'unit spec' : 'unit'}
