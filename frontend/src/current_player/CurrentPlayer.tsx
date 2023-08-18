@@ -67,6 +67,7 @@ export function getCurrentPlayerNades(player: Player): JSX.Element {
         return <div></div>;
     }
     nades.sort((a, b) => a.localeCompare(b));
+    nades.reverse();
 
     if (gunMap.get(grenade) !== null) {
         return teamNades(nades);
