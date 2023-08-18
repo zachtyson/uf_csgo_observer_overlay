@@ -246,7 +246,9 @@ const Teams: React.FC<TeamProps> = ({ data, config }) => {
     }, [data]);
     const playerArray = Object.keys(allPlayers).map((key) => allPlayers[key]);
     const leftPlayers = getLeftPlayers(playerArray);
+    leftPlayers.sort((a, b) => a.observer_slot - b.observer_slot);
     const rightPlayers = getRightPlayers(playerArray);
+    rightPlayers.sort((a, b) => a.observer_slot - b.observer_slot);
     return (
         <div>
             <Container

@@ -1,0 +1,213 @@
+@import '../_variables';
+
+.currentPlayer {
+    width: 20vw;
+    height: 10vh;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    left: 50%;
+    bottom: 5%;
+    transform: translate(-50%, -50%);
+}
+
+.leftCurrentSection {
+    width: 35%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.rightCurrentSection {
+    width: 65%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.upper {
+    width: 100%;
+    height: 30%;
+    display:flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.lower {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-direction: row;
+}
+
+.healthRow {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    svg {
+        width: 30%;
+        height: 100%;
+        position: relative;
+        fill: white;
+        margin-left: 0.5vw;
+    }
+    font-size: 1vw;
+}
+
+.backgroundSolid{
+    background-color: $Background-solid;
+}
+
+.backgroundOpacity{
+    background-color: $Background-opacity;
+}
+
+.backgroundOpacity2{
+    background-color: $Background-opacity2;
+}
+
+.teamImg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+        height: 80%;
+        max-width: 100%;
+    }
+}
+
+.currentPlayerHealthBarBase {
+    transition: all 1s ease;
+    flex-grow: 0;
+    flex-shrink: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.currentPlayerName {
+    position: absolute;
+    margin-left: 0.5vw;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    font-size: 1.8vh;
+}
+
+.currentPlayerKAD {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 50%;
+    flex-direction: row;
+}
+
+.currentPlayerStat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 20%;
+    flex-direction: column;
+}
+
+.currentPlayerStatValue {
+    font-size: 2vh;
+    color: white;
+}
+
+.currentPlayerEquipment {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.currentPlayerUtilityKitBomb {
+    width: 100%;
+    height: 50%;
+    position: relative;
+}
+
+
+.currentPlayerNades {
+    flex-direction: row;
+    display: flex;
+    height: 100%;
+    width: 70%;
+    img {
+        height: 2.5vh;
+    }
+    right: 30%;
+    position: absolute;
+    bottom: 0;
+
+    .currentPlayerweapon_hegrenade {
+        position: relative;
+        max-height: 100%;
+        bottom: 0;
+        margin-left: 0.1vw;
+    }
+    .currentPlayerweapon_flashbang {
+        max-height: 2vh;
+        margin-right: 0.1vh;
+        margin-bottom: 0.1vh;
+    }
+    .currentPlayerweapon_incgrenade {
+        margin-right: 0.1vh;
+    }
+    .currentPlayerweapon_smokegrenade {
+        max-height: 2.3vh;
+        margin-bottom: 0.1vh;
+    }
+    .currentPlayerweapon_molotov {
+        max-height: 2.6vh;
+    }
+    .currentPlayerweapon_decoy {
+        max-height: 2.3vh;
+        margin-bottom: 0.1vh;
+    }
+}
+
+.currentPlayerNoNade {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.currentPlayerHasKitOrBomb {
+    max-height: 2.5vh;
+    position: absolute;
+    right: 0;
+    bottom: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+    fill: white;
+}
+
+.currentPlayerBulletIcon {
+    position: relative;
+    fill: white;
+    display: flex;
+    align-items: center;
+    width: 50%;
+}
+
+.currentPlayerAmmo {
+    display: flex;
+    flex-direction: row;
+    height: 50%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}

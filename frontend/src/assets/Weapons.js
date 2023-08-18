@@ -142,6 +142,7 @@ gunMap.set('weapon_usp_silencer_off', weapon_usp_silencer_off);
 gunMap.set('weapon_world', weapon_world);
 gunMap.set('weapon_xm1014', weapon_xm1014);
 gunMap.set('', blank);
+gunMap.set('currentPlayerNoNade', blank);
 gunMap.set('aInc', weapon_incgrenade);
 gunMap.set('aMol', weapon_molotov);
 gunMap.set('bSmo', weapon_smokegrenade);
