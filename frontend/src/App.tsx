@@ -77,8 +77,6 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
             socket.disconnect();
         };
     }, []);
-    // eslint-disable-next-line no-console
-    console.log(response);
     return (
         <div>
             <Scoreboard data={response} config={config} />{' '}
