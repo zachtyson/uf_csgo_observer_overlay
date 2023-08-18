@@ -91,7 +91,6 @@ async function startServer(): Promise<void> {
                         } else {
                             io.emit('spec', true);
                             // log.info("[SYSTEM] Sent data to frontend via socket");
-                            io.emit('data', jsonData);
                             const keys = Object.keys(jsonData.allplayers);
                             for (let i = 0; i < keys.length; i++) {
                                 const steamID = keys[i];
@@ -105,12 +104,15 @@ async function startServer(): Promise<void> {
                                         updateData(steamID, roundNum, adr);
                                     }
                                     if (jsonData.round.phase === 'freezetime') {
-                                        getADRForUser(steamID);
-                                        playerADR[steamID] =
+                                        const currPlayerADR =
                                             getADRForUser(steamID);
+                                        playerADR[steamID] = currPlayerADR;
+                                        jsonData.allplayers[steamID].state.adr =
+                                            currPlayerADR;
                                     }
                                 }
                             }
+                            io.emit('data', jsonData);
                             // console.log(playerADRStore);
                             // console.log(playerADR);
                         }
