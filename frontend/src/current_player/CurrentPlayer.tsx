@@ -13,9 +13,9 @@ import {
     SmallBomb,
     Bullets,
 } from '../assets/Icons';
-import { gunMap } from '../assets/Weapons';
 import { type RootObject, type Player, type Weapon } from '../data_interface';
 import { type TeamData } from '../config_interface';
+import { gunMap } from '../assets/Weapons';
 
 let swap = 0;
 interface CurrentPlayerProps {
@@ -48,7 +48,7 @@ function printTeamLogo(side: string, teamOneLogo: any, teamTwoLogo: any): any {
         }
     }
 }
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function hasKitOrBomb(player: Player): boolean | JSX.Element {
     if (player.state.defusekit === true) {
         return <Defuse />;
@@ -61,64 +61,66 @@ function hasKitOrBomb(player: Player): boolean | JSX.Element {
     return false;
 }
 
-function getNadeClass(nade: string): string {
-    return `Nade ${nade}]}`;
-}
+export function getCurrentPlayerNades(player: Player): JSX.Element {
+    if (player.weapons == null || player.weapons.weapon_0 == null) {
+        return <div></div>;
+    }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function Grenades(player: Player): JSX.Element {
-    if (player == null || player.weapons == null) return <div />;
-    let x = '';
+    let grenade = '';
     let gun;
     const nades = Array(4).fill('');
     let spot = 0;
+
     Object.keys(player.weapons).forEach(function (key) {
         gun = player.weapons[key];
         if (gun.type === 'Grenade') {
-            x = gun.name;
-            nades[spot] = x;
+            grenade = gun.name;
+            nades[spot] = grenade;
             spot++;
         }
     });
-    if (nades[0] === '' && hasKitOrBomb(player) == null) {
-        return (
-            <div className="Nades">
-                <p>NO UTILITY</p>
-            </div>
-        );
+
+    if (nades[0] === '') {
+        return <div></div>;
     }
     nades.sort((a, b) => a.localeCompare(b));
     nades.reverse();
 
+    if (gunMap.get(grenade) !== null) {
+        return teamNades(nades);
+    }
+
+    return <div></div>;
+}
+
+function teamNades(nades: string[]): JSX.Element {
+    // If you're wondering why the code is so ugly and the css is weird, it's because nade svgs are non-uniform and I'm trying to make them all line up
     return (
-        <div className="Nades">
+        <div className="currentPlayerNades">
             <img
-                alt="Nade"
-                className={getNadeClass(nades[3])}
+                alt="nades"
+                className={`${nades[3]}`}
                 src={gunMap.get(nades[3])}
             />
-            {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
             <img
-                alt="Nade"
-                className={getNadeClass(nades[2])}
+                alt="nades"
+                className={`${nades[2]}`}
                 src={gunMap.get(nades[2])}
             />
-            {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
             <img
-                alt="Nade"
-                className={getNadeClass(nades[1])}
+                alt="nades"
+                className={`${nades[1]}`}
                 src={gunMap.get(nades[1])}
             />
-            {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
             <img
-                alt="Nade"
-                className={getNadeClass(nades[0])}
+                alt="nades"
+                className={`${nades[0]}`}
                 src={gunMap.get(nades[0])}
             />
-            {hasKitOrBomb(player)}
         </div>
     );
 }
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getAmmo(player: Player, weapon: Weapon): JSX.Element {
     if (player == null) {
@@ -256,7 +258,12 @@ function RightSection({ player }: sectionProps): JSX.Element {
                         </div>
                     </div>
                 </div>
-                <div className="currentPlayerEquipment"></div>
+                <div className="currentPlayerEquipment">
+                    <div className="currentPlayerUtilityKitBomb">
+                        {getCurrentPlayerNades(player)}
+                    </div>
+                    <div className="currentPlayerAmmo"></div>
+                </div>
             </div>
         </div>
     );
