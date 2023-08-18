@@ -31,6 +31,10 @@ type PlayerADR = Record<string, number>;
 
 const playerADR: PlayerADR = {};
 
+let teamOne: any[] = [];
+
+let teamTwo: any[] = [];
+
 function updateData(userId: string, roundNum: number, value: number): void {
     if (playerADRStore[userId] == null) {
         playerADRStore[userId] = {};
@@ -91,6 +95,34 @@ function appendADR(jsonData: any): void {
     }
 }
 
+function getTeamOne(allplayers: any, round: number): any[] {
+    const teamOne: any[] = [];
+    const keys = Object.keys(allplayers);
+    for (let i = 0; i < keys.length; i++) {
+        const steamID = keys[i];
+        const player = allplayers[steamID];
+        if (player.team === teamOneStartingSide) {
+            player.steamid = steamID;
+            teamOne.push(player);
+        }
+    }
+    return teamOne;
+}
+
+function getTeamTwo(allplayers: any, round: number): any[] {
+    const teamTwo: any[] = [];
+    const keys = Object.keys(allplayers);
+    for (let i = 0; i < keys.length; i++) {
+        const steamID = keys[i];
+        const player = allplayers[steamID];
+        if (player.team !== teamOneStartingSide) {
+            player.steamid = steamID;
+            teamTwo.push(player);
+        }
+    }
+    return teamTwo;
+}
+
 async function startServer(): Promise<void> {
     let config: any;
     try {
@@ -138,6 +170,16 @@ async function startServer(): Promise<void> {
                             io.emit('spec', true);
                             // log.info("[SYSTEM] Sent data to frontend via socket");
                             appendADR(jsonData);
+                            teamOne = getTeamOne(
+                                jsonData.allplayers,
+                                jsonData.map.round,
+                            );
+                            teamTwo = getTeamTwo(
+                                jsonData.allplayers,
+                                jsonData.map.round,
+                            );
+                            jsonData.allplayers.teamOne = teamOne;
+                            jsonData.allplayers.teamTwo = teamTwo;
                             io.emit('data', jsonData);
                             // console.log(playerADRStore);
                             // console.log(playerADR);
