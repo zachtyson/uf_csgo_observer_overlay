@@ -14,8 +14,6 @@ import {
     hasKit,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getNades,
-    getLeftPlayers,
-    getRightPlayers,
 } from './Equipment';
 import { type RootObject, type Player } from '../data_interface';
 import { type TeamData } from '../config_interface';
@@ -31,7 +29,7 @@ interface PlayerSideProps {
 }
 
 interface ContainerProps {
-    players: Player[];
+    players: Player[] | null;
     side: string;
     currentSpec: Player | null;
 }
@@ -208,6 +206,7 @@ export function Container({
     side,
     currentSpec,
 }: ContainerProps): JSX.Element {
+    if (players == null) return <div></div>;
     const className = 'container ' + side + 'Container';
     let currentSpecPlayer: Player | null = null;
     if (currentSpec != null && players != null && currentSpec.steamid !== '1') {
@@ -239,16 +238,12 @@ const Teams: React.FC<TeamProps> = ({ data, config }) => {
     const [currentSpec, setCurrentSpec] = useState<Player | any>(null);
     if (config == null) return <div>Loading...</div>;
     if (data.allplayers == null) return <div>Loading...</div>;
-    const allPlayers = data.allplayers;
     useEffect(() => {
         const newSpec = data.player;
         setCurrentSpec(newSpec);
     }, [data]);
-    const playerArray = Object.keys(allPlayers).map((key) => allPlayers[key]);
-    const leftPlayers = getLeftPlayers(playerArray);
-    leftPlayers.sort((a, b) => a.observer_slot - b.observer_slot);
-    const rightPlayers = getRightPlayers(playerArray);
-    rightPlayers.sort((a, b) => a.observer_slot - b.observer_slot);
+    const leftPlayers = data.allplayers.teamOne;
+    const rightPlayers = data.allplayers.teamTwo;
     return (
         <div>
             <Container

@@ -1,7 +1,18 @@
-import express, { json } from 'express';
+import express from 'express';
 import fs from 'fs';
 import http from 'http';
 import socketIo from 'socket.io';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let halfLength = 15; // 30 rounds in a game, 15 rounds in a half
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let maxRounds = 30; // 30 rounds in a game, 15 rounds in a half
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let overtimeHalfLength = 3; // 6 rounds in overtime, 3 rounds in a half
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type teamType = 'T' | 'CT';
+let teamOneCurrentSide: teamType = 'CT';
+let teamOneStartingSide: teamType = 'CT';
 
 async function getConfig(): Promise<any> {
     // read config.json
@@ -21,6 +32,10 @@ const playerADRStore: PlayerADRStore = {};
 type PlayerADR = Record<string, number>;
 
 const playerADR: PlayerADR = {};
+
+let teamOne: any[] = [];
+
+let teamTwo: any[] = [];
 
 function updateData(userId: string, roundNum: number, value: number): void {
     if (playerADRStore[userId] == null) {
@@ -49,6 +64,154 @@ function getADRForUser(userId: string): number {
     return Math.round(sum / (totalLevels - 1));
 }
 
+function appendADR(jsonData: any): void {
+    const keys = Object.keys(jsonData.allplayers);
+    if (
+        jsonData.allplayers == null ||
+        jsonData.round == null ||
+        jsonData.map == null ||
+        keys.length === 0 ||
+        jsonData.round.phase == null
+    ) {
+        return;
+    }
+    for (let i = 0; i < keys.length; i++) {
+        const steamID = keys[i];
+        const player = jsonData.allplayers[steamID];
+        if (player != null) {
+            const adr = player.state.round_totaldmg;
+            const roundNum = jsonData.map.round;
+            if (jsonData.round.phase === 'over') {
+                updateData(steamID, roundNum - 1, adr);
+            } else {
+                updateData(steamID, roundNum, adr);
+            }
+            if (jsonData.round.phase === 'freezetime') {
+                const currPlayerADR = getADRForUser(steamID);
+                playerADR[steamID] = currPlayerADR;
+                jsonData.allplayers[steamID].state.adr = currPlayerADR;
+            } else {
+                jsonData.allplayers[steamID].state.adr = playerADR[steamID];
+            }
+        }
+    }
+}
+
+function getTeamOne(allplayers: any, round: number): any[] {
+    const teamOne: any[] = [];
+    const keys = Object.keys(allplayers);
+    for (let i = 0; i < keys.length; i++) {
+        const steamID = keys[i];
+        const player = allplayers[steamID];
+        if (player.team === teamOneCurrentSide) {
+            player.steamid = steamID;
+            teamOne.push(player);
+        }
+    }
+    return teamOne;
+}
+
+function getTeamTwo(allplayers: any, round: number): any[] {
+    const teamTwo: any[] = [];
+    const keys = Object.keys(allplayers);
+    for (let i = 0; i < keys.length; i++) {
+        const steamID = keys[i];
+        const player = allplayers[steamID];
+        if (player.team !== teamOneCurrentSide) {
+            player.steamid = steamID;
+            teamTwo.push(player);
+        }
+    }
+    return teamTwo;
+}
+
+function getSideForTeamOne(
+    currRound: number,
+    halfLength: number,
+    maxRounds: number,
+    overtimeHalfLength: number,
+    teamOneStartingSide: teamType,
+    phase: string,
+): teamType {
+    if (currRound < maxRounds) {
+        if (teamOneStartingSide === 'CT') {
+            if (phase === 'intermission') {
+                return currRound < halfLength ? 'T' : 'CT';
+            }
+            return currRound < halfLength ? 'CT' : 'T';
+        }
+        if (phase === 'intermission') {
+            return currRound < halfLength ? 'CT' : 'T';
+        }
+        return currRound < halfLength ? 'T' : 'CT';
+    } else {
+        // We're in overtime
+        const overtimeRound = currRound - maxRounds;
+        const period = Math.floor(overtimeRound / overtimeHalfLength) % 4;
+        if (period === 3) {
+            // Non-starting side for teamOne
+            if (phase === 'intermission') {
+                // Swap sides
+                teamOneStartingSide = teamOneStartingSide === 'T' ? 'CT' : 'T';
+            }
+            return teamOneStartingSide === 'T' ? 'CT' : 'T';
+        } else if (period === 0) {
+            return teamOneStartingSide === 'T' ? 'CT' : 'T';
+        } else if (period === 2) {
+            return teamOneStartingSide;
+        } else {
+            // Starting side for teamOne
+            if (phase === 'intermission') {
+                // Swap sides
+                teamOneStartingSide = teamOneStartingSide === 'T' ? 'CT' : 'T';
+            }
+            return teamOneStartingSide;
+        }
+    }
+}
+
+function splitPlayersIntoTeams(jsonData: any): void {
+    if (
+        jsonData.allplayers == null ||
+        jsonData.map == null ||
+        jsonData.map.round == null
+    ) {
+        return;
+    }
+    // teamOne swaps sides every half (15 rounds) or overtime (3 rounds)
+    // So it can be like this:
+    // 1st half: CT (rounds 0 - 14)
+    // 2nd half: T (rounds 15 - 29)
+    // 1st overtime: T (rounds 30 - 32)
+    // 2nd overtime: CT (rounds 33 - 35)
+    // 3rd overtime: CT (rounds 36 - 38)
+    // 4th overtime: T (rounds 39 - 41)
+    // etc.
+    teamOne = getTeamOne(jsonData.allplayers, jsonData.map.round);
+    teamTwo = getTeamTwo(jsonData.allplayers, jsonData.map.round);
+    // If it is round 15,30,33,39, etc. then we need to swap sides because I HATE VALVE
+    delete jsonData.allplayers;
+    jsonData.allplayers = {};
+    jsonData.allplayers.teamOne = teamOne;
+    jsonData.allplayers.teamTwo = teamTwo;
+    if (jsonData.map == null || jsonData.map.round == null) {
+        return;
+    }
+    const currRound = jsonData.map.round;
+    const side = getSideForTeamOne(
+        currRound,
+        halfLength,
+        maxRounds,
+        overtimeHalfLength,
+        teamOneStartingSide,
+        jsonData.map.phase,
+    );
+
+    teamOneCurrentSide = side;
+    jsonData.allplayers.teamOneSide = side;
+    jsonData.allplayers.teamTwoSide = side === 'CT' ? 'T' : 'CT';
+}
+
 async function startServer(): Promise<void> {
     let config: any;
     try {
@@ -64,6 +227,11 @@ async function startServer(): Promise<void> {
     } else {
         port = config.application.port;
         host = config.application.host;
+        teamOneCurrentSide = config.team_data.teamOneStartingSide;
+        teamOneStartingSide = config.team_data.teamOneStartingSide;
+        halfLength = config.team_data.halfLength;
+        maxRounds = config.team_data.maxRounds;
+        overtimeHalfLength = config.team_data.overtimeHalfLength;
     }
     try {
         const app = express();
@@ -91,30 +259,8 @@ async function startServer(): Promise<void> {
                         } else {
                             io.emit('spec', true);
                             // log.info("[SYSTEM] Sent data to frontend via socket");
-                            const keys = Object.keys(jsonData.allplayers);
-                            for (let i = 0; i < keys.length; i++) {
-                                const steamID = keys[i];
-                                const player = jsonData.allplayers[steamID];
-                                if (player != null) {
-                                    const adr = player.state.round_totaldmg;
-                                    const roundNum = jsonData.map.round;
-                                    if (jsonData.round.phase === 'over') {
-                                        updateData(steamID, roundNum - 1, adr);
-                                    } else {
-                                        updateData(steamID, roundNum, adr);
-                                    }
-                                    if (jsonData.round.phase === 'freezetime') {
-                                        const currPlayerADR =
-                                            getADRForUser(steamID);
-                                        playerADR[steamID] = currPlayerADR;
-                                        jsonData.allplayers[steamID].state.adr =
-                                            currPlayerADR;
-                                    } else {
-                                        jsonData.allplayers[steamID].state.adr =
-                                            playerADR[steamID];
-                                    }
-                                }
-                            }
+                            appendADR(jsonData);
+                            splitPlayersIntoTeams(jsonData);
                             io.emit('data', jsonData);
                             // console.log(playerADRStore);
                             // console.log(playerADR);
