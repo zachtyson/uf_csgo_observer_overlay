@@ -123,6 +123,15 @@ function getTeamTwo(allplayers: any, round: number): any[] {
     return teamTwo;
 }
 
+function splitPlayersIntoTeams(jsonData: any): void {
+    teamOne = getTeamOne(jsonData.allplayers, jsonData.map.round);
+    teamTwo = getTeamTwo(jsonData.allplayers, jsonData.map.round);
+    delete jsonData.allplayers;
+    jsonData.allplayers = {};
+    jsonData.allplayers.teamOne = teamOne;
+    jsonData.allplayers.teamTwo = teamTwo;
+}
+
 async function startServer(): Promise<void> {
     let config: any;
     try {
@@ -170,18 +179,7 @@ async function startServer(): Promise<void> {
                             io.emit('spec', true);
                             // log.info("[SYSTEM] Sent data to frontend via socket");
                             appendADR(jsonData);
-                            teamOne = getTeamOne(
-                                jsonData.allplayers,
-                                jsonData.map.round,
-                            );
-                            teamTwo = getTeamTwo(
-                                jsonData.allplayers,
-                                jsonData.map.round,
-                            );
-                            delete jsonData.allplayers;
-                            jsonData.allplayers = {};
-                            jsonData.allplayers.teamOne = teamOne;
-                            jsonData.allplayers.teamTwo = teamTwo;
+                            splitPlayersIntoTeams(jsonData);
                             io.emit('data', jsonData);
                             // console.log(playerADRStore);
                             // console.log(playerADR);
