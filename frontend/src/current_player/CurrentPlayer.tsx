@@ -110,7 +110,7 @@ function teamNades(nades: string[]): JSX.Element {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getAmmo(player: Player, weapon: Weapon): JSX.Element {
+function getAmmo(player: Player, weapon: Weapon | undefined): JSX.Element {
     if (player == null) {
         return <div />;
     }
@@ -126,10 +126,14 @@ function getAmmo(player: Player, weapon: Weapon): JSX.Element {
         return <div />;
     }
     return (
-        <div className="ammo">
-            <Bullets className="icon" />
-            <div className="ammo-clip">{weapon.ammo_clip}</div> /
-            {weapon.ammo_reserve}
+        <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+            <Bullets
+                className="currentPlayerBulletIcon"
+                style={{ height: '2.5vh' }}
+            ></Bullets>
+            <div className="currentPlayerBulletIcon">
+                {weapon.ammo_clip}/{weapon.ammo_reserve}
+            </div>
         </div>
     );
 }
@@ -137,6 +141,7 @@ function getAmmo(player: Player, weapon: Weapon): JSX.Element {
 interface sectionProps {
     player: Player;
     config: TeamData;
+    weapon?: Weapon;
 }
 
 function ArmorCurrent({ player }: sectionProps): JSX.Element {
@@ -206,7 +211,7 @@ function currentPlayerHasKit(player: Player): JSX.Element {
     return <div></div>;
 }
 
-function RightSection({ player }: sectionProps): JSX.Element {
+function RightSection({ player, weapon }: sectionProps): JSX.Element {
     const kit = currentPlayerHasKit(player);
     const bomb = currentPlayerHasBomb(player);
     return (
@@ -249,7 +254,9 @@ function RightSection({ player }: sectionProps): JSX.Element {
                         {kit}
                         {bomb}
                     </div>
-                    <div className="currentPlayerAmmo"></div>
+                    <div className="currentPlayerAmmo">
+                        {getAmmo(player, weapon)}
+                    </div>
                 </div>
             </div>
         </div>
@@ -283,7 +290,7 @@ const CurrentPlayer: React.FC<CurrentPlayerProps> = ({ data, config }) => {
     return (
         <div className="currentPlayer">
             <LeftSection player={player} config={config} />
-            <RightSection player={player} config={config} />
+            <RightSection player={player} config={config} weapon={weapon} />
         </div>
     );
 };
