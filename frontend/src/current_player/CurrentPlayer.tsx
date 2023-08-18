@@ -224,7 +224,17 @@ function LeftSection({ player, config }: sectionProps): JSX.Element {
 function RightSection({ player }: sectionProps): JSX.Element {
     return (
         <div className="rightCurrentSection">
-            <div className="upper"></div>
+            <div className="upper backgroundSolid">
+                <div
+                    className={
+                        'currentPlayerHealthBarBase HealthBar' +
+                        player.team +
+                        'Color HealthBar' +
+                        player.state.health.toString()
+                    }
+                />
+                <div className="currentPlayerName"> {player.name} </div>
+            </div>
             <div className="lower"></div>
         </div>
     );
