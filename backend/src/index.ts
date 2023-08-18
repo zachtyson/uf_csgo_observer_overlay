@@ -1,4 +1,4 @@
-import express, { json } from 'express';
+import express from 'express';
 import fs from 'fs';
 import http from 'http';
 import socketIo from 'socket.io';
