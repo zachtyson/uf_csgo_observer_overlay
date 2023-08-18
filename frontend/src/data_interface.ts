@@ -80,6 +80,7 @@ export interface Player {
     spectarget?: string;
     position: string;
     forward: string;
+    adr?: number;
 }
 
 export type AllPlayers = Record<string, Player>;
