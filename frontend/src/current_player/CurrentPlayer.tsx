@@ -12,6 +12,7 @@ import {
     Defuse,
     SmallBomb,
     Bullets,
+    Bomb,
 } from '../assets/Icons';
 import { type RootObject, type Player, type Weapon } from '../data_interface';
 import { type TeamData } from '../config_interface';
@@ -223,7 +224,42 @@ function LeftSection({ player, config }: sectionProps): JSX.Element {
         </div>
     );
 }
+
+function currentPlayerHasBomb(player: Player): JSX.Element {
+    if (player.team !== 'T') {
+        return <div></div>;
+    }
+
+    let s = false;
+    Object.keys(player.weapons).forEach(function (key) {
+        // Iterates through all weapons of the given player
+        if (player.weapons[key].name === 'weapon_c4') {
+            s = true;
+        }
+    });
+
+    if (s) {
+        return <Bomb className="currentPlayerHasKitOrBomb" />;
+    }
+    return <div></div>;
+}
+
+function currentPlayerHasKit(player: Player): JSX.Element {
+    if (player.team !== 'CT') {
+        return <div></div>;
+    }
+
+    if (player.state.defusekit != null) {
+        if (player.state.defusekit) {
+            return <Defuse className="currentPlayerHasKitOrBomb" />;
+        }
+    }
+    return <div></div>;
+}
+
 function RightSection({ player }: sectionProps): JSX.Element {
+    const kit = currentPlayerHasKit(player);
+    const bomb = currentPlayerHasBomb(player);
     return (
         <div className="rightCurrentSection">
             <div className="upper backgroundOpacity">
@@ -261,6 +297,8 @@ function RightSection({ player }: sectionProps): JSX.Element {
                 <div className="currentPlayerEquipment">
                     <div className="currentPlayerUtilityKitBomb">
                         {getCurrentPlayerNades(player)}
+                        {kit}
+                        {bomb}
                     </div>
                     <div className="currentPlayerAmmo"></div>
                 </div>

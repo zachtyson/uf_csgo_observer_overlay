@@ -508,3 +508,15 @@
         margin-bottom: 0.1vh;
     }
 }
+
+.currentPlayerHasKitOrBomb {
+    max-height: 2.5vh;
+    position: absolute;
+    right: 0;
+    bottom: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+    fill: white;
+}
