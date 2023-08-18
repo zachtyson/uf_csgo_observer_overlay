@@ -135,6 +135,12 @@ function getSideForTeamOne(
 ): teamType {
     if (currRound < maxRounds) {
         if (teamOneStartingSide === 'CT') {
+            if (phase === 'intermission') {
+                return currRound < halfLength ? 'T' : 'CT';
+            }
+            return currRound < halfLength ? 'CT' : 'T';
+        }
+        if (phase === 'intermission') {
             return currRound < halfLength ? 'CT' : 'T';
         }
         return currRound < halfLength ? 'T' : 'CT';
@@ -142,12 +148,23 @@ function getSideForTeamOne(
         // We're in overtime
         const overtimeRound = currRound - maxRounds;
         const period = Math.floor(overtimeRound / overtimeHalfLength) % 4;
-
-        if (period === 0 || period === 3) {
+        if (period === 3) {
             // Non-starting side for teamOne
+            if (phase === 'intermission') {
+                // Swap sides
+                teamOneStartingSide = teamOneStartingSide === 'T' ? 'CT' : 'T';
+            }
             return teamOneStartingSide === 'T' ? 'CT' : 'T';
+        } else if (period === 0) {
+            return teamOneStartingSide === 'T' ? 'CT' : 'T';
+        } else if (period === 2) {
+            return teamOneStartingSide;
         } else {
             // Starting side for teamOne
+            if (phase === 'intermission') {
+                // Swap sides
+                teamOneStartingSide = teamOneStartingSide === 'T' ? 'CT' : 'T';
+            }
             return teamOneStartingSide;
         }
     }
@@ -181,7 +198,7 @@ function splitPlayersIntoTeams(jsonData: any): void {
         return;
     }
     const currRound = jsonData.map.round;
-    let side = getSideForTeamOne(
+    const side = getSideForTeamOne(
         currRound,
         halfLength,
         maxRounds,
@@ -189,13 +206,10 @@ function splitPlayersIntoTeams(jsonData: any): void {
         teamOneStartingSide,
         jsonData.map.phase,
     );
-    if (jsonData.map.phase === 'intermission') {
-        side = side === 'CT' ? 'T' : 'CT';
-    }
+
     teamOneCurrentSide = side;
     jsonData.allplayers.teamOneSide = side;
     jsonData.allplayers.teamTwoSide = side === 'CT' ? 'T' : 'CT';
-    console.log(`Current side: ${side}`);
 }
 
 async function startServer(): Promise<void> {
