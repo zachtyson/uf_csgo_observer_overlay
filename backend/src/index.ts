@@ -109,6 +109,9 @@ async function startServer(): Promise<void> {
                                         playerADR[steamID] = currPlayerADR;
                                         jsonData.allplayers[steamID].state.adr =
                                             currPlayerADR;
+                                    } else {
+                                        jsonData.allplayers[steamID].state.adr =
+                                            playerADR[steamID];
                                     }
                                 }
                             }
