@@ -49,6 +49,39 @@ function getADRForUser(userId: string): number {
     return Math.round(sum / (totalLevels - 1));
 }
 
+function appendADR(jsonData: any): void {
+    const keys = Object.keys(jsonData.allplayers);
+    if (
+        jsonData.allplayers == null ||
+        jsonData.round == null ||
+        jsonData.map == null ||
+        keys.length === 0 ||
+        jsonData.round.phase == null
+    ) {
+        return;
+    }
+    for (let i = 0; i < keys.length; i++) {
+        const steamID = keys[i];
+        const player = jsonData.allplayers[steamID];
+        if (player != null) {
+            const adr = player.state.round_totaldmg;
+            const roundNum = jsonData.map.round;
+            if (jsonData.round.phase === 'over') {
+                updateData(steamID, roundNum - 1, adr);
+            } else {
+                updateData(steamID, roundNum, adr);
+            }
+            if (jsonData.round.phase === 'freezetime') {
+                const currPlayerADR = getADRForUser(steamID);
+                playerADR[steamID] = currPlayerADR;
+                jsonData.allplayers[steamID].state.adr = currPlayerADR;
+            } else {
+                jsonData.allplayers[steamID].state.adr = playerADR[steamID];
+            }
+        }
+    }
+}
+
 async function startServer(): Promise<void> {
     let config: any;
     try {
@@ -91,30 +124,7 @@ async function startServer(): Promise<void> {
                         } else {
                             io.emit('spec', true);
                             // log.info("[SYSTEM] Sent data to frontend via socket");
-                            const keys = Object.keys(jsonData.allplayers);
-                            for (let i = 0; i < keys.length; i++) {
-                                const steamID = keys[i];
-                                const player = jsonData.allplayers[steamID];
-                                if (player != null) {
-                                    const adr = player.state.round_totaldmg;
-                                    const roundNum = jsonData.map.round;
-                                    if (jsonData.round.phase === 'over') {
-                                        updateData(steamID, roundNum - 1, adr);
-                                    } else {
-                                        updateData(steamID, roundNum, adr);
-                                    }
-                                    if (jsonData.round.phase === 'freezetime') {
-                                        const currPlayerADR =
-                                            getADRForUser(steamID);
-                                        playerADR[steamID] = currPlayerADR;
-                                        jsonData.allplayers[steamID].state.adr =
-                                            currPlayerADR;
-                                    } else {
-                                        jsonData.allplayers[steamID].state.adr =
-                                            playerADR[steamID];
-                                    }
-                                }
-                            }
+                            appendADR(jsonData);
                             io.emit('data', jsonData);
                             // console.log(playerADRStore);
                             // console.log(playerADR);
