@@ -369,6 +369,8 @@
 .lower {
     width: 100%;
     height: 70%;
+    display: flex;
+    flex-direction: row;
 }
 
 .healthRow {
@@ -450,4 +452,10 @@
 .currentPlayerStatValue {
     font-size: 2vh;
     color: white;
+}
+
+.currentPlayerEquipment {
+   background-color: red;
+    width: 50%;
+    height: 100%;
 }

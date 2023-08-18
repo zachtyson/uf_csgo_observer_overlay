@@ -256,6 +256,7 @@ function RightSection({ player }: sectionProps): JSX.Element {
                         </div>
                     </div>
                 </div>
+                <div className="currentPlayerEquipment"></div>
             </div>
         </div>
     );
