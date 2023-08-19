@@ -116,71 +116,90 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
     // console.log(data);
     if (data.phase_countdowns === undefined) return <div>Loading...</div>;
     return (
-        <div className="parent">
-            <div
-                className="TeamName"
-                id={data.phase_countdowns.phase === 'live' ? 'hidden' : ''}
-            >
-                <p className="teamLeftName">
-                    {printTeamName('L', config.teamOneName, config.teamTwoName)}
-                </p>
-            </div>
-            <div className="scoreBoard">
-                <div className="teamImage">
-                    <img
-                        src={printTeamLogo(
+        <div className="scoreBoardParent">
+            <div className="scoreBoardChild">
+                <div
+                    className="TeamName"
+                    id={data.phase_countdowns.phase === 'live' ? 'hidden' : ''}
+                >
+                    <p className="teamLeftName">
+                        {printTeamName(
                             'L',
-                            config.teamOneLogo,
-                            config.teamTwoLogo,
+                            config.teamOneName,
+                            config.teamTwoName,
                         )}
-                        alt="CT Logo"
-                    />
-                </div>
-                <div className="teamScore">
-                    <p
-                        className={
-                            teamOneSide === 'CT'
-                                ? 'defender-score'
-                                : 'attacker-score'
-                        }
-                    >
-                        {teamOneSide === 'CT' ? team_ct.score : team_t.score}
                     </p>
                 </div>
-                <div className="matchInfo">
-                    {printTime(data.phase_countdowns)}
-                    {printRound(data.map.round, team_ct.score, team_t.score)}
+                <div className="scoreBoard">
+                    <div className="teamImage">
+                        <img
+                            src={printTeamLogo(
+                                'L',
+                                config.teamOneLogo,
+                                config.teamTwoLogo,
+                            )}
+                            alt="CT Logo"
+                        />
+                    </div>
+                    <div className="teamScore">
+                        <p
+                            className={
+                                teamOneSide === 'CT'
+                                    ? 'defender-score'
+                                    : 'attacker-score'
+                            }
+                        >
+                            {teamOneSide === 'CT'
+                                ? team_ct.score
+                                : team_t.score}
+                        </p>
+                    </div>
+                    <div className="matchInfo">
+                        {printTime(data.phase_countdowns)}
+                        {printRound(
+                            data.map.round,
+                            team_ct.score,
+                            team_t.score,
+                        )}
+                    </div>
+                    <div className="teamScore">
+                        <p
+                            className={
+                                teamOneSide === 'CT'
+                                    ? 'attacker-score'
+                                    : 'defender-score'
+                            }
+                        >
+                            {teamOneSide === 'CT'
+                                ? team_t.score
+                                : team_ct.score}
+                        </p>
+                    </div>
+                    <div className="teamImage">
+                        <img
+                            src={printTeamLogo(
+                                'R',
+                                config.teamOneLogo,
+                                config.teamTwoLogo,
+                            )}
+                            alt="T Logo"
+                        />
+                    </div>
                 </div>
-                <div className="teamScore">
-                    <p
-                        className={
-                            teamOneSide === 'CT'
-                                ? 'attacker-score'
-                                : 'defender-score'
-                        }
-                    >
-                        {teamOneSide === 'CT' ? team_t.score : team_ct.score}
-                    </p>
-                </div>
-                <div className="teamImage">
-                    <img
-                        src={printTeamLogo(
+                <div
+                    className="TeamName"
+                    id={data.phase_countdowns.phase === 'live' ? 'hidden' : ''}
+                >
+                    <p className="teamRightName">
+                        {printTeamName(
                             'R',
-                            config.teamOneLogo,
-                            config.teamTwoLogo,
+                            config.teamOneName,
+                            config.teamTwoName,
                         )}
-                        alt="T Logo"
-                    />
+                    </p>
                 </div>
             </div>
-            <div
-                className="TeamName"
-                id={data.phase_countdowns.phase === 'live' ? 'hidden' : ''}
-            >
-                <p className="teamRightName">
-                    {printTeamName('R', config.teamOneName, config.teamTwoName)}
-                </p>
-            </div>
+            <div className="scoreBoardBombDefuseTimers"></div>
         </div>
     );
 };

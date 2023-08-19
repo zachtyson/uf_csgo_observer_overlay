@@ -298,9 +298,28 @@ body {
     }
 }
 
-.parent {
+.scoreBoardChild {
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.scoreBoardBombDefuseTimers {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    height: 3vh;
+    width: 30vw;
+    background-color: $Background-opacity;
+}
+
+.scoreBoardParent {
+    display: flex;
+    flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
