@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { type RootObject } from '../data_interface';
 import './Scoreboard.scss';
 import { Defuse, FlashingBomb } from '../assets/Icons';
@@ -8,6 +8,8 @@ interface ScoreboardProps {
     data: RootObject; // Update the type according to your data structure
     config: TeamData | null;
 }
+
+let bombTimer: number;
 
 function printRound(num: number, CTScore: number, TScore: number): JSX.Element {
     if (num <= 29) {
@@ -113,6 +115,38 @@ function BombAndDefuse(): JSX.Element {
     );
 }
 
+const TimerComponent = () => {
+    const [timerStarted, setTimerStarted] = useState(false);
+    const [millisecondsLeft , setMillisecondsLeft ] = useState(0);
+
+    useEffect(() => {
+        let interval:any;
+
+        if (millisecondsLeft  > 0) {
+            interval = setInterval(() => {
+                setMillisecondsLeft((prevTimeLeft) => prevTimeLeft - 1);
+            }, 1000);
+
+            if (millisecondsLeft <= 0) {
+                clearInterval(interval);
+                setTimerStarted(false); // Reset the timerStarted state when it reaches 0
+            }
+        }
+
+        return () => clearInterval(interval); // Cleanup on unmount
+    }, [millisecondsLeft]);
+
+    const handlePlant = () => {
+        if (!timerStarted) {
+            setTimerStarted(true);
+            setMillisecondsLeft(bombTimer * 1000); // Start the timer only if it hasn't started yet
+        }
+    };
+
+    const handleDefuse = () => {
+        setMillisecondsLeft(0); // Stop the timer and reset
+        setTimerStarted(false);
+    };
 const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
     if (data == null) return <div>Loading...</div>;
     if (config == null) return <div>Loading...</div>;
