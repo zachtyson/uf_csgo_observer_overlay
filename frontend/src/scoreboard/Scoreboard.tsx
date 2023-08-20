@@ -104,6 +104,10 @@ function printTeamName(
     return teamTwoName;
 }
 
+function BombAndDefuse(): JSX.Element {
+    return <div className="scoreBoardBombDefuseTimers"></div>;
+}
+
 const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
     if (data == null) return <div>Loading...</div>;
     if (config == null) return <div>Loading...</div>;
@@ -199,7 +203,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
                     </p>
                 </div>
             </div>
-            <div className="scoreBoardBombDefuseTimers"></div>
+            <BombAndDefuse />
         </div>
     );
 };
