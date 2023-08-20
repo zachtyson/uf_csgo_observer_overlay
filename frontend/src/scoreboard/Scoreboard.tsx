@@ -115,14 +115,16 @@ function BombAndDefuse(): JSX.Element {
     );
 }
 
-const TimerComponent = () => {
+// unfortunately this is necessary since whenever the bomb is planted, the API returns the bomb timer UNTIL someone starts defusing
+// in which case the API returns the defuse time, so we need to keep track of the bomb timer ourselves
+const TimerComponent: React.FC = () => {
     const [timerStarted, setTimerStarted] = useState(false);
-    const [millisecondsLeft , setMillisecondsLeft ] = useState(0);
+    const [millisecondsLeft, setMillisecondsLeft] = useState(0);
 
     useEffect(() => {
-        let interval:any;
+        let interval: any;
 
-        if (millisecondsLeft  > 0) {
+        if (millisecondsLeft > 0) {
             interval = setInterval(() => {
                 setMillisecondsLeft((prevTimeLeft) => prevTimeLeft - 1);
             }, 1000);
@@ -133,20 +135,25 @@ const TimerComponent = () => {
             }
         }
 
-        return () => clearInterval(interval); // Cleanup on unmount
+        return () => {
+            clearInterval(interval);
+        }; // Cleanup on unmount
     }, [millisecondsLeft]);
 
-    const handlePlant = () => {
+    const handlePlant = (): void => {
         if (!timerStarted) {
             setTimerStarted(true);
             setMillisecondsLeft(bombTimer * 1000); // Start the timer only if it hasn't started yet
         }
     };
 
-    const handleDefuse = () => {
+    const handleDefuse = (): void => {
         setMillisecondsLeft(0); // Stop the timer and reset
         setTimerStarted(false);
     };
+
+    return null;
+};
 const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
     if (data == null) return <div>Loading...</div>;
     if (config == null) return <div>Loading...</div>;
