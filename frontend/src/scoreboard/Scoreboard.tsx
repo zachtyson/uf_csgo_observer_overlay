@@ -117,6 +117,7 @@ function BombAndDefuse(): JSX.Element {
 
 // unfortunately this is necessary since whenever the bomb is planted, the API returns the bomb timer UNTIL someone starts defusing
 // in which case the API returns the defuse time, so we need to keep track of the bomb timer ourselves
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const TimerComponent: React.FC = () => {
     const [timerStarted, setTimerStarted] = useState(false);
     const [millisecondsLeft, setMillisecondsLeft] = useState(0);
@@ -140,13 +141,14 @@ const TimerComponent: React.FC = () => {
         }; // Cleanup on unmount
     }, [millisecondsLeft]);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handlePlant = (): void => {
         if (!timerStarted) {
             setTimerStarted(true);
             setMillisecondsLeft(bombTimer * 1000); // Start the timer only if it hasn't started yet
         }
     };
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handleDefuse = (): void => {
         setMillisecondsLeft(0); // Stop the timer and reset
         setTimerStarted(false);
