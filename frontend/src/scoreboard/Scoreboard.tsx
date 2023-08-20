@@ -159,6 +159,9 @@ const TimerComponent: React.FC = () => {
 const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
     if (data == null) return <div>Loading...</div>;
     if (config == null) return <div>Loading...</div>;
+    useEffect(() => {
+        bombTimer = config.bombTime;
+    }, [config]);
     const teamOneSide = data.allplayers.teamOneSide;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const teamTwoSide = data.allplayers.teamTwoSide;
