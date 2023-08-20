@@ -317,6 +317,16 @@ body {
     background-color: $Background-opacity;
 }
 
+.scoreBoardTimerOne {
+    width: 50%;
+    height: 100%;
+}
+
+.scoreBoardTimerTwo {
+    width: 50%;
+    height: 100%;
+}
+
 .scoreBoardParent {
     display: flex;
     flex-direction: column;

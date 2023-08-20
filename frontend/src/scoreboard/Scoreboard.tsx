@@ -105,7 +105,12 @@ function printTeamName(
 }
 
 function BombAndDefuse(): JSX.Element {
-    return <div className="scoreBoardBombDefuseTimers"></div>;
+    return (
+        <div className="scoreBoardBombDefuseTimers">
+            <div className="scoreBoardTimerOne"></div>
+            <div className="scoreBoardTimerTwo"></div>
+        </div>
+    );
 }
 
 const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
