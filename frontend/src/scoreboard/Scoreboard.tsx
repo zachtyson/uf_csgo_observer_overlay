@@ -10,6 +10,8 @@ interface ScoreboardProps {
 }
 
 let bombLengthSeconds: number;
+const [timerStarted, setTimerStarted] = useState(false);
+const [millisecondsLeft, setMillisecondsLeft] = useState(0);
 
 function printRound(num: number, CTScore: number, TScore: number): JSX.Element {
     if (num <= 29) {
@@ -119,9 +121,6 @@ function BombAndDefuse(): JSX.Element {
 // in which case the API returns the defuse time, so we need to keep track of the bomb timer ourselves
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const TimerComponent: React.FC = () => {
-    const [timerStarted, setTimerStarted] = useState(false);
-    const [millisecondsLeft, setMillisecondsLeft] = useState(0);
-
     useEffect(() => {
         let interval: any;
 
