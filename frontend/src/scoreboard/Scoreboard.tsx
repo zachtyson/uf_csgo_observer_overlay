@@ -137,46 +137,57 @@ function BombAndDefuse({
     );
 }
 
+interface BombTimerReturnType {
+    millisecondsLeft: number;
+    plantBomb: () => void;
+    defuseBomb: () => void;
+}
+
 // unfortunately this is necessary since whenever the bomb is planted, the API returns the bomb timer UNTIL someone starts defusing
 // in which case the API returns the defuse time, so we need to keep track of the bomb timer ourselves
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const TimerComponent: React.FC = () => {
+const useBombTimer = (): BombTimerReturnType => {
     const [timerStarted, setTimerStarted] = useState(false);
     const [millisecondsLeft, setMillisecondsLeft] = useState(0);
+
     useEffect(() => {
         let interval: any;
 
-        if (millisecondsLeft > 0) {
+        if (timerStarted && millisecondsLeft > 0) {
             interval = setInterval(() => {
                 setMillisecondsLeft((prevTimeLeft) => prevTimeLeft - 1);
             }, 1000);
+        }
 
-            if (millisecondsLeft <= 0) {
-                clearInterval(interval);
-                setTimerStarted(false); // Reset the timerStarted state when it reaches 0
-            }
+        if (millisecondsLeft <= 0) {
+            clearInterval(interval);
+            setTimerStarted(false);
         }
 
         return () => {
             clearInterval(interval);
         }; // Cleanup on unmount
-    }, [millisecondsLeft]);
+    }, [timerStarted, millisecondsLeft]);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handlePlant = (): void => {
+    const plantBomb = (): void => {
         if (!timerStarted) {
             setTimerStarted(true);
-            setMillisecondsLeft(bombLengthSeconds * 1000); // Start the timer only if it hasn't started yet
+            setMillisecondsLeft(bombLengthSeconds * 1000);
         }
     };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handleDefuse = (): void => {
-        setMillisecondsLeft(0); // Stop the timer and reset
+
+    const defuseBomb = (): void => {
+        setMillisecondsLeft(0);
         setTimerStarted(false);
     };
 
-    return null;
+    return {
+        millisecondsLeft,
+        plantBomb,
+        defuseBomb,
+    };
 };
+
 const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
     if (data == null) return <div>Loading...</div>;
     if (config == null) return <div>Loading...</div>;
