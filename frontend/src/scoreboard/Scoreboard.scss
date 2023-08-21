@@ -23,7 +23,7 @@
     transition: opacity 3s linear;
 }
 
-.TeamName {
+.scoreBoardTeamName {
     text-align: left;
     display: table;
     opacity: 100%;
@@ -102,7 +102,7 @@ body {
     height: 10vh;
 }
 
-.teamScore {
+.scoreBoardTeamScore {
     display: table;
     margin: 0 auto;
     text-align: center;
@@ -110,7 +110,7 @@ body {
     width: 20%;
 }
 
-.teamImage {
+.scoreBoardTeamImage {
     text-align: center;
     position: relative;
     background-color: $Background-opacity;
@@ -128,7 +128,7 @@ body {
     }
 }
 
-.matchInfo {
+.scoreBoardMatchInfo {
     display: flex;
     flex-direction: column;
     justify-content: space-between;

@@ -244,7 +244,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
         <div className="scoreBoardParent">
             <div className="scoreBoardChild">
                 <div
-                    className="TeamName"
+                    className="scoreBoardTeamName"
                     id={data.phase_countdowns.phase === 'live' ? 'hidden' : ''}
                 >
                     <p className="teamLeftName">
@@ -256,7 +256,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
                     </p>
                 </div>
                 <div className="scoreBoard">
-                    <div className="teamImage">
+                    <div className="scoreBoardTeamImage">
                         <img
                             src={printTeamLogo(
                                 'L',
@@ -266,7 +266,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
                             alt="CT Logo"
                         />
                     </div>
-                    <div className="teamScore">
+                    <div className="scoreBoardTeamScore">
                         <p
                             className={
                                 teamOneSide === 'CT'
@@ -279,7 +279,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
                                 : team_t.score}
                         </p>
                     </div>
-                    <div className="matchInfo">
+                    <div className="scoreBoardMatchInfo">
                         {printTime(data.phase_countdowns)}
                         {printRound(
                             data.map.round,
@@ -287,7 +287,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
                             team_t.score,
                         )}
                     </div>
-                    <div className="teamScore">
+                    <div className="scoreBoardTeamScore">
                         <p
                             className={
                                 teamOneSide === 'CT'
@@ -300,7 +300,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
                                 : team_ct.score}
                         </p>
                     </div>
-                    <div className="teamImage">
+                    <div className="scoreBoardTeamImage">
                         <img
                             src={printTeamLogo(
                                 'R',
@@ -312,7 +312,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
                     </div>
                 </div>
                 <div
-                    className="TeamName"
+                    className="scoreBoardTeamName"
                     id={data.phase_countdowns.phase === 'live' ? 'hidden' : ''}
                 >
                     <p className="teamRightName">
