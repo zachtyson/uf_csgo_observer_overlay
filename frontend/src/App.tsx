@@ -33,6 +33,9 @@ function getBackupConfig(): ConfigData {
         teamTwoLogo: backupTeamTwoLogo,
         teamOneStartingSide: 'CT',
         bombTime: 40,
+        halfLength: 15,
+        overtimeHalfLength: 3,
+        maxRounds: 30,
     };
     const configData = {
         application_data: applicationData,
@@ -52,7 +55,13 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
                 teamTwoName: appConfiguration.team_data.teamTwoName,
                 teamOneLogo: appConfiguration.team_data.teamOneLogo,
                 teamTwoLogo: appConfiguration.team_data.teamTwoLogo,
-                teamOneStartingSide: 'CT',
+                bombTime: appConfiguration.team_data.bombTime,
+                halfLength: appConfiguration.team_data.halfLength,
+                overtimeHalfLength:
+                    appConfiguration.team_data.overtimeHalfLength,
+                maxRounds: appConfiguration.team_data.maxRounds,
+                teamOneStartingSide:
+                    appConfiguration.team_data.teamOneStartingSide,
             };
             setConfig(configData);
         } else {
