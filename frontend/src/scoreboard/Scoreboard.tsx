@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { type RootObject } from '../data_interface';
+import {
+    type RootObject,
+    type Map,
+    type Round,
+    type PhaseCountdowns,
+} from '../data_interface';
 import './Scoreboard.scss';
 import { Defuse, FlashingBomb } from '../assets/Icons';
 import { type TeamData } from '../config_interface';
@@ -106,12 +111,24 @@ function printTeamName(
     return teamTwoName;
 }
 
-// interface BombAndDefuseProps {
-// a
-// }
+interface BombAndDefuseProps {
+    map: Map;
+    round: Round;
+    phaseCountdowns: PhaseCountdowns;
+}
 
-function BombAndDefuse(): JSX.Element {
-    // eslint-disable-next-line no-console
+// React.FC<ScoreboardProps> = ({ data, config }) => {
+function BombAndDefuse({
+    map,
+    round,
+    phaseCountdowns,
+}: BombAndDefuseProps): JSX.Element {
+    if (map.phase !== 'live' || round.phase !== 'live') {
+        return <div></div>;
+    }
+    if (round.bomb == null || round.bomb !== 'planted') {
+        return <div></div>;
+    }
     return (
         <div className="scoreBoardBombDefuseTimers">
             <div className="scoreBoardTimerOne"></div>
@@ -174,6 +191,8 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
     const { team_ct, team_t } = data.map;
     // console.log(data);
     if (data.phase_countdowns === undefined) return <div>Loading...</div>;
+    // eslint-disable-next-line no-console
+    console.log(data);
     return (
         <div className="scoreBoardParent">
             <div className="scoreBoardChild">
@@ -258,7 +277,11 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
                     </p>
                 </div>
             </div>
-            <BombAndDefuse />
+            <BombAndDefuse
+                phaseCountdowns={data.phase_countdowns}
+                map={data.map}
+                round={data.round}
+            />
         </div>
     );
 };
