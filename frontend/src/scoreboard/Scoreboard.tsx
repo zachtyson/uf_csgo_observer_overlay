@@ -129,16 +129,48 @@ function BombAndDefuse({
     if (round.bomb == null || round.bomb !== 'planted') {
         return <div></div>;
     }
+
+    if (bombLengthSeconds === undefined) {
+        return <div></div>;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { elapsedMilliseconds, plantBomb, defuseBomb } = useBombTimer();
+    if (phaseCountdowns.phase === 'bomb') {
+        plantBomb();
+    } else if (phaseCountdowns.phase === 'defused') {
+        defuseBomb();
+    }
+
+    // convert elapsedMilliseconds percentage of bomb remaining
+    let bombPercentage =
+        100 - (elapsedMilliseconds / (bombLengthSeconds * 1000)) * 100;
+
+    if (bombPercentage < 0) {
+        bombPercentage = 0;
+    }
+
+    const timerClassOne =
+        'scoreBoardBar scoreBoardTColor scoreBoardBar' +
+        Math.floor(bombPercentage).toString();
+
+    const timerClassTwo =
+        'scoreBoardBar scoreBoardTColor scoreBoardBar' +
+        Math.floor(bombPercentage).toString();
+
     return (
         <div className="scoreBoardBombDefuseTimers">
-            <div className="scoreBoardTimerOne"></div>
-            <div className="scoreBoardTimerTwo"></div>
+            <div className="scoreBoardTimerOne">
+                <div className={timerClassOne}></div>
+            </div>
+            <div className="scoreBoardTimerTwo">
+                <div className={timerClassTwo}></div>
+            </div>
         </div>
     );
 }
 
 interface BombTimerReturnType {
-    millisecondsLeft: number;
+    elapsedMilliseconds: number;
     plantBomb: () => void;
     defuseBomb: () => void;
 }
@@ -148,41 +180,48 @@ interface BombTimerReturnType {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const useBombTimer = (): BombTimerReturnType => {
     const [timerStarted, setTimerStarted] = useState(false);
-    const [millisecondsLeft, setMillisecondsLeft] = useState(0);
+    const [bombPlantTimestamp, setBombPlantTimestamp] = useState<number | null>(
+        null,
+    );
 
     useEffect(() => {
         let interval: any;
 
-        if (timerStarted && millisecondsLeft > 0) {
+        if (timerStarted && bombPlantTimestamp != null) {
             interval = setInterval(() => {
-                setMillisecondsLeft((prevTimeLeft) => prevTimeLeft - 1);
-            }, 1000);
-        }
+                const millisecondsPassed = Date.now() - bombPlantTimestamp;
 
-        if (millisecondsLeft <= 0) {
-            clearInterval(interval);
-            setTimerStarted(false);
+                if (millisecondsPassed >= bombLengthSeconds * 1000 + 200) {
+                    setTimerStarted(false);
+                    setBombPlantTimestamp(null);
+                }
+            }, 100); // Adjust the frequency based on your needs. This checks every 100ms.
         }
 
         return () => {
-            clearInterval(interval);
-        }; // Cleanup on unmount
-    }, [timerStarted, millisecondsLeft]);
+            clearInterval(interval); // Cleanup on unmount
+        };
+    }, [timerStarted, bombPlantTimestamp, bombLengthSeconds]);
 
     const plantBomb = (): void => {
         if (!timerStarted) {
             setTimerStarted(true);
-            setMillisecondsLeft(bombLengthSeconds * 1000);
+            setBombPlantTimestamp(Date.now());
+        } else {
+            // do something else later, like logging elapsed time if needed
         }
     };
 
     const defuseBomb = (): void => {
-        setMillisecondsLeft(0);
+        setBombPlantTimestamp(null);
         setTimerStarted(false);
     };
 
+    const elapsedMilliseconds =
+        bombPlantTimestamp != null ? Date.now() - bombPlantTimestamp : 0;
+
     return {
-        millisecondsLeft,
+        elapsedMilliseconds,
         plantBomb,
         defuseBomb,
     };
@@ -200,10 +239,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { team_ct, team_t } = data.map;
-    // console.log(data);
     if (data.phase_countdowns === undefined) return <div>Loading...</div>;
-    // eslint-disable-next-line no-console
-    console.log(data);
     return (
         <div className="scoreBoardParent">
             <div className="scoreBoardChild">
