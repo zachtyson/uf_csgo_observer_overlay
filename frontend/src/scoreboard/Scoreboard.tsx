@@ -115,6 +115,8 @@ interface BombAndDefuseProps {
     map: Map;
     round: Round;
     phaseCountdowns: PhaseCountdowns;
+    teamOneSide: string | undefined;
+    teamTwoSide: string | undefined;
 }
 
 // React.FC<ScoreboardProps> = ({ data, config }) => {
@@ -122,6 +124,8 @@ function BombAndDefuse({
     map,
     round,
     phaseCountdowns,
+    teamOneSide,
+    teamTwoSide,
 }: BombAndDefuseProps): JSX.Element {
     if (map.phase !== 'live' || round.phase !== 'live') {
         return <div></div>;
@@ -149,13 +153,38 @@ function BombAndDefuse({
         bombPercentage = 0;
     }
 
-    const timerClassOne =
-        'scoreBoardBar scoreBoardTColor scoreBoardBar' +
-        Math.floor(bombPercentage).toString();
+    let timerClassOne = '';
+    let timerClassTwo = '';
 
-    const timerClassTwo =
-        'scoreBoardBar scoreBoardTColor scoreBoardBar' +
-        Math.floor(bombPercentage).toString();
+    if (phaseCountdowns.phase === 'defuse') {
+        if (teamOneSide === 'CT') {
+            const defusePercentage =
+                parseFloat(phaseCountdowns.phase_ends_in) * 10;
+            timerClassOne =
+                'scoreBoardBar scoreBoardCTColor scoreBoardBar' +
+                Math.floor(defusePercentage).toString();
+            timerClassTwo =
+                'scoreBoardBar scoreBoardTColor scoreBoardBar' +
+                Math.floor(bombPercentage).toString();
+        } else {
+            const defusePercentage =
+                parseFloat(phaseCountdowns.phase_ends_in) * 10;
+            timerClassOne =
+                'scoreBoardBar scoreBoardCTColor scoreBoardBar' +
+                Math.floor(bombPercentage).toString();
+            timerClassTwo =
+                'scoreBoardBar scoreBoardCTColor scoreBoardBar' +
+                Math.floor(defusePercentage).toString();
+        }
+    } else {
+        timerClassOne =
+            'scoreBoardBar scoreBoardTColor scoreBoardBar' +
+            Math.floor(bombPercentage).toString();
+
+        timerClassTwo =
+            'scoreBoardBar scoreBoardTColor scoreBoardBar' +
+            Math.floor(bombPercentage).toString();
+    }
 
     return (
         <div className="scoreBoardBombDefuseTimers">
@@ -328,6 +357,8 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
                 phaseCountdowns={data.phase_countdowns}
                 map={data.map}
                 round={data.round}
+                teamOneSide={teamOneSide}
+                teamTwoSide={teamTwoSide}
             />
         </div>
     );
