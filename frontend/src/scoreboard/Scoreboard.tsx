@@ -9,7 +9,7 @@ interface ScoreboardProps {
     config: TeamData | null;
 }
 
-let bombTimer: number;
+let bombLengthSeconds: number;
 
 function printRound(num: number, CTScore: number, TScore: number): JSX.Element {
     if (num <= 29) {
@@ -145,7 +145,7 @@ const TimerComponent: React.FC = () => {
     const handlePlant = (): void => {
         if (!timerStarted) {
             setTimerStarted(true);
-            setMillisecondsLeft(bombTimer * 1000); // Start the timer only if it hasn't started yet
+            setMillisecondsLeft(bombLengthSeconds * 1000); // Start the timer only if it hasn't started yet
         }
     };
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -160,7 +160,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
     if (data == null) return <div>Loading...</div>;
     if (config == null) return <div>Loading...</div>;
     useEffect(() => {
-        bombTimer = config.bombTime;
+        bombLengthSeconds = config.bombTime;
     }, [config]);
     const teamOneSide = data.allplayers.teamOneSide;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
