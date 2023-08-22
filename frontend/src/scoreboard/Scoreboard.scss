@@ -209,9 +209,14 @@ body {
 
 .scoreBoardBar {
     height: 100%;
+    transition: linear;
+    flex-grow: 0;
+    flex-shrink: 1;
+}
+
+.scoreBoardBarExplodedOrDefused {
+    height: 100%;
     transition: all 1s ease;
-    flex-grow: 0; // This makes sure the item doesn't grow to fill the container
-    flex-shrink: 1; // This ensures the item can shrink if necessary
 }
 
 .scoreBoardCTColor {

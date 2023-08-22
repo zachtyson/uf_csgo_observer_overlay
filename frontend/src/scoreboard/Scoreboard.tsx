@@ -115,6 +115,40 @@ interface BombAndDefuseProps {
     map: Map;
     round: Round;
     phaseCountdowns: PhaseCountdowns;
+    teamOneSide: string | undefined;
+    teamTwoSide: string | undefined;
+}
+
+function BombDefusedOrExploded({
+    map,
+    round,
+    phaseCountdowns,
+}: BombAndDefuseProps): JSX.Element {
+    if (round.bomb === 'exploded') {
+        return (
+            <div className="scoreBoardBombDefuseTimers">
+                <div className="scoreBoardTimerOne">
+                    <div className="scoreBoardBarExplodedOrDefused scoreBoardTColor scoreBoardBar100"></div>
+                </div>
+                <div className="scoreBoardTimerTwo">
+                    <div className="scoreBoardBarExplodedOrDefused scoreBoardTColor scoreBoardBar100"></div>
+                </div>
+            </div>
+        );
+    } else if (round.bomb === 'defused') {
+        return (
+            <div className="scoreBoardBombDefuseTimers">
+                <div className="scoreBoardTimerOne">
+                    <div className="scoreBoardBarExplodedOrDefused scoreBoardCTColor scoreBoardBar100"></div>
+                </div>
+                <div className="scoreBoardTimerTwo">
+                    <div className="scoreBoardBarExplodedOrDefused scoreBoardCTColor scoreBoardBar100"></div>
+                </div>
+            </div>
+        );
+    } else {
+        return <div></div>;
+    }
 }
 
 // React.FC<ScoreboardProps> = ({ data, config }) => {
@@ -122,9 +156,22 @@ function BombAndDefuse({
     map,
     round,
     phaseCountdowns,
+    teamOneSide,
+    teamTwoSide,
 }: BombAndDefuseProps): JSX.Element {
-    if (map.phase !== 'live' || round.phase !== 'live') {
+    if (map.phase !== 'live') {
         return <div></div>;
+    }
+    if (round.phase === 'over') {
+        return (
+            <BombDefusedOrExploded
+                map={map}
+                round={round}
+                phaseCountdowns={phaseCountdowns}
+                teamOneSide={teamOneSide}
+                teamTwoSide={teamTwoSide}
+            />
+        );
     }
     if (round.bomb == null || round.bomb !== 'planted') {
         return <div></div>;
@@ -149,13 +196,38 @@ function BombAndDefuse({
         bombPercentage = 0;
     }
 
-    const timerClassOne =
-        'scoreBoardBar scoreBoardTColor scoreBoardBar' +
-        Math.floor(bombPercentage).toString();
+    let timerClassOne = '';
+    let timerClassTwo = '';
 
-    const timerClassTwo =
-        'scoreBoardBar scoreBoardTColor scoreBoardBar' +
-        Math.floor(bombPercentage).toString();
+    if (phaseCountdowns.phase === 'defuse') {
+        if (teamOneSide === 'CT') {
+            const defusePercentage =
+                parseFloat(phaseCountdowns.phase_ends_in) * 10;
+            timerClassOne =
+                'scoreBoardBar scoreBoardCTColor scoreBoardBar' +
+                Math.floor(defusePercentage).toString();
+            timerClassTwo =
+                'scoreBoardBar scoreBoardTColor scoreBoardBar' +
+                Math.floor(bombPercentage).toString();
+        } else {
+            const defusePercentage =
+                parseFloat(phaseCountdowns.phase_ends_in) * 10;
+            timerClassOne =
+                'scoreBoardBar scoreBoardTColor scoreBoardBar' +
+                Math.floor(bombPercentage).toString();
+            timerClassTwo =
+                'scoreBoardBar scoreBoardCTColor scoreBoardBar' +
+                Math.floor(defusePercentage).toString();
+        }
+    } else {
+        timerClassOne =
+            'scoreBoardBar scoreBoardTColor scoreBoardBar' +
+            Math.floor(bombPercentage).toString();
+
+        timerClassTwo =
+            'scoreBoardBar scoreBoardTColor scoreBoardBar' +
+            Math.floor(bombPercentage).toString();
+    }
 
     return (
         <div className="scoreBoardBombDefuseTimers">
@@ -240,6 +312,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { team_ct, team_t } = data.map;
     if (data.phase_countdowns === undefined) return <div>Loading...</div>;
+
     return (
         <div className="scoreBoardParent">
             <div className="scoreBoardChild">
@@ -328,6 +401,8 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
                 phaseCountdowns={data.phase_countdowns}
                 map={data.map}
                 round={data.round}
+                teamOneSide={teamOneSide}
+                teamTwoSide={teamTwoSide}
             />
         </div>
     );
