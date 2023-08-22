@@ -119,6 +119,38 @@ interface BombAndDefuseProps {
     teamTwoSide: string | undefined;
 }
 
+function BombDefusedOrExploded({
+    map,
+    round,
+    phaseCountdowns,
+}: BombAndDefuseProps): JSX.Element {
+    if (round.bomb === 'exploded') {
+        return (
+            <div className="scoreBoardBombDefuseTimers">
+                <div className="scoreBoardTimerOne">
+                    <div className="scoreBoardBarExplodedOrDefused scoreBoardTColor scoreBoardBar100"></div>
+                </div>
+                <div className="scoreBoardTimerTwo">
+                    <div className="scoreBoardBarExplodedOrDefused scoreBoardTColor scoreBoardBar100"></div>
+                </div>
+            </div>
+        );
+    } else if (round.bomb === 'defused') {
+        return (
+            <div className="scoreBoardBombDefuseTimers">
+                <div className="scoreBoardTimerOne">
+                    <div className="scoreBoardBarExplodedOrDefused scoreBoardCTColor scoreBoardBar100"></div>
+                </div>
+                <div className="scoreBoardTimerTwo">
+                    <div className="scoreBoardBarExplodedOrDefused scoreBoardCTColor scoreBoardBar100"></div>
+                </div>
+            </div>
+        );
+    } else {
+        return <div></div>;
+    }
+}
+
 // React.FC<ScoreboardProps> = ({ data, config }) => {
 function BombAndDefuse({
     map,
@@ -127,8 +159,19 @@ function BombAndDefuse({
     teamOneSide,
     teamTwoSide,
 }: BombAndDefuseProps): JSX.Element {
-    if (map.phase !== 'live' || round.phase !== 'live') {
+    if (map.phase !== 'live') {
         return <div></div>;
+    }
+    if (round.phase === 'over') {
+        return (
+            <BombDefusedOrExploded
+                map={map}
+                round={round}
+                phaseCountdowns={phaseCountdowns}
+                teamOneSide={teamOneSide}
+                teamTwoSide={teamTwoSide}
+            />
+        );
     }
     if (round.bomb == null || round.bomb !== 'planted') {
         return <div></div>;
@@ -269,6 +312,8 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { team_ct, team_t } = data.map;
     if (data.phase_countdowns === undefined) return <div>Loading...</div>;
+    // eslint-disable-next-line no-console
+    console.log(data);
     return (
         <div className="scoreBoardParent">
             <div className="scoreBoardChild">
