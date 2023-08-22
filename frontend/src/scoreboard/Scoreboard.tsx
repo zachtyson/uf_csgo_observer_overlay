@@ -170,7 +170,7 @@ function BombAndDefuse({
             const defusePercentage =
                 parseFloat(phaseCountdowns.phase_ends_in) * 10;
             timerClassOne =
-                'scoreBoardBar scoreBoardCTColor scoreBoardBar' +
+                'scoreBoardBar scoreBoardTColor scoreBoardBar' +
                 Math.floor(bombPercentage).toString();
             timerClassTwo =
                 'scoreBoardBar scoreBoardCTColor scoreBoardBar' +
