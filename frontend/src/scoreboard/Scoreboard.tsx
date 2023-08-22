@@ -312,8 +312,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ data, config }) => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { team_ct, team_t } = data.map;
     if (data.phase_countdowns === undefined) return <div>Loading...</div>;
-    // eslint-disable-next-line no-console
-    console.log(data);
+
     return (
         <div className="scoreBoardParent">
             <div className="scoreBoardChild">
