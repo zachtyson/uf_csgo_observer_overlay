@@ -3,11 +3,11 @@
 .roundWinChild {
   position: absolute;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
   align-items: center;
-  width: 16vw;
-  height: 16vh;
+  width: 14vw;
+  height: 20vh;
   background-color: $Background-opacity;
   margin-top: 16vh;
 }
@@ -21,8 +21,8 @@
 }
 
 .roundWinLogo {
-  width: 40%;
-  height: 100%;
+  max-width: 80%;
+  height: 65%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,20 +34,21 @@
 }
 
 .roundWinTeamName {
-  width: 60%;
-  height: 100%;
+  width: 100%;
+  height: 35%;
   display: flex;
   justify-content: center;
   align-items: center;
-  p {
-    margin-left: 0.1vw;
-    margin-right: 0.1vw;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow-wrap: break-word;
-    width: 100%;
-    font-size: 2.4vh;
-  }
+  flex-direction: column;
+  position: relative;
+}
+
+.roundWinP {
+  font-size: 2.5vh;
+  width: 100%;
+  height: 50%;
+  align-items: center;
+  align-content: center;
+  display: flex;
+  justify-content: center;
 }
