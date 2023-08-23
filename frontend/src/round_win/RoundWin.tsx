@@ -11,6 +11,10 @@ const RoundWin: React.FC<TeamProps> = ({ data, config }) => {
         return <div></div>;
     }
     if (config == null) return <div></div>;
+    if (data.map.phase === 'warmup') return <div></div>;
+    if (data.round == null) return <div></div>;
+    const round = data.round;
+    if (round.phase !== 'over' || round.win_team == null) return <div></div>;
     return <div></div>;
 };
 export default RoundWin;
