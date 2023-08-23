@@ -16,8 +16,8 @@
     <TabPane fx:id="tabPane" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
         <Tab text="Start">
             <VBox>
-                <Button text="Start FRONTEND" fx:id="frontendButton" style="-fx-background-color: cyan; -fx-font-family: Arial; -fx-font-weight: BOLD; -fx-font-size: 14;"/>
-                <Button text="Start BACKEND" fx:id="backendButton" style="-fx-background-color: cyan; -fx-font-family: Arial; -fx-font-weight: BOLD; -fx-font-size: 14;"/>
+                <Button text="Start FRONTEND" fx:id="frontendButton" />
+                <Button text="Start BACKEND" fx:id="backendButton" />
                 <ScrollPane>
                     <TextArea fx:id="outputArea1" editable="false" />
                 </ScrollPane>
@@ -37,9 +37,9 @@
         </Tab>
         <Tab text="Game Location">
             <VBox>
-                <Label text="Select Game Location:" alignment="CENTER" style="-fx-font-family: Arial; -fx-font-weight: BOLD; -fx-font-size: 18;"/>
-                <Button text="Select Directory" alignment="CENTER" style="-fx-background-color: lightgray;" fx:id="gameLocationButton"/>
-                <Button text="Generate cfg file in game" alignment="CENTER" style="-fx-background-color: lightgray;" fx:id="cfgButton"/>
+                <Label text="Select Game Location:" alignment="CENTER" />
+                <Button text="Select Directory" alignment="CENTER" />
+                <Button text="Generate cfg file in game" alignment="CENTER"/>
             </VBox>
         </Tab>
     </TabPane>
