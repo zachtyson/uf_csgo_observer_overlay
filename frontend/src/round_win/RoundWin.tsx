@@ -1,5 +1,5 @@
 import React from 'react';
-import { type AllPlayers, type RootObject } from '../data_interface';
+import { type RootObject } from '../data_interface';
 import './RoundWin.scss';
 import { type TeamData } from '../config_interface';
 
@@ -12,14 +12,16 @@ function WinningTeamLogo({
     winTeam,
     teamOneLogo,
     teamTwoLogo,
-    allPlayers,
+    teamOneSide,
+    teamTwoSide,
 }: {
     winTeam: string;
     teamOneLogo: any;
     teamTwoLogo: any;
-    allPlayers: AllPlayers;
+    teamOneSide: string | undefined;
+    teamTwoSide: string | undefined;
 }): JSX.Element {
-    if (allPlayers.teamOneSide === winTeam) {
+    if (teamOneSide === winTeam) {
         return (
             <div className="roundWinLogo">
                 <img
@@ -29,7 +31,7 @@ function WinningTeamLogo({
                 />
             </div>
         );
-    } else {
+    } else if (teamTwoSide === winTeam) {
         return (
             <div className="roundWinLogo">
                 <img
@@ -39,6 +41,10 @@ function WinningTeamLogo({
                 />
             </div>
         );
+    } else {
+        // either winTeam is not T/CT or teamOneSide/teamTwoSide is not T/CT
+        // this shouldn't ever happen, but just in case
+        return <div></div>;
     }
 }
 
@@ -62,7 +68,8 @@ const RoundWin: React.FC<TeamProps> = ({ data, config }) => {
                     winTeam={winTeam}
                     teamOneLogo={teamOneLogo}
                     teamTwoLogo={teamTwoLogo}
-                    allPlayers={data.allplayers}
+                    teamOneSide={data.allplayers.teamOneSide}
+                    teamTwoSide={data.allplayers.teamTwoSide}
                 />
             </div>
         </div>
