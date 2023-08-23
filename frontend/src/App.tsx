@@ -4,6 +4,7 @@ import Scoreboard from './scoreboard/Scoreboard';
 import Teams from './teams/Teams';
 import CurrentPlayer from './current_player/CurrentPlayer';
 import { type ConfigData } from './config_interface';
+import RoundWin from './round_win/RoundWin';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const backupTeamOneLogo = require('./config/teamOneBackup.png');
@@ -91,6 +92,7 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
             <Scoreboard data={response} config={config} />{' '}
             <Teams data={response} config={config} />{' '}
             <CurrentPlayer data={response} config={config} />{' '}
+            <RoundWin data={response} config={config} />{' '}
         </div>
     );
 };
