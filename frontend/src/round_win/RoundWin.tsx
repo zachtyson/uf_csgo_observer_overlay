@@ -72,7 +72,8 @@ function WinningTeamName({
 
     return (
         <div className="roundWinTeamName">
-            <p className="roundWinTeamName">{teamName} WINS THE ROUND</p>
+            <div className="roundWinP">{teamName}</div>
+            <div className="roundWinP">WINS THE ROUND</div>
         </div>
     );
 }
