@@ -88,11 +88,11 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
         };
     }, []);
     return (
-        <div>
+        <div style={{ height: '100vh', width: '100vw' }}>
+            <RoundWin data={response} config={config} />{' '}
             <Scoreboard data={response} config={config} />{' '}
             <Teams data={response} config={config} />{' '}
             <CurrentPlayer data={response} config={config} />{' '}
-            <RoundWin data={response} config={config} />{' '}
         </div>
     );
 };
