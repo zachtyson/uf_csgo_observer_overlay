@@ -56,6 +56,7 @@ export interface Map {
 export interface Round {
     phase: string;
     bomb?: string;
+    win_team?: string;
 }
 
 export interface Provider {
