@@ -48,6 +48,35 @@ function WinningTeamLogo({
     }
 }
 
+function WinningTeamName({
+    winTeam,
+    teamOneSide,
+    teamTwoSide,
+    teamOneName,
+    teamTwoName,
+}: {
+    winTeam: string;
+    teamOneSide: string | undefined;
+    teamTwoSide: string | undefined;
+    teamOneName: string;
+    teamTwoName: string;
+}): JSX.Element {
+    let teamName = '';
+    if (teamOneSide === winTeam) {
+        teamName = teamOneName.toUpperCase();
+    } else if (teamTwoSide === winTeam) {
+        teamName = teamTwoName.toUpperCase();
+    } else {
+        return <div></div>;
+    }
+
+    return (
+        <div className="roundWinTeamName">
+            <p className="roundWinTeamName">{teamName} WINS THE ROUND</p>
+        </div>
+    );
+}
+
 const RoundWin: React.FC<TeamProps> = ({ data, config }) => {
     if (data == null) {
         return <div></div>;
@@ -70,6 +99,13 @@ const RoundWin: React.FC<TeamProps> = ({ data, config }) => {
                     teamTwoLogo={teamTwoLogo}
                     teamOneSide={data.allplayers.teamOneSide}
                     teamTwoSide={data.allplayers.teamTwoSide}
+                />
+                <WinningTeamName
+                    winTeam={winTeam}
+                    teamOneSide={data.allplayers.teamOneSide}
+                    teamTwoSide={data.allplayers.teamTwoSide}
+                    teamOneName={config.teamOneName}
+                    teamTwoName={config.teamTwoName}
                 />
             </div>
         </div>
