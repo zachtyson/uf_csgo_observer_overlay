@@ -1,0 +1,23 @@
+@import '../_variables';
+
+.roundWinChild {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 20vw;
+  height: 10vw;
+  background-color: red;
+  margin-top: 16vh;
+}
+
+.roundWinParent {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
