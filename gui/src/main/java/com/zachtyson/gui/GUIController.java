@@ -1,12 +1,14 @@
 package com.zachtyson.gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 
-public class GUIController {
+import java.io.InterruptedIOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class GUIController implements Initializable {
     @FXML
     public Button frontendButton;
     @FXML
@@ -29,5 +31,12 @@ public class GUIController {
     @FXML
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        for(Tab tab: tabPane.getTabs()) {
+            tab.setClosable(false);
+        }
     }
 }
