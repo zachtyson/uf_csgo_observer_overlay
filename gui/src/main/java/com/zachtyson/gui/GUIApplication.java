@@ -4,11 +4,48 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Objects;
+import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Base64;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.annotations.SerializedName;
 
 public class GUIApplication extends Application {
+    private static final String EXE_FILE_1 = "frontend/frontend.exe";
+    private static final String EXE_FILE_2 = "backend/backend.exe";
+
+    private Process process1;
+    private Process process2;
+    private Thread processThread1;
+    private Thread processThread2;
+    private String host = "http://localhost";
+    private int port = 25566;
+    private AtomicBoolean isFrontendRunning = new AtomicBoolean(false);
+    private AtomicBoolean isBackendRunning = new AtomicBoolean(false);
+
+    public static String getFileExtension(File file) {
+        String name = file.getName();
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ""; // Empty extension
+        }
+        return name.substring(lastIndexOf + 1).toLowerCase();
+    }
+
+    private String getBase64(File file) throws IOException {
+        byte[] fileBytes = Files.readAllBytes(file.toPath());
+        return "data:image/" + getFileExtension(file) + ";base64," + Base64.getEncoder().encodeToString(fileBytes);
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(GUIApplication.class.getResource("hello-view.fxml"));
@@ -19,6 +56,139 @@ public class GUIApplication extends Application {
         stage.show();
     }
 
+    private void executeProcess(String fileName, int processNumber) {
+        File exeFile = new File(fileName);
+        if (exeFile.exists() && !exeFile.isDirectory()) {
+            try {
+                Process process = Runtime.getRuntime().exec(fileName);
+                if (processNumber == 1) {
+                    process1 = process;
+                } else if (processNumber == 2) {
+                    process2 = process;
+                }
+
+                Thread processThread = new Thread(() -> {
+                    BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                    String line;
+                    try {
+                        while ((line = input.readLine()) != null && !Thread.currentThread().isInterrupted()) {
+                            System.out.println(line);
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                if(processNumber == 1) {
+                    processThread1 = processThread;
+                } else if (processNumber == 2) {
+                    processThread2 = processThread;
+                }
+                processThread.start();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            System.out.println("File '" + fileName + "' does not exist");
+        }
+    }
+
+    private void stopProcess(int processNumber) {
+        System.out.println("Stopping '" + (processNumber == 1 ? EXE_FILE_1 : EXE_FILE_2) + "'");
+        if (processNumber == 1 && process1 != null) {
+            process1.destroy();
+            if (processThread1 != null && processThread1.isAlive()) {
+                processThread1.interrupt();
+                processThread1 = null;
+            }
+            System.out.println("Stopped '" + EXE_FILE_1 + "'");
+        } else if (processNumber == 2 && process2 != null) {
+            process2.destroy();
+            if (processThread2 != null && processThread2.isAlive()) {
+                processThread2.interrupt();
+                processThread2 = null;
+            }
+            System.out.println("Stopped '" + EXE_FILE_2 + "'");
+        }
+    }
+
+    private String createConfigFile(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo,
+                                    String teamOneStartingSide, int bombTime) {
+        ApplicationData applicationData = new ApplicationData("info", port, host);
+        TeamData teamData = new TeamData(teamOneName, teamTwoName, teamOneLogo, teamTwoLogo, teamOneStartingSide, bombTime);
+        ConfigData configData = new ConfigData(applicationData, teamData);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(configData);
+    }
+
+    private static void writeJsonToFile(String jsonData, String filename) throws IOException {
+        try (FileWriter fileWriter = new FileWriter(filename)) {
+            fileWriter.write(jsonData);
+            System.out.println("JSON data written to file: " + filename);
+        } catch (IOException e) {
+            throw new IOException("Unable to write JSON data to file: " + filename, e);
+        }
+    }
+    static class ConfigData {
+        @SerializedName("application")
+        private ApplicationData application;
+
+        @SerializedName("team_data")
+        private TeamData teamData;
+
+        public ConfigData(ApplicationData application, TeamData teamData) {
+            this.application = application;
+            this.teamData = teamData;
+        }
+    }
+
+    static class TeamData {
+        @SerializedName("teamOneName")
+        private String teamOneName;
+
+        @SerializedName("teamOneLogo")
+        private String teamOneLogo;
+
+        @SerializedName("teamTwoName")
+        private String teamTwoName;
+
+        @SerializedName("teamTwoLogo")
+        private String teamTwoLogo;
+
+        @SerializedName("teamOneStartingSide")
+        private String teamOneStartingSide;
+
+        @SerializedName("bombTime")
+        private int bombTime;
+
+        public TeamData(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo, String teamOneStartingSide, int bombTime) {
+            this.teamOneName = teamOneName;
+            this.teamTwoName = teamTwoName;
+            this.teamOneLogo = teamOneLogo;
+            this.teamTwoLogo = teamTwoLogo;
+            this.teamOneStartingSide = teamOneStartingSide;
+            this.bombTime = bombTime;
+        }
+
+    }
+
+    static class ApplicationData {
+        @SerializedName("logLevel")
+        private String logLevel;
+
+        @SerializedName("port")
+        private int port;
+
+        @SerializedName("host")
+        private String host;
+
+        public ApplicationData(String logLevel, int port, String host) {
+            this.logLevel = logLevel;
+            this.port = port;
+            this.host = host;
+        }
+    }
+
+
     public static void main(String[] args) {
         launch();
     }
@@ -28,48 +198,11 @@ public class GUIApplication extends Application {
 //import java.awt.*;
 //import java.awt.event.WindowAdapter;
 //import java.awt.event.WindowEvent;
-//import java.io.*;
-//import java.io.FileWriter;
-//import java.io.IOException;
-//import java.nio.file.Files;
-//import java.util.Base64;
-//import java.util.concurrent.atomic.AtomicBoolean;
-//import java.util.concurrent.atomic.AtomicReference;
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
-//import com.google.gson.JsonIOException;
-//import com.google.gson.JsonSyntaxException;
-//import com.google.gson.annotations.SerializedName;
 //
 //public class Main {
-//    private static final String EXE_FILE_1 = "frontend/frontend.exe";
-//    private static final String EXE_FILE_2 = "backend/backend.exe";
-//
-//    private Process process1;
-//    private Process process2;
-//    private Thread processThread1;
-//    private Thread processThread2;
 //
 //    public static void main(String[] args) {
 //        new Main();
-//    }
-//
-//    private String host = "http://localhost";
-//
-//    private int port = 25566;
-//
-//    public static String getFileExtension(File file) {
-//        String name = file.getName();
-//        int lastIndexOf = name.lastIndexOf(".");
-//        if (lastIndexOf == -1) {
-//            return ""; // Empty extension
-//        }
-//        return name.substring(lastIndexOf + 1).toLowerCase();
-//    }
-//
-//    private String getBase64(File file) throws IOException {
-//        byte[] fileBytes = Files.readAllBytes(file.toPath());
-//        return "data:image/" + getFileExtension(file) + ";base64," + Base64.getEncoder().encodeToString(fileBytes);
 //    }
 //
 //    public Main() {
@@ -116,9 +249,7 @@ public class GUIApplication extends Application {
 //        outputArea1.setMargin(new Insets(5, 5, 5, 5)); // Add margins
 //
 //        JScrollPane scrollPane1 = new JScrollPane(outputArea1);
-//
-//        AtomicBoolean isFrontendRunning = new AtomicBoolean(false);
-//        AtomicBoolean isBackendRunning = new AtomicBoolean(false);
+
 //
 //        frontendButton.addActionListener(e -> {
 //            if (isFrontendRunning.get()) {
@@ -391,136 +522,4 @@ public class GUIApplication extends Application {
 //        frame.setVisible(true);
 //    }
 //
-//    private void executeProcess(String fileName, JTextArea outputArea, int processNumber) {
-//        File exeFile = new File(fileName);
-//        if (exeFile.exists() && !exeFile.isDirectory()) {
-//            try {
-//                Process process = Runtime.getRuntime().exec(fileName);
-//                if (processNumber == 1) {
-//                    process1 = process;
-//                } else if (processNumber == 2) {
-//                    process2 = process;
-//                }
-//
-//                outputArea.append("Started '" + fileName + "'\n");
-//                Thread processThread = new Thread(() -> {
-//                    BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
-//                    String line;
-//                    try {
-//                        while ((line = input.readLine()) != null && !Thread.currentThread().isInterrupted()) {
-//                            outputArea.append(line + "\n");
-//                        }
-//                    } catch (IOException ex) {
-//                        ex.printStackTrace();
-//                    }
-//                });
-//                if(processNumber == 1) {
-//                    processThread1 = processThread;
-//                } else if (processNumber == 2) {
-//                    processThread2 = processThread;
-//                }
-//                processThread.start();
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
-//        } else {
-//            outputArea.append("'" + fileName + "' does not exist\n");
-//        }
-//    }
-//
-//    private void stopProcess(JTextArea outputArea, int processNumber) {
-//        outputArea.append("Stopping '" + (processNumber == 1 ? EXE_FILE_1 : EXE_FILE_2) + "'\n");
-//        if (processNumber == 1 && process1 != null) {
-//            process1.destroy();
-//            if (processThread1 != null && processThread1.isAlive()) {
-//                processThread1.interrupt();
-//                processThread1 = null;
-//            }
-//            outputArea.append("Stopped '" + EXE_FILE_1 + "'\n");
-//        } else if (processNumber == 2 && process2 != null) {
-//            process2.destroy();
-//            if (processThread2 != null && processThread2.isAlive()) {
-//                processThread2.interrupt();
-//                processThread2 = null;
-//            }
-//            outputArea.append("Stopped '" + EXE_FILE_2 + "'\n");
-//        }
-//    }
-//
-//    private String createConfigFile(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo,
-//                                    String teamOneStartingSide, int bombTime) {
-//        ApplicationData applicationData = new ApplicationData("info", port, host);
-//        TeamData teamData = new TeamData(teamOneName, teamTwoName, teamOneLogo, teamTwoLogo, teamOneStartingSide, bombTime);
-//        ConfigData configData = new ConfigData(applicationData, teamData);
-//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//        return gson.toJson(configData);
-//    }
-//
-//    private static void writeJsonToFile(String jsonData, String filename) throws IOException {
-//        try (FileWriter fileWriter = new FileWriter(filename)) {
-//            fileWriter.write(jsonData);
-//            System.out.println("JSON data written to file: " + filename);
-//        } catch (IOException e) {
-//            throw new IOException("Unable to write JSON data to file: " + filename, e);
-//        }
-//    }
-//    static class ConfigData {
-//        @SerializedName("application")
-//        private ApplicationData application;
-//
-//        @SerializedName("team_data")
-//        private TeamData teamData;
-//
-//        public ConfigData(ApplicationData application, TeamData teamData) {
-//            this.application = application;
-//            this.teamData = teamData;
-//        }
-//    }
-//
-//    static class TeamData {
-//        @SerializedName("teamOneName")
-//        private String teamOneName;
-//
-//        @SerializedName("teamOneLogo")
-//        private String teamOneLogo;
-//
-//        @SerializedName("teamTwoName")
-//        private String teamTwoName;
-//
-//        @SerializedName("teamTwoLogo")
-//        private String teamTwoLogo;
-//
-//        @SerializedName("teamOneStartingSide")
-//        private String teamOneStartingSide;
-//
-//        @SerializedName("bombTime")
-//        private int bombTime;
-//
-//        public TeamData(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo, String teamOneStartingSide, int bombTime) {
-//            this.teamOneName = teamOneName;
-//            this.teamTwoName = teamTwoName;
-//            this.teamOneLogo = teamOneLogo;
-//            this.teamTwoLogo = teamTwoLogo;
-//            this.teamOneStartingSide = teamOneStartingSide;
-//            this.bombTime = bombTime;
-//        }
-//
-//    }
-//
-//    static class ApplicationData {
-//        @SerializedName("logLevel")
-//        private String logLevel;
-//
-//        @SerializedName("port")
-//        private int port;
-//
-//        @SerializedName("host")
-//        private String host;
-//
-//        public ApplicationData(String logLevel, int port, String host) {
-//            this.logLevel = logLevel;
-//            this.port = port;
-//            this.host = host;
-//        }
-//    }
 //}
