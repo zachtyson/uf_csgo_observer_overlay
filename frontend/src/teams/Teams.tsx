@@ -1,18 +1,12 @@
 import './Teams.scss';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useEffect, useState } from 'react';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ArmorHelmet, ArmorFull, Skull } from '../assets/Icons';
 
 import {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getPrimaryWeapon,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getSecondaryWeapon,
     hasBomb,
     hasKit,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getNades,
 } from './Equipment';
 import { type RootObject, type Player } from '../data_interface';
@@ -84,6 +78,12 @@ interface PlayerProps {
 }
 
 function DeadPlayer({ player, side }: PlayerSideProps): JSX.Element {
+    if (player.observer_slot === undefined) {
+        return <div />;
+    }
+    if (player.match_stats === undefined) {
+        return <div />;
+    }
     return (
         <div className="dead">
             <div className="deadSkullSection">
