@@ -8,22 +8,10 @@ interface TeamProps {
     config: TeamData | null;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// function printCTWinLogo(teamOneLogo: any, teamTwoLogo: any): any {
-//     if (swap !== 0) {
-//         return teamTwoLogo;
-//     } else {
-//         return teamOneLogo;
-//     }
-// }
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// function printTWinLogo(teamOneLogo: any, teamTwoLogo: any): any {
-//     if (swap !== 0) {
-//         return teamOneLogo;
-//     } else {
-//         return teamTwoLogo;
-//     }
-// }
+function WinningTeamLogo({ team }: { team: string }): JSX.Element {
+    return <div></div>;
+}
+
 const RoundWin: React.FC<TeamProps> = ({ data, config }) => {
     if (data == null) {
         return <div></div>;
@@ -38,6 +26,7 @@ const RoundWin: React.FC<TeamProps> = ({ data, config }) => {
     return (
         <div className="roundWinParent">
             <div className="roundWinChild">{winTeam}</div>
+            <WinningTeamLogo team={winTeam} />
         </div>
     );
 };
