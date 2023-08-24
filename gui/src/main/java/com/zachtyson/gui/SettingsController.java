@@ -61,7 +61,10 @@ public class SettingsController implements Initializable {
             String teamTwoLogo = getBase64(teamTwoLogoFile);
             String teamOneStartingSide = teamOneStartingSideComboBox.getSelectionModel().getSelectedItem();
             int bombTime = Integer.parseInt(bombTimerField.getText());
-            TeamData teamData = new TeamData(teamOneName, teamTwoName, teamOneLogo, teamTwoLogo, teamOneStartingSide, bombTime);
+            int halfLength = Integer.parseInt(roundTimerField.getText());
+            int gameLength = Integer.parseInt(gameLengthField.getText());
+            int overtimeHalfLength = Integer.parseInt(overtimeLengthField.getText());
+            TeamData teamData = new TeamData(teamOneName, teamTwoName, teamOneLogo, teamTwoLogo, teamOneStartingSide, bombTime, halfLength, overtimeHalfLength, gameLength);
             ConfigData configData = new ConfigData(applicationData, teamData);
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(configData);
@@ -121,13 +124,16 @@ public class SettingsController implements Initializable {
         @SerializedName("gameLength")
         public int gameLength;
 
-        public TeamData(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo, String teamOneStartingSide, int bombTime) {
+        public TeamData(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo, String teamOneStartingSide, int bombTime, int halfLength, int overtimeHalfLength, int gameLength) {
             this.teamOneName = teamOneName;
             this.teamTwoName = teamTwoName;
             this.teamOneLogo = teamOneLogo;
             this.teamTwoLogo = teamTwoLogo;
             this.teamOneStartingSide = teamOneStartingSide;
             this.bombTime = bombTime;
+            this.halfLength = halfLength;
+            this.overtimeHalfLength = overtimeHalfLength;
+            this.gameLength = gameLength;
         }
 
     }
