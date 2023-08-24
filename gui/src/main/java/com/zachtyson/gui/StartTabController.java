@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class StartTabController {
+public class StartTabController implements Initializable {
     private static final String EXE_FILE_1 = "frontend/frontend.exe";
     private static final String EXE_FILE_2 = "backend/backend.exe";
 
@@ -102,4 +102,8 @@ public class StartTabController {
         });
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
 }
