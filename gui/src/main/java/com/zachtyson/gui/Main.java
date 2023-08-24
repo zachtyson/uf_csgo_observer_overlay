@@ -47,11 +47,6 @@ public class Main extends Application {
     }
 }
 
-//import javax.swing.*;
-//import java.awt.*;
-//import java.awt.event.WindowAdapter;
-//import java.awt.event.WindowEvent;
-//
 //public class Main {
 //
 //    public static void main(String[] args) {
@@ -59,85 +54,6 @@ public class Main extends Application {
 //    }
 //
 //    public Main() {
-//        JFrame frame = new JFrame("EXE Runner");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(600, 600);
-//
-//        frame.addWindowListener(new WindowAdapter() {
-//            public void windowClosing(WindowEvent e) {
-//                if (process1 != null) {
-//                    process1.destroy();
-//                }
-//                if (process2 != null) {
-//                    process2.destroy();
-//                }
-//                if (processThread1 != null) {
-//                    processThread1.interrupt();
-//                }
-//                if (processThread2 != null) {
-//                    processThread2.interrupt();
-//                }
-//                System.exit(0); // This is to terminate the program after the processes are stopped
-//            }
-//        });
-//
-//        // Create JTabbedPane
-//        JTabbedPane tabbedPane = new JTabbedPane();
-//
-//        // Start
-//        JPanel panel1 = new JPanel();
-//        panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
-//        panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
-//
-//        JButton frontendButton = new JButton("Start FRONTEND");
-//        frontendButton.setFont(new Font("Arial", Font.BOLD, 14));
-//        frontendButton.setBackground(Color.CYAN);
-//
-//        JButton backendButton = new JButton("Start BACKEND");
-//        backendButton.setFont(new Font("Arial", Font.BOLD, 14));
-//        backendButton.setBackground(Color.CYAN);
-//
-//        JTextArea outputArea1 = new JTextArea();
-//        outputArea1.setEditable(false);
-//        outputArea1.setMargin(new Insets(5, 5, 5, 5)); // Add margins
-//
-//        JScrollPane scrollPane1 = new JScrollPane(outputArea1);
-
-//
-//        frontendButton.addActionListener(e -> {
-//            if (isFrontendRunning.get()) {
-//                stopProcess(outputArea1, 1);
-//                frontendButton.setText("Start FRONTEND");
-//                frontendButton.setBackground(Color.CYAN);
-//                isFrontendRunning.set(false);
-//            } else {
-//                executeProcess(EXE_FILE_1, outputArea1, 1);
-//                frontendButton.setText("Stop FRONTEND");
-//                frontendButton.setBackground(Color.RED);
-//                isFrontendRunning.set(true);
-//            }
-//        });
-//
-//        backendButton.addActionListener(e -> {
-//            if (isBackendRunning.get()) {
-//                stopProcess(outputArea1, 2);
-//                backendButton.setText("Start BACKEND");
-//                backendButton.setBackground(Color.CYAN);
-//                isBackendRunning.set(false);
-//            } else {
-//                executeProcess(EXE_FILE_2, outputArea1, 2);
-//                backendButton.setText("Stop BACKEND");
-//                backendButton.setBackground(Color.RED);
-//                isBackendRunning.set(true);
-//            }
-//        });
-//
-//        panel1.add(frontendButton);
-//        panel1.add(Box.createRigidArea(new Dimension(0, 10))); // Add vertical spacing between buttons
-//        panel1.add(backendButton);
-//        panel1.add(Box.createRigidArea(new Dimension(0, 10)));
-//        panel1.add(scrollPane1);
-//
 //        // Settings
 //        JPanel panel2 = new JPanel(new GridLayout(10, 2));
 //
@@ -363,16 +279,6 @@ public class Main extends Application {
 //        panel3.add(gameLocationButton);
 //        panel3.add(Box.createRigidArea(new Dimension(0, 10))); // Add space
 //        panel3.add(cfgButton);
-//
-//
-//
-//        // Add tabs to JTabbedPane
-//        tabbedPane.addTab("Start", panel1);
-//        tabbedPane.addTab("Settings", panel2);
-//        tabbedPane.addTab("Game Location", panel3);
-//
-//        frame.add(tabbedPane);
-//        frame.setVisible(true);
 //    }
 //
 //}
