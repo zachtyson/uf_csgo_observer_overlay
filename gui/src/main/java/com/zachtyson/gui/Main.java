@@ -8,18 +8,15 @@ import java.io.IOException;
 import java.util.Objects;
 import java.io.*;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Base64;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.SerializedName;
 
-public class GUIApplication extends Application {
+public class Main extends Application {
     private static final String EXE_FILE_1 = "frontend/frontend.exe";
     private static final String EXE_FILE_2 = "backend/backend.exe";
 
@@ -48,7 +45,7 @@ public class GUIApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(GUIApplication.class.getResource("hello-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 800);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("styles.css")).toExternalForm());
         stage.setTitle("Hello!");
@@ -190,6 +187,7 @@ public class GUIApplication extends Application {
 
 
     public static void main(String[] args) {
+        System.setProperty("java.library.path", "path/to/your/native/libs");
         launch();
     }
 }

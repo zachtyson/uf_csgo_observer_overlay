@@ -4,11 +4,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-import java.io.InterruptedIOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GUIController implements Initializable {
+public class MainController implements Initializable {
     @FXML
     public Button frontendButton;
     @FXML
