@@ -34,13 +34,6 @@ public class MainController implements Initializable {
     public TextField teamOneNameField;
     @FXML
     public TextField teamTwoNameField;
-    @FXML
-    private Label welcomeText;
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
