@@ -12,7 +12,7 @@
     <TextField text="127.0.0.1" editable="false"/>
     <HBox spacing="10">
         <Label text="Team One Name:" />
-        <TextField fx:id="teamOneNameField" />
+        <TextField fx:id="teamOneNameField"/>
     </HBox>
     <HBox spacing="10">
         <Label text="Team One Logo:" />
