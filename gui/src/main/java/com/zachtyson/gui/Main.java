@@ -5,17 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Objects;
-import java.io.*;
-import java.io.FileWriter;
-import java.nio.file.Files;
-import java.util.Base64;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.SerializedName;
 
 public class Main extends Application {
 
