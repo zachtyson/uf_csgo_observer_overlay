@@ -3,8 +3,36 @@ package com.zachtyson.gui;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Base64;
 
 public class SettingsController {
+    @FXML
+    public TextField teamOneNameField;
+    @FXML
+    public TextField teamTwoNameField;
+    @FXML
+    public ComboBox teamOneStartingSideComboBox;
+    @FXML
+    public TextField bombTimerField;
+    @FXML
+    public Button createButton;
+    @FXML
+    public TextArea createButtonOutputArea;
+    @FXML
+    public Button importConfig;
+    @FXML
+    public TextArea ImportConfigOutputArea;
     private String host = "http://localhost";
     private int port = 25566;
     private String createConfigFile(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo,
@@ -74,5 +102,53 @@ public class SettingsController {
             this.port = port;
             this.host = host;
         }
+    }
+
+    private String getBase64(File file) throws IOException {
+        byte[] fileBytes = Files.readAllBytes(file.toPath());
+        return "data:image/" + getFileExtension(file) + ";base64," + Base64.getEncoder().encodeToString(fileBytes);
+    }
+
+    public static String getFileExtension(File file) {
+        String name = file.getName();
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ""; // Empty extension
+        }
+        return name.substring(lastIndexOf + 1).toLowerCase();
+    }
+
+    @FXML
+    public Button teamOneLogoButton;
+    @FXML
+    public Button teamTwoLogoButton;
+
+    @FXML
+    public void handleTeamOneLogoSelection(ActionEvent actionEvent) {
+        selectLogo(teamOneLogoButton);
+    }
+
+    @FXML
+    public void handleTeamTwoLogoSelection(ActionEvent actionEvent) {
+        selectLogo(teamTwoLogoButton);
+    }
+
+    private void selectLogo(Button button) {
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            try {
+                String base64Logo = getBase64(selectedFile);
+                button.setText(selectedFile.getName());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void handleCreateJson(ActionEvent actionEvent) {
+    }
+
+    public void handleImportConfig(ActionEvent actionEvent) {
     }
 }

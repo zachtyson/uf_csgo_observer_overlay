@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.collections.FXCollections?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.zachtyson.gui.SettingsController">
     <Label text="Port:"/>
     <TextField text="25566" editable="false"/>
@@ -44,9 +43,9 @@
         <TextField fx:id="bombTimerField" text="40" />
     </HBox>
     <Button fx:id="createButton" text="Create JSON" onAction="#handleCreateJson" />
-    <TextArea fx:id="outputArea2" editable="false" />
+    <TextArea fx:id="createButtonOutputArea" editable="false" />
     <Button text="Import Config" fx:id="importConfig"/>
     <ScrollPane >
-        <TextArea fx:id="outputArea3" editable="false"/>
+        <TextArea fx:id="ImportConfigOutputArea" editable="false"/>
     </ScrollPane>
 </VBox>
