@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.zachtyson.gui.MainController">
+    <TabPane fx:id="tabPane" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+        <Tab text="Start" fx:id="startTab"/>
+        <Tab text="Settings" fx:id="settingsTab"/>
+        <Tab text="Game Location" fx:id="gameLocationTab"/>
+    </TabPane>
+</AnchorPane>
+

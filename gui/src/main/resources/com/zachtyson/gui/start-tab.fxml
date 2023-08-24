@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.zachtyson.gui.StartTabController">
+    <Button text="Start FRONTEND" fx:id="frontendButton" />
+    <Button text="Start BACKEND" fx:id="backendButton" />
+    <ScrollPane>
+        <TextArea fx:id="outputArea1" editable="false" />
+    </ScrollPane>
+</VBox>

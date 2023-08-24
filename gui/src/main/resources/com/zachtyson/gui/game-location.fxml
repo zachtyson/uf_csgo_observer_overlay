@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.zachtyson.gui.GameLocationController">
+    <Label text="Select Game Location:" alignment="CENTER" />
+    <Button text="Select Directory" alignment="CENTER" />
+    <Button text="Generate cfg file in game" alignment="CENTER"/>
+</VBox>
