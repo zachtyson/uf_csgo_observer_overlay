@@ -78,6 +78,22 @@
                             <noHeaderFiles>true</noHeaderFiles>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>create-jlink-image</id>
+                        <phase>package</phase> <!-- This binds the goal to the package phase -->
+                        <goals>
+                            <goal>jlink</goal> <!-- This is the goal you want to execute -->
+                        </goals>
+                        <configuration>
+                            <mainClass>com.zachtyson.gui.Main</mainClass>
+                            <launcher>app</launcher>
+                            <jlinkZipName>app</jlinkZipName>
+                            <jlinkImageName>app</jlinkImageName>
+                            <noManPages>true</noManPages>
+                            <stripDebug>true</stripDebug>
+                            <noHeaderFiles>true</noHeaderFiles>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>

@@ -43,6 +43,22 @@
               <noHeaderFiles>true</noHeaderFiles>
             </configuration>
           </execution>
+          <execution>
+            <id>create-jlink-image</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jlink</goal>
+            </goals>
+            <configuration>
+              <mainClass>com.zachtyson.gui.Main</mainClass>
+              <launcher>app</launcher>
+              <jlinkZipName>app</jlinkZipName>
+              <jlinkImageName>app</jlinkImageName>
+              <noManPages>true</noManPages>
+              <stripDebug>true</stripDebug>
+              <noHeaderFiles>true</noHeaderFiles>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -62,7 +78,7 @@
                 <argument>--type</argument>
                 <argument>app-image</argument>
                 <argument>--name</argument>
-                <argument>gui</argument>
+                <argument>gui-output</argument>
                 <argument>--module</argument>
                 <argument>com.zachtyson.gui/com.zachtyson.gui.Main</argument>
                 <argument>--runtime-image</argument>
