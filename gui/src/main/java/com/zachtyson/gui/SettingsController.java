@@ -41,6 +41,13 @@ public class SettingsController implements Initializable {
     public Button importConfig;
     @FXML
     public TextArea ImportConfigOutputArea;
+
+    @FXML
+    public TextField roundTimerField;
+    @FXML
+    public TextField gameLengthField;
+    @FXML
+    public TextField overtimeLengthField;
     private String host = "http://localhost";
     private int port = 25566;
     private void createConfigFile() {
@@ -54,7 +61,10 @@ public class SettingsController implements Initializable {
             String teamTwoLogo = getBase64(teamTwoLogoFile);
             String teamOneStartingSide = teamOneStartingSideComboBox.getSelectionModel().getSelectedItem();
             int bombTime = Integer.parseInt(bombTimerField.getText());
-            TeamData teamData = new TeamData(teamOneName, teamTwoName, teamOneLogo, teamTwoLogo, teamOneStartingSide, bombTime);
+            int halfLength = Integer.parseInt(roundTimerField.getText());
+            int gameLength = Integer.parseInt(gameLengthField.getText());
+            int overtimeHalfLength = Integer.parseInt(overtimeLengthField.getText());
+            TeamData teamData = new TeamData(teamOneName, teamTwoName, teamOneLogo, teamTwoLogo, teamOneStartingSide, bombTime, halfLength, overtimeHalfLength, gameLength);
             ConfigData configData = new ConfigData(applicationData, teamData);
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(configData);
@@ -62,6 +72,8 @@ public class SettingsController implements Initializable {
             createButtonOutputArea.setText("Successfully created config.json");
         } catch (IOException e) {
             createButtonOutputArea.setText("Error getting file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            createButtonOutputArea.setText("Error: Invalid number format.");
         } catch (Exception e) {
             createButtonOutputArea.setText("Error: " + e.getMessage());
         }
@@ -105,13 +117,25 @@ public class SettingsController implements Initializable {
         @SerializedName("bombTime")
         public int bombTime;
 
-        public TeamData(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo, String teamOneStartingSide, int bombTime) {
+        @SerializedName("halfLength")
+        public int halfLength;
+
+        @SerializedName("roundLength")
+        public int overtimeHalfLength;
+
+        @SerializedName("gameLength")
+        public int gameLength;
+
+        public TeamData(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo, String teamOneStartingSide, int bombTime, int halfLength, int overtimeHalfLength, int gameLength) {
             this.teamOneName = teamOneName;
             this.teamTwoName = teamTwoName;
             this.teamOneLogo = teamOneLogo;
             this.teamTwoLogo = teamTwoLogo;
             this.teamOneStartingSide = teamOneStartingSide;
             this.bombTime = bombTime;
+            this.halfLength = halfLength;
+            this.overtimeHalfLength = overtimeHalfLength;
+            this.gameLength = gameLength;
         }
 
     }
