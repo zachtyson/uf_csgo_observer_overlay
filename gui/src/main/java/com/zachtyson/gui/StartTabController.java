@@ -35,7 +35,8 @@ public class StartTabController implements Initializable {
         File exeFile = new File(fileName);
         if (exeFile.exists() && !exeFile.isDirectory()) {
             try {
-                Process process = Runtime.getRuntime().exec(fileName);
+                ProcessBuilder processBuilder = new ProcessBuilder(fileName);
+                Process process = processBuilder.start();
                 if (processNumber == 1) {
                     process1 = process;
                 } else if (processNumber == 2) {
@@ -43,9 +44,8 @@ public class StartTabController implements Initializable {
                 }
 
                 Thread processThread = new Thread(() -> {
-                    BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                    String line;
-                    try {
+                    try (BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                        String line;
                         while ((line = input.readLine()) != null && !Thread.currentThread().isInterrupted()) {
                             System.out.println(line);
                         }
@@ -53,7 +53,7 @@ public class StartTabController implements Initializable {
                         ex.printStackTrace();
                     }
                 });
-                if(processNumber == 1) {
+                if (processNumber == 1) {
                     processThread1 = processThread;
                 } else if (processNumber == 2) {
                     processThread2 = processThread;
