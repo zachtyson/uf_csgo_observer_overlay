@@ -64,10 +64,8 @@ public class MainController implements Initializable {
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null) {
             try {
-                // Note: getBase64(...) method is not provided in the given code, so this is a placeholder
                 String base64Logo = getBase64(selectedFile);
                 button.setText(selectedFile.getName());
-                // Optionally, you can store the base64 representation in a variable or use it further.
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
