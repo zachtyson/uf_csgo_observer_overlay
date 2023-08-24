@@ -13,6 +13,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.zachtyson.gui.MainController">
     <TabPane fx:id="tabPane" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
         <Tab text="Start">
@@ -30,10 +33,6 @@
                 <TextField text="25566" editable="false"/>
                 <Label text="Host:"/>
                 <TextField text="127.0.0.1" editable="false"/>
-                <Button text="Import Config" fx:id="importConfig"/>
-                <ScrollPane >
-                    <TextArea fx:id="outputArea3" editable="false"/>
-                </ScrollPane>
                 <HBox spacing="10">
                     <Label text="Team One Name:" />
                     <TextField fx:id="teamOneNameField" />
@@ -43,7 +42,6 @@
                     <Button fx:id="teamOneLogoButton" text="Select Team One Logo" onAction="#handleTeamOneLogoSelection" />
                 </HBox>
 
-                <!-- Team Two UI Elements -->
                 <HBox spacing="10">
                     <Label text="Team Two Name:" />
                     <TextField fx:id="teamTwoNameField" />
@@ -52,6 +50,27 @@
                     <Label text="Team Two Logo:" />
                     <Button fx:id="teamTwoLogoButton" text="Select Team Two Logo" onAction="#handleTeamTwoLogoSelection" />
                 </HBox>
+                <HBox spacing="10">
+                    <Label text="Team One Starting Side:" />
+                    <ComboBox fx:id="teamOneStartingSideComboBox">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="CT" />
+                                <String fx:value="T" />
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </HBox>
+                <HBox spacing="10">
+                    <Label text="Bomb Timer:" />
+                    <TextField fx:id="bombTimerField" text="40" />
+                </HBox>
+                <Button fx:id="createButton" text="Create JSON" onAction="#handleCreateJson" />
+                <TextArea fx:id="outputArea2" editable="false" />
+                <Button text="Import Config" fx:id="importConfig"/>
+                <ScrollPane >
+                    <TextArea fx:id="outputArea3" editable="false"/>
+                </ScrollPane>
             </VBox>
         </Tab>
         <Tab text="Game Location">

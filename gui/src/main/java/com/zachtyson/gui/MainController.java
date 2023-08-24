@@ -34,6 +34,13 @@ public class MainController implements Initializable {
     public TextField teamOneNameField;
     @FXML
     public TextField teamTwoNameField;
+    @FXML
+    public TextField bombTimerField;
+    @FXML
+    public Button createButton;
+    @FXML
+    public TextArea outputArea2;
+    public ComboBox teamOneStartingSideComboBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -81,5 +88,11 @@ public class MainController implements Initializable {
             return ""; // Empty extension
         }
         return name.substring(lastIndexOf + 1).toLowerCase();
+    }
+
+    public void handleCreateJson(ActionEvent actionEvent) {
+    }
+
+    public void handleImportConfig(ActionEvent actionEvent) {
     }
 }
