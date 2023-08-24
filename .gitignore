@@ -17,3 +17,6 @@
 /gui/src/Main.class
 /gui/src/main.exe
 /gui/src/Main.jar
+/gui/target/
+/gui/gui-output/
+/gui/gui-output.zip

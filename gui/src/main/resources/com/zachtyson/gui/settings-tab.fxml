@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.zachtyson.gui.SettingsController">
+    <Label text="Port:"/>
+    <TextField text="25566" editable="false"/>
+    <Label text="Host:"/>
+    <TextField text="127.0.0.1" editable="false"/>
+    <HBox spacing="10">
+        <Label text="Team One Name:" />
+        <TextField fx:id="teamOneNameField"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Team One Logo:" />
+        <Button fx:id="teamOneLogoButton" text="Select Team One Logo" onAction="#handleTeamOneLogoSelection" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Team Two Name:" />
+        <TextField fx:id="teamTwoNameField" />
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Team Two Logo:" />
+        <Button fx:id="teamTwoLogoButton" text="Select Team Two Logo" onAction="#handleTeamTwoLogoSelection" />
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Team One Starting Side:" />
+        <ComboBox fx:id="teamOneStartingSideComboBox">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="CT" />
+                    <String fx:value="T" />
+                </FXCollections>
+            </items>
+        </ComboBox>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Bomb Timer:" />
+        <TextField fx:id="bombTimerField" text="40" />
+    </HBox>
+    <Button fx:id="createButton" text="Create JSON" onAction="#handleImportConfig" />
+    <TextArea fx:id="createButtonOutputArea" editable="false" />
+    <Button text="Import Config" fx:id="importConfig"/>
+    <ScrollPane >
+        <TextArea fx:id="ImportConfigOutputArea" editable="false"/>
+    </ScrollPane>
+</VBox>

@@ -59,7 +59,7 @@ Frontend:
 GUI:
 
 1. Install maven (and obviously Java)
-2. cd gui
-3. mvn clean compile
+2. Install maven dependencies
+3. cd gui
 4. mvn clean package
-5. The executable file is in the target folder
+5. The executable file is in the gui-output folder
