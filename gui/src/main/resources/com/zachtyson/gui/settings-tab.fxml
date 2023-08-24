@@ -42,7 +42,7 @@
         <Label text="Bomb Timer:" />
         <TextField fx:id="bombTimerField" text="40" />
     </HBox>
-    <Button fx:id="createButton" text="Create JSON" onAction="#handleCreateJson" />
+    <Button fx:id="createButton" text="Create JSON" onAction="#handleImportConfig" />
     <TextArea fx:id="createButtonOutputArea" editable="false" />
     <Button text="Import Config" fx:id="importConfig"/>
     <ScrollPane >

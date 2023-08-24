@@ -2,6 +2,8 @@ package com.zachtyson.gui;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.SerializedName;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +14,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -67,6 +70,7 @@ public class SettingsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         teamOneStartingSideComboBox.getSelectionModel().selectFirst();
         createButton.setOnAction(event -> createConfigFile());
+        importConfig.setOnAction(event -> handleImportConfig());
     }
 
     public static class ConfigData {
@@ -166,6 +170,33 @@ public class SettingsController implements Initializable {
         }
     }
 
-    public void handleImportConfig(ActionEvent actionEvent) {
+    public void handleImportConfig() {
+        FileChooser importConfigChooser = new FileChooser();
+        File selectedGameConfig = importConfigChooser.showOpenDialog(null);
+        if (selectedGameConfig != null) {
+            importConfig.setText(selectedGameConfig.getName());
+
+            try (FileReader reader = new FileReader(selectedGameConfig)) {
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                ConfigData configObj = gson.fromJson(reader, ConfigData.class);
+                String newConfigObj = gson.toJson(configObj);
+                writeJsonToFile(newConfigObj, "config.json");
+            } catch (JsonSyntaxException ex) {
+                System.out.println("Error: Invalid JSON syntax.");
+                ImportConfigOutputArea.setText("Error: Invalid JSON syntax.");
+            } catch (JsonIOException ex) {
+                System.out.println("Error: Invalid JSON IO.");
+                ImportConfigOutputArea.setText("Error: Failed to read JSON.");
+            } catch (NullPointerException ex) {
+                // User opened file chooser but didn't select a file
+                System.out.println("Error: No file selected.");
+            } catch (Exception ex) {
+                System.out.println("Error: Failed to import config.");
+                ImportConfigOutputArea.setText("Error: Failed to import config.");
+                ex.printStackTrace();
+            }
+        } else {
+            System.out.println("Error: No file selected.");
+        }
     }
 }
