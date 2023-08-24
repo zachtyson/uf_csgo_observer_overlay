@@ -5,6 +5,6 @@
 <?import javafx.scene.control.Button?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.zachtyson.gui.GameLocationController">
     <Label text="Select Game Location:" alignment="CENTER" />
-    <Button text="Select Directory" alignment="CENTER" />
-    <Button text="Generate cfg file in game" alignment="CENTER"/>
+    <Button text="Select Directory" alignment="CENTER" fx:id="gameDirectory"/>
+    <Button text="Generate cfg file in game" alignment="CENTER" fx:id="createIngameCfg"/>
 </VBox>
