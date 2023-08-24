@@ -1,5 +1,6 @@
 package com.zachtyson.gui;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -37,5 +38,11 @@ public class MainController implements Initializable {
         for(Tab tab: tabPane.getTabs()) {
             tab.setClosable(false);
         }
+    }
+
+    public void handleTeamOneLogoSelection(ActionEvent actionEvent) {
+    }
+
+    public void handleTeamTwoLogoSelection(ActionEvent actionEvent) {
     }
 }
