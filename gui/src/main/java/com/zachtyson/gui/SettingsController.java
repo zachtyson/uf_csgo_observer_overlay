@@ -72,6 +72,8 @@ public class SettingsController implements Initializable {
             createButtonOutputArea.setText("Successfully created config.json");
         } catch (IOException e) {
             createButtonOutputArea.setText("Error getting file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            createButtonOutputArea.setText("Error: Invalid number format.");
         } catch (Exception e) {
             createButtonOutputArea.setText("Error: " + e.getMessage());
         }
