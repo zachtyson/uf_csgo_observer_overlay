@@ -11,13 +11,15 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 import java.util.ResourceBundle;
+
+import static com.zachtyson.gui.Main.writeJsonToFile;
 
 public class SettingsController implements Initializable {
     @FXML
@@ -25,7 +27,7 @@ public class SettingsController implements Initializable {
     @FXML
     public TextField teamTwoNameField;
     @FXML
-    public ComboBox teamOneStartingSideComboBox;
+    public ComboBox<String> teamOneStartingSideComboBox;
     @FXML
     public TextField bombTimerField;
     @FXML
@@ -38,26 +40,41 @@ public class SettingsController implements Initializable {
     public TextArea ImportConfigOutputArea;
     private String host = "http://localhost";
     private int port = 25566;
-    private String createConfigFile(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo,
-                                    String teamOneStartingSide, int bombTime) {
-        ApplicationData applicationData = new ApplicationData("info", port, host);
-        TeamData teamData = new TeamData(teamOneName, teamTwoName, teamOneLogo, teamTwoLogo, teamOneStartingSide, bombTime);
-        ConfigData configData = new ConfigData(applicationData, teamData);
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.toJson(configData);
+    private void createConfigFile() {
+        try {
+            ApplicationData applicationData = new ApplicationData("info", port, host);
+            String teamOneName = teamOneNameField.getText();
+            File teamOneLogoFile = new File(teamOneLogoButton.getText());
+            String teamOneLogo = getBase64(teamOneLogoFile);
+            String teamTwoName = teamTwoNameField.getText();
+            File teamTwoLogoFile = new File(teamTwoLogoButton.getText());
+            String teamTwoLogo = getBase64(teamTwoLogoFile);
+            String teamOneStartingSide = teamOneStartingSideComboBox.getSelectionModel().getSelectedItem();
+            int bombTime = Integer.parseInt(bombTimerField.getText());
+            TeamData teamData = new TeamData(teamOneName, teamTwoName, teamOneLogo, teamTwoLogo, teamOneStartingSide, bombTime);
+            ConfigData configData = new ConfigData(applicationData, teamData);
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            gson.toJson(configData);
+            writeJsonToFile(gson.toJson(configData), "config.json");
+            createButtonOutputArea.setText("Successfully created config.json");
+        } catch (IOException e) {
+            createButtonOutputArea.setText("Error getting file: " + e.getMessage());
+        } catch (Exception e) {
+            createButtonOutputArea.setText("Error: " + e.getMessage());
+        }
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        teamOneStartingSideComboBox.getSelectionModel().selectFirst();
+        createButton.setOnAction(event -> createConfigFile());
     }
 
-    static class ConfigData {
+    public static class ConfigData {
         @SerializedName("application")
-        private ApplicationData application;
+        public ApplicationData application;
 
         @SerializedName("team_data")
-        private TeamData teamData;
+        public TeamData teamData;
 
         public ConfigData(ApplicationData application, TeamData teamData) {
             this.application = application;
@@ -65,24 +82,24 @@ public class SettingsController implements Initializable {
         }
     }
 
-    static class TeamData {
+    public static class TeamData {
         @SerializedName("teamOneName")
-        private String teamOneName;
+        public String teamOneName;
 
         @SerializedName("teamOneLogo")
-        private String teamOneLogo;
+        public String teamOneLogo;
 
         @SerializedName("teamTwoName")
-        private String teamTwoName;
+        public String teamTwoName;
 
         @SerializedName("teamTwoLogo")
-        private String teamTwoLogo;
+        public String teamTwoLogo;
 
         @SerializedName("teamOneStartingSide")
-        private String teamOneStartingSide;
+        public String teamOneStartingSide;
 
         @SerializedName("bombTime")
-        private int bombTime;
+        public int bombTime;
 
         public TeamData(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo, String teamOneStartingSide, int bombTime) {
             this.teamOneName = teamOneName;
@@ -95,15 +112,15 @@ public class SettingsController implements Initializable {
 
     }
 
-    static class ApplicationData {
+    public static class ApplicationData {
         @SerializedName("logLevel")
-        private String logLevel;
+        public String logLevel;
 
         @SerializedName("port")
-        private int port;
+        public int port;
 
         @SerializedName("host")
-        private String host;
+        public String host;
 
         public ApplicationData(String logLevel, int port, String host) {
             this.logLevel = logLevel;
@@ -113,7 +130,7 @@ public class SettingsController implements Initializable {
     }
 
     private String getBase64(File file) throws IOException {
-        byte[] fileBytes = Files.readAllBytes(file.toPath());
+        byte[] fileBytes = Files.readAllBytes(Path.of(file.getAbsolutePath()));
         return "data:image/" + getFileExtension(file) + ";base64," + Base64.getEncoder().encodeToString(fileBytes);
     }
 
@@ -145,16 +162,8 @@ public class SettingsController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null) {
-            try {
-                String base64Logo = getBase64(selectedFile);
-                button.setText(selectedFile.getName());
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            button.setText(selectedFile.getAbsolutePath());
         }
-    }
-
-    public void handleCreateJson(ActionEvent actionEvent) {
     }
 
     public void handleImportConfig(ActionEvent actionEvent) {

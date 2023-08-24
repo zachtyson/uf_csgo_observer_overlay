@@ -133,38 +133,7 @@ public class Main extends Application {
 //        outputArea2.setEditable(false);
 //        JScrollPane scrollPane2 = new JScrollPane(outputArea2);
 //
-//        JButton createButton = new JButton("Create JSON");
-//        createButton.addActionListener(e -> {
-//            try {
-//                port = Integer.parseInt(portField.getText());
-//                host = hostField.getText();
-//                String cfg = createConfigFile(
-//                        teamOneNameField.getText(),
-//                        teamTwoNameField.getText(),
-//                        teamOneLogo.get(),
-//                        teamTwoLogo.get(),
-//                        (String) teamOneStartingSideComboBox.getSelectedItem(),
-//                        Integer.parseInt(bombTimerField.getText()));
-//                writeJsonToFile(cfg, "config.json");
-//            } catch (NumberFormatException ex) {
-//                System.out.println("Error: Invalid number format.");
-//                outputArea2.setText("Error: Invalid number format.");
-//                ex.printStackTrace();
-//            } catch (NullPointerException ex) {
-//                System.out.println("Error: Some fields are null or not initialized.");
-//                outputArea2.setText("Error: Some fields are null or not initialized.");
-//                ex.printStackTrace();
-//            } catch (IllegalArgumentException ex) {
-//                System.out.println("Error: Illegal argument.");
-//                outputArea2.setText("Error: Illegal argument.");
-//                ex.printStackTrace();
-//            } catch (Exception ex) {
-//                System.out.println("An unknown error occurred.");
-//                outputArea2.setText("An unknown error occurred.");
-//                ex.printStackTrace();
-//            }
-//
-//        });
+
 //
 //        panel2.add(createButton);
 //        panel2.add(scrollPane2);
