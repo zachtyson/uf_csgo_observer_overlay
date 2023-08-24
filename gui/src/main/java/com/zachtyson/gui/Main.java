@@ -22,6 +22,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main-page.fxml")));
+        StartTabController startTabController = new StartTabController();
+        startTabController.setCloseBehavior(stage);
         Scene scene = new Scene(root, 800, 800);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("styles.css")).toExternalForm());
         stage.setTitle("CSGO Observer Overlay GUI");

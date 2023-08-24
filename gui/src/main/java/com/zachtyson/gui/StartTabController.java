@@ -3,10 +3,14 @@ package com.zachtyson.gui;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 
 import java.io.*;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class StartTabController {
@@ -79,6 +83,23 @@ public class StartTabController {
             }
             System.out.println("Stopped '" + EXE_FILE_2 + "'");
         }
+    }
+    public void setCloseBehavior(Stage stage) {
+        stage.setOnCloseRequest(event -> {
+            if (process1 != null) {
+                process1.destroy();
+            }
+            if (process2 != null) {
+                process2.destroy();
+            }
+            if (processThread1 != null && processThread1.isAlive()) {
+                processThread1.interrupt();
+            }
+            if (processThread2 != null && processThread2.isAlive()) {
+                processThread2.interrupt();
+            }
+            System.exit(0);
+        });
     }
 
 }
