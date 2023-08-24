@@ -31,6 +31,10 @@ public class MainController implements Initializable {
     @FXML
     public Button cfgButton;
     @FXML
+    public TextField teamOneNameField;
+    @FXML
+    public TextField teamTwoNameField;
+    @FXML
     private Label welcomeText;
 
     @FXML
