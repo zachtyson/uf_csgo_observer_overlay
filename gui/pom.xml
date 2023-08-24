@@ -81,36 +81,37 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>com.akathist.maven.plugins.launch4j</groupId>
-                <artifactId>launch4j-maven-plugin</artifactId>
-                <version>2.1.1</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
-                        <id>l4j-clui</id>
+                        <id>jpackage-build</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>launch4j</goal>
+                            <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <headerType>gui</headerType>
-                            <jar>${project.build.directory}/gui-1.0-SNAPSHOT-shaded.jar</jar>
-                            <outfile>${project.build.directory}/${project.build.finalName}.exe</outfile>
-                            <errTitle>Your application title here</errTitle>
-                            <chdir>.</chdir>
-                            <priority>normal</priority>
-                            <downloadUrl>http://java.com/download</downloadUrl>
-                            <classPath>
-                                <mainClass>org.zachtyson.gui.Main</mainClass>
-                            </classPath>
-                            <jre>
-                                <minVersion>15</minVersion>
-                                <maxVersion>19.0.9</maxVersion>
-                                <jdkPreference>preferJre</jdkPreference>
-                            </jre>
+                            <executable>${java.home}/bin/jpackage</executable>
+                            <arguments>
+                                <argument>--type</argument>
+                                <argument>app-image</argument>
+
+                                <argument>--name</argument>
+                                <argument>gui-output</argument>
+
+                                <argument>--module</argument>
+                                <argument>com.zachtyson.gui/com.zachtyson.gui.Main</argument>
+
+                                <argument>--runtime-image</argument>
+                                <argument>target/app</argument>
+                            </arguments>
+
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 </project>
