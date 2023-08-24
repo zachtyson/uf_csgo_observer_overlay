@@ -43,15 +43,15 @@
         <TextField fx:id="bombTimerField" text="40" />
     </HBox>
     <HBox>
-        <Label text="Half Length:" />
+        <Label text="Half Rounds:" />
         <TextField fx:id="roundTimerField" text="15" />
     </HBox>
     <HBox>
-        <Label text="Game Length:" />
+        <Label text="Game Rounds:" />
         <TextField fx:id="gameLengthField" text="30" />
     </HBox>
     <HBox>
-        <Label text="Overtime Half Length:" />
+        <Label text="Overtime Half Rounds:" />
         <TextField fx:id="overtimeLengthField" text="3" />
     </HBox>
     <Button fx:id="createButton" text="Create JSON" onAction="#handleImportConfig" />
