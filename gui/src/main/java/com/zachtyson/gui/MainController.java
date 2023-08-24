@@ -73,4 +73,18 @@ public class MainController implements Initializable {
             }
         }
     }
+
+    private String getBase64(File file) throws IOException {
+        byte[] fileBytes = Files.readAllBytes(file.toPath());
+        return "data:image/" + getFileExtension(file) + ";base64," + Base64.getEncoder().encodeToString(fileBytes);
+    }
+
+    public static String getFileExtension(File file) {
+        String name = file.getName();
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ""; // Empty extension
+        }
+        return name.substring(lastIndexOf + 1).toLowerCase();
+    }
 }
