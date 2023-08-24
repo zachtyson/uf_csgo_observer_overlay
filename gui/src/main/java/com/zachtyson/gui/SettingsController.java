@@ -41,6 +41,13 @@ public class SettingsController implements Initializable {
     public Button importConfig;
     @FXML
     public TextArea ImportConfigOutputArea;
+
+    @FXML
+    public TextField roundTimerField;
+    @FXML
+    public TextField gameLengthField;
+    @FXML
+    public TextField overtimeLengthField;
     private String host = "http://localhost";
     private int port = 25566;
     private void createConfigFile() {
@@ -104,6 +111,15 @@ public class SettingsController implements Initializable {
 
         @SerializedName("bombTime")
         public int bombTime;
+
+        @SerializedName("halfLength")
+        public int halfLength;
+
+        @SerializedName("roundLength")
+        public int overtimeHalfLength;
+
+        @SerializedName("gameLength")
+        public int gameLength;
 
         public TeamData(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo, String teamOneStartingSide, int bombTime) {
             this.teamOneName = teamOneName;
