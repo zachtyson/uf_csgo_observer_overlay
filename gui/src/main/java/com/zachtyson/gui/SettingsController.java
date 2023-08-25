@@ -48,7 +48,7 @@ public class SettingsController implements Initializable {
     public TextField gameLengthField;
     @FXML
     public TextField overtimeLengthField;
-    private String host = "http://localhost";
+    private String host = "127.0.0.1";
     private int port = 25566;
     private void createConfigFile() {
         try {
