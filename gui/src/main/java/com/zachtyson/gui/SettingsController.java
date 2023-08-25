@@ -68,7 +68,7 @@ public class SettingsController implements Initializable {
             ConfigData configData = new ConfigData(applicationData, teamData);
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(configData);
-            writeJsonToFile(gson.toJson(configData), "config.json");
+            writeJsonToFile(gson.toJson(configData), "backend/config.json");
             createButtonOutputArea.setText("Successfully created config.json");
         } catch (IOException e) {
             createButtonOutputArea.setText("Error getting file: " + e.getMessage());
