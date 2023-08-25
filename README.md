@@ -63,3 +63,7 @@ GUI:
 3. cd gui
 4. mvn clean package
 5. The executable file is in the gui-output folder
+
+Release:
+1. npm run pre-release
+2. npm run release
