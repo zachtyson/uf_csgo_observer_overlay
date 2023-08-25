@@ -35,8 +35,8 @@ public class StartTabController implements Initializable {
         File exeFile = new File(fileName);
         if (exeFile.exists() && !exeFile.isDirectory()) {
             try {
-                ProcessBuilder processBuilder = new ProcessBuilder(fileName);
-                Process process = processBuilder.start();
+                Process process = Runtime.getRuntime().exec(fileName);
+
                 if (processNumber == 1) {
                     process1 = process;
                 } else if (processNumber == 2) {
@@ -44,10 +44,12 @@ public class StartTabController implements Initializable {
                 }
 
                 Thread processThread = new Thread(() -> {
-                    try (BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                    try {
+                        BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
                         String line;
                         while ((line = input.readLine()) != null && !Thread.currentThread().isInterrupted()) {
                             System.out.println(line);
+                            outputArea1.appendText(line + "\n");
                         }
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -63,6 +65,7 @@ public class StartTabController implements Initializable {
                 ex.printStackTrace();
             }
         } else {
+            outputArea1.appendText("File '" + fileName + "' does not exist\n");
             System.out.println("File '" + fileName + "' does not exist");
         }
     }
@@ -113,20 +116,24 @@ public class StartTabController implements Initializable {
                 stopProcess(1);
                 isFrontendRunning.set(false);
                 frontendButton.setText("Start Frontend");
+                outputArea1.appendText("Stopped '" + EXE_FILE_1 + "'\n");
             } else {
                 executeProcess(fileName, 1);
                 isFrontendRunning.set(true);
                 frontendButton.setText("Stop Frontend");
+                outputArea1.appendText("Started '" + EXE_FILE_1 + "'\n");
             }
         } else if (processNumber == 2) {
             if (isBackendRunning.get()) {
                 stopProcess(2);
                 isBackendRunning.set(false);
                 backendButton.setText("Start Backend");
+                outputArea1.appendText("Stopped '" + EXE_FILE_2 + "'\n");
             } else {
                 executeProcess(fileName, 2);
                 isBackendRunning.set(true);
                 backendButton.setText("Stop Backend");
+                outputArea1.appendText("Started '" + EXE_FILE_2 + "'\n");
             }
         }
     }
