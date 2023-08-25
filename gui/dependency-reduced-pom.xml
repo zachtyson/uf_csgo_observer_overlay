@@ -78,7 +78,7 @@
                 <argument>--type</argument>
                 <argument>app-image</argument>
                 <argument>--name</argument>
-                <argument>gui-output</argument>
+                <argument>CSGO Observer Overlay</argument>
                 <argument>--module</argument>
                 <argument>com.zachtyson.gui/com.zachtyson.gui.Main</argument>
                 <argument>--runtime-image</argument>
