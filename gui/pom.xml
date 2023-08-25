@@ -114,7 +114,7 @@
                                 <argument>app-image</argument>
 
                                 <argument>--name</argument>
-                                <argument>CSGO Observer Overlay</argument>
+                                <argument>CSGO-Observer-Overlay</argument>
 
                                 <argument>--module</argument>
                                 <argument>com.zachtyson.gui/com.zachtyson.gui.Main</argument>

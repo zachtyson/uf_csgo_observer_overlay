@@ -4,7 +4,7 @@
     "description": "Remake of UF CSGO Observer Overlay",
     "main": "index.js",
     "scripts": {
-        "backend:build": "tsc --project backend",
+        "backend:build": "cd backend && npm run build",
         "backend:start": "cd backend && npm run start",
         "backend:test": "jest backend/tests",
         "frontend:build": "cd frontend && npm run build",
@@ -19,7 +19,12 @@
         "lint": "concurrently \"cd frontend && npm run lint\" \"cd backend && npm run lint\"",
         "lint-fix": "concurrently \"cd frontend && npm run lint-fix\" \"cd backend && npm run lint-fix\"",
         "prettier": "prettier --write .",
-        "prettier:check": "prettier --check ."
+        "prettier:check": "prettier --check .",
+        "release:frontend": "cd frontend && npm run build && cd .. && electron-packager ./frontend/ --out ./release/ --name \"frontend\" --overwrite && move ./release/frontend-win32-x64 ./release/frontend",
+        "release:gui": "cd gui && mvn clean package && move ./CSGO-Observer-Overlay ../release",
+        "release:backend": "npm run build && pkg ./backend/dist/index.js --out-path ./release/backend --targets node16-win-x64 --overwrite && cd release/backend && move index.exe backend.exe",
+        "release": "npm run release:gui && npm run release:frontend && npm run release:backend",
+        "pre-release": "rmdir /s /q .\\release"
     },
     "repository": {
         "type": "git",
