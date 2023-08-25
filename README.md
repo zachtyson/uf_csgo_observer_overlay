@@ -9,7 +9,9 @@ Custom overlay for CSGO Casters and Observers which uses an Express for backend,
 -   Place `gamestate_integration_uf.cfg` in your CSGO cfg folder (`C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\cfg`) (this is the default location and may be different for you)
 -   Download the latest release
 -   Extract the zip file
--   Run `Main.exe`
+-   Run `gui.exe`
+-   Create your config file in the settings tab
+-   Click `Create Json` to create the overlay config file
 -   Select `Run Backend` and `Run Frontend`
 -   Open CSGO and join a match as a spectator
 -   Run `cl_draw_only_deathnotices 1` in console to get rid of default HUD
@@ -19,8 +21,6 @@ Custom overlay for CSGO Casters and Observers which uses an Express for backend,
 
 -   Make Browser Source for Custom HUD with URL `http://localhost:3000/` and width/height `1920x1080`.
 -   Make Game Capture for CSGO
-
-<!--- At halftime, when teams switch, click on the browser source, select 'interact' and press tilde ` to switch the sides and logos if needed --->
 
 ## Development Setup
 
