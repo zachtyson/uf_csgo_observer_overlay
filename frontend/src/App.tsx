@@ -61,11 +61,11 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
     const [config, setConfig] = useState<any>(null);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [colors, setColors] = useState({
-        TColor: 'rgb(213, 96, 0)',
-        CTColor: 'rgb(0, 135, 176)',
-        BackgroundOpacity: 'rgba(38, 48, 58, 0.76)',
-        BackgroundSolid: 'rgba(33, 42, 52, 1)',
-        BackgroundOpacity2: 'rgba(38, 48, 58, 0.7)',
+        tColor: 'rgb(213, 96, 0)',
+        ctColor: 'rgb(0, 135, 176)',
+        backgroundOpacity: 'rgba(38, 48, 58, 0.76)',
+        backgroundSolid: 'rgba(33, 42, 52, 1)',
+        backgroundOpacity2: 'rgba(38, 48, 58, 0.7)',
     });
     useEffect(() => {
         if (appConfiguration != null) {
@@ -110,11 +110,11 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
             style={{
                 height: '100vh',
                 width: '100vw',
-                '--T-color': colors.TColor,
-                '--CT-color': colors.CTColor,
-                '--Background-Opacity': colors.BackgroundOpacity,
-                '--Background-Solid': colors.BackgroundSolid,
-                '--Background-Opacity2': colors.BackgroundOpacity2,
+                '--T-color': colors.tColor,
+                '--CT-color': colors.ctColor,
+                '--Background-Opacity': colors.backgroundOpacity,
+                '--Background-Solid': colors.backgroundSolid,
+                '--Background-Opacity2': colors.backgroundOpacity2,
             }}
         >
             <RoundWin data={response} config={config} />{' '}
