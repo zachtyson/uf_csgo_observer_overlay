@@ -14,5 +14,12 @@
         "logLevel": "info",
         "port": 25566,
         "host": "127.0.0.1"
+    },
+    "ui_colors": {
+        "tColor": "rgb(213, 96, 233)",
+        "ctColor": "rgb(0, 235, 176)",
+        "backgroundOpacity": "rgba(108, 48, 58, 0.76)",
+        "backgroundSolid": "rgba(133, 42, 52, 1)",
+        "backgroundOpacity2": "rgba(138, 48, 58, 0.7)"
     }
 }
