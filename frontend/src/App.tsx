@@ -5,6 +5,7 @@ import Teams from './teams/Teams';
 import CurrentPlayer from './current_player/CurrentPlayer';
 import { type ConfigData } from './config_interface';
 import RoundWin from './round_win/RoundWin';
+import './_variables.scss';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const backupTeamOneLogo = require('./config/teamOneBackup.png');
@@ -13,6 +14,16 @@ const backupTeamTwoLogo = require('./config/teamTwoBackup.png');
 
 interface AppProps {
     appConfiguration: ConfigData | null;
+}
+
+declare module 'react' {
+    interface CSSProperties {
+        '--T-color'?: string;
+        '--CT-color'?: string;
+        '--Background-Opacity'?: string;
+        '--Background-Solid'?: string;
+        '--Background-Opacity2'?: string;
+    }
 }
 
 const ENDPOINT = 'http://localhost:25566/'; // replace with your server's address and port
@@ -48,7 +59,14 @@ function getBackupConfig(): ConfigData {
 const App: React.FC<AppProps> = ({ appConfiguration }) => {
     const [response, setResponse] = useState<any>(null);
     const [config, setConfig] = useState<any>(null);
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [colors, setColors] = useState({
+        TColor: 'rgb(213, 96, 0)',
+        CTColor: 'rgb(0, 135, 176)',
+        BackgroundOpacity: 'rgba(38, 48, 58, 0.76)',
+        BackgroundSolid: 'rgba(33, 42, 52, 1)',
+        BackgroundOpacity2: 'rgba(38, 48, 58, 0.7)',
+    });
     useEffect(() => {
         if (appConfiguration != null) {
             const configData = {
@@ -88,7 +106,17 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
         };
     }, []);
     return (
-        <div style={{ height: '100vh', width: '100vw' }}>
+        <div
+            style={{
+                height: '100vh',
+                width: '100vw',
+                '--T-color': colors.TColor,
+                '--CT-color': colors.CTColor,
+                '--Background-Opacity': colors.BackgroundOpacity,
+                '--Background-Solid': colors.BackgroundSolid,
+                '--Background-Opacity2': colors.BackgroundOpacity2,
+            }}
+        >
             <RoundWin data={response} config={config} />{' '}
             <Scoreboard data={response} config={config} />{' '}
             <Teams data={response} config={config} />{' '}
