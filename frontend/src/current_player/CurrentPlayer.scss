@@ -67,15 +67,15 @@
 }
 
 .backgroundSolid{
-    background-color: $Background-solid;
+    background-color: var(--Background-solid);
 }
 
 .backgroundOpacity{
-    background-color: $Background-opacity;
+    background-color: var(--Background-opacity);
 }
 
 .backgroundOpacity2{
-    background-color: $Background-opacity2;
+    background-color: var(--Background-opacity2);
 }
 
 .teamImg {

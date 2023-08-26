@@ -4,7 +4,7 @@
     display: table-cell;
     vertical-align: middle;
     font-size: 3vw;
-    background-color: $CT-color;
+    background-color: var(--CT-color);
     height: 100%;
     margin: 0;
 }
@@ -13,7 +13,7 @@
     display: table-cell;
     vertical-align: middle;
     font-size: 3vw;
-    background-color: $T-color;
+    background-color: var(--T-color);
     height: 100%;
     margin: 0;
 }
@@ -61,16 +61,16 @@
     font-size: 30px;
 
     .TWin {
-        background-color: $T-color;
+        background-color: var(--T-color);
         min-width: 90%;
     }
     .CTWin {
-        background-color: $CT-color;
+        background-color: var(--CT-color);
         min-width: 90%;
     }
     .teamLogoEnd {
         height: 100%;
-        background-color: $Background-opacity;
+        background-color: var(--Background-opacity);
     }
     .teamLogoEnd img {
         max-height: 100%;
@@ -113,7 +113,7 @@ body {
 .scoreBoardTeamImage {
     text-align: center;
     position: relative;
-    background-color: $Background-opacity;
+    background-color: var(--Background-opacity);
     width: 20%;
     img {
         top: 0;
@@ -138,7 +138,7 @@ body {
     margin: 0 auto;
     width: 25%;
     height: 100%;
-    background-color: $Background-solid;
+    background-color: var(--Background-solid);
 
     .bombImage {
         display: table-cell;
@@ -185,7 +185,7 @@ body {
     align-items: center;
     height: 3vh;
     width: 30vw;
-    background-color: $Background-opacity;
+    background-color: var(--Background-opacity);
 }
 
 .scoreBoardTimerOne {
@@ -220,11 +220,11 @@ body {
 }
 
 .scoreBoardCTColor {
-    background-color: $CT-color;
+    background-color: var(--CT-color);
 }
 
 .scoreBoardTColor {
-    background-color: $T-color;
+    background-color: var(--T-color);
 }
 
 @for $i from 0 through 100 {
