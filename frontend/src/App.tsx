@@ -3,7 +3,7 @@ import { io, type Socket } from 'socket.io-client';
 import Scoreboard from './scoreboard/Scoreboard';
 import Teams from './teams/Teams';
 import CurrentPlayer from './current_player/CurrentPlayer';
-import { type ConfigData } from './config_interface';
+import { type ConfigData, type UIColors } from './config_interface';
 import RoundWin from './round_win/RoundWin';
 import './_variables.scss';
 
@@ -20,9 +20,9 @@ declare module 'react' {
     interface CSSProperties {
         '--T-color'?: string;
         '--CT-color'?: string;
-        '--Background-Opacity'?: string;
-        '--Background-Solid'?: string;
-        '--Background-Opacity2'?: string;
+        '--Background-opacity'?: string;
+        '--Background-solid'?: string;
+        '--Background-opacity2'?: string;
     }
 }
 
@@ -59,14 +59,6 @@ function getBackupConfig(): ConfigData {
 const App: React.FC<AppProps> = ({ appConfiguration }) => {
     const [response, setResponse] = useState<any>(null);
     const [config, setConfig] = useState<any>(null);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [colors, setColors] = useState({
-        tColor: 'rgb(213, 96, 0)',
-        ctColor: 'rgb(0, 135, 176)',
-        backgroundOpacity: 'rgba(38, 48, 58, 0.76)',
-        backgroundSolid: 'rgba(33, 42, 52, 1)',
-        backgroundOpacity2: 'rgba(38, 48, 58, 0.7)',
-    });
     useEffect(() => {
         if (appConfiguration != null) {
             const configData = {
@@ -83,6 +75,12 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
                     appConfiguration.team_data.teamOneStartingSide,
             };
             setConfig(configData);
+            if (
+                appConfiguration.ui_colors !== undefined &&
+                appConfiguration.ui_colors != null
+            ) {
+                setColors(appConfiguration.ui_colors);
+            }
         } else {
             const configData = getBackupConfig();
             setConfig(configData);
@@ -105,6 +103,13 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
             socket.disconnect();
         };
     }, []);
+    const [colors, setColors] = useState<UIColors>({
+        tColor: 'rgb(213, 96, 0)',
+        ctColor: 'rgb(0, 135, 176)',
+        backgroundOpacity: 'rgba(38, 48, 58, 0.76)',
+        backgroundSolid: 'rgba(33, 42, 52, 1)',
+        backgroundOpacity2: 'rgba(38, 48, 58, 0.7)',
+    });
     return (
         <div
             style={{
@@ -112,9 +117,9 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
                 width: '100vw',
                 '--T-color': colors.tColor,
                 '--CT-color': colors.ctColor,
-                '--Background-Opacity': colors.backgroundOpacity,
-                '--Background-Solid': colors.backgroundSolid,
-                '--Background-Opacity2': colors.backgroundOpacity2,
+                '--Background-opacity': colors.backgroundOpacity,
+                '--Background-solid': colors.backgroundSolid,
+                '--Background-opacity2': colors.backgroundOpacity2,
             }}
         >
             <RoundWin data={response} config={config} />{' '}
