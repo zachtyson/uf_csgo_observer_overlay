@@ -20,3 +20,5 @@
 /gui/target/
 /gui/gui-output/
 /gui/gui-output.zip
+/release/
+/release/**/*
