@@ -1,5 +1,7 @@
-$T-color: rgb(213, 96, 0);
-$CT-color: rgb(0, 135, 176);
-$Background-opacity: #26303ac2;
-$Background-solid: #212a34;
-$Background-opacity2: #26303ab3;
+:root {
+  --T-color: rgb(213, 96, 0);
+  --CT-color: rgb(0, 135, 176);
+  --Background-opacity: rgba(38, 48, 58, 0.76);
+  --Background-solid: rgba(33, 42, 52, 1);
+  --Background-opacity2: rgba(38, 48, 58, 0.7);
+}
