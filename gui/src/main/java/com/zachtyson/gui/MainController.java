@@ -24,6 +24,9 @@ public class MainController implements Initializable {
     private Tab settingsTab;
     @FXML
     private Tab gameLocationTab;
+    @FXML
+    private Tab visualSettingsTab;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         for(Tab tab: tabPane.getTabs()) {
@@ -33,6 +36,7 @@ public class MainController implements Initializable {
             startTab.setContent(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("start-tab.fxml"))));
             settingsTab.setContent(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("settings-tab.fxml"))));
             gameLocationTab.setContent(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game-location.fxml"))));
+            visualSettingsTab.setContent(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("visual-settings.fxml"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
