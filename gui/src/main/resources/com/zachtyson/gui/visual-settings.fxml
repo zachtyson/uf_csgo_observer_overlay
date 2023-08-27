@@ -4,15 +4,26 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ColorPicker?>
 
+<?import javafx.scene.layout.HBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.zachtyson.gui.VisualSettingsController">
-    <Label text="Color 1:"/>
-    <ColorPicker fx:id="colorPicker1"/>
-    <Label text="Color 2:"/>
-    <ColorPicker fx:id="colorPicker2"/>
-    <Label text="Color 3:"/>
-    <ColorPicker fx:id="colorPicker3"/>
-    <Label text="Color 4:"/>
-    <ColorPicker fx:id="colorPicker4"/>
-    <Label text="Color 5:"/>
-    <ColorPicker fx:id="colorPicker5"/>
+    <HBox>
+        <Label text="Color 1:"/>
+        <ColorPicker fx:id="colorPicker1"/>
+    </HBox>
+    <HBox>
+        <Label text="Color 2:"/>
+        <ColorPicker fx:id="colorPicker2"/>
+    </HBox>
+    <HBox>
+        <Label text="Color 3:"/>
+        <ColorPicker fx:id="colorPicker3"/>
+    </HBox>
+    <HBox>
+        <Label text="Color 4:"/>
+        <ColorPicker fx:id="colorPicker4"/>
+    </HBox>
+    <HBox>
+        <Label text="Color 5:"/>
+        <ColorPicker fx:id="colorPicker5"/>
+    </HBox>
 </VBox>
