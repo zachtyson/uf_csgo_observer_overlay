@@ -2,6 +2,7 @@ package com.zachtyson.gui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 
@@ -19,6 +20,9 @@ public class VisualSettingsController implements Initializable {
     public ColorPicker colorPicker4;
     @FXML
     public ColorPicker colorPicker5;
+    @FXML
+    public Button saveColors;
+
     //        tColor: 'rgb(213, 96, 0)',
     //        ctColor: 'rgb(0, 135, 176)',
     //        backgroundSolid: 'rgba(33, 42, 52, 1)',

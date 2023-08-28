@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ColorPicker?>
 
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.zachtyson.gui.VisualSettingsController">
     <HBox>
         <Label text="T Side Color:"/>
@@ -26,4 +27,5 @@
         <Label text="Background Opacity 2:"/>
         <ColorPicker fx:id="colorPicker5"/>
     </HBox>
+    <Button text="Save" alignment="CENTER" fx:id="saveColors"/>
 </VBox>
