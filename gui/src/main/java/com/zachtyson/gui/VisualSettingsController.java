@@ -21,8 +21,8 @@ public class VisualSettingsController implements Initializable {
     public ColorPicker colorPicker5;
     //        tColor: 'rgb(213, 96, 0)',
     //        ctColor: 'rgb(0, 135, 176)',
-    //        backgroundOpacity: 'rgba(38, 48, 58, 0.76)',
     //        backgroundSolid: 'rgba(33, 42, 52, 1)',
+    //        backgroundOpacity: 'rgba(38, 48, 58, 0.76)',
     //        backgroundOpacity2: 'rgba(38, 48, 58, 0.7)',
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -34,8 +34,8 @@ public class VisualSettingsController implements Initializable {
         //                Color.rgb(38, 48, 58)
         colors[0] = Color.rgb(213, 96, 0, 1);
         colors[1] = Color.rgb(0, 135, 176, 1);
-        colors[2] = Color.rgb(38, 48, 58,0.76);
-        colors[3] = Color.rgb(33, 42, 52, 1);
+        colors[2] = Color.rgb(33, 42, 52, 1);
+        colors[3] = Color.rgb(38, 48, 58,0.76);
         colors[4] = Color.rgb(38, 48, 58, 0.7);
 
         colorPicker1.setValue(colors[0]);
