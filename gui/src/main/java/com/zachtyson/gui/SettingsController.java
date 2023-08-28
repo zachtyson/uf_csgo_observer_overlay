@@ -50,7 +50,7 @@ public class SettingsController implements Initializable {
     public TextField overtimeLengthField;
     private String host = "127.0.0.1";
     private int port = 25566;
-    private void createConfigFile() {
+    public void createConfigFile() {
         try {
             ApplicationData applicationData = new ApplicationData("info", port, host);
             String teamOneName = teamOneNameField.getText();
