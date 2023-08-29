@@ -124,7 +124,7 @@ public class SettingsController implements Initializable {
     }
 
     public void handleImportConfig() {
-        ConfigData configData = ConfigData.getInstance(null, null,null);
+        ConfigData configData = ConfigData.getInstance();
         FileChooser importConfigChooser = new FileChooser();
         File selectedGameConfig = importConfigChooser.showOpenDialog(null);
         configData.importConfig(selectedGameConfig);
