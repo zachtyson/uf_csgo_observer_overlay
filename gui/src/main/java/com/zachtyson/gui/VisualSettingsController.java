@@ -58,16 +58,23 @@ public class VisualSettingsController implements Initializable {
 
         saveColors.setOnAction(actionEvent -> {
             UIColorsData uiColorsData = new UIColorsData(
-                    colorPicker1.getValue().toString(),
-                    colorPicker2.getValue().toString(),
-                    colorPicker3.getValue().toString(),
-                    colorPicker4.getValue().toString(),
-                    colorPicker5.getValue().toString()
+                    convertToRGBA(colorPicker1.getValue()),
+                    convertToRGBA(colorPicker2.getValue()),
+                    convertToRGBA(colorPicker3.getValue()),
+                    convertToRGBA(colorPicker4.getValue()),
+                    convertToRGBA(colorPicker5.getValue())
             );
             ConfigData configData = ConfigData.getInstance();
             configData.setUiColorsData(uiColorsData);
             configData.writeToFile();
 
         });
+    }
+
+    private String convertToRGBA(Color color) {
+        Double opacity = Math.round(color.getOpacity()*100.0)/100.0;
+        String c = "rgba(" + (int)(color.getRed()*255) + ", " + (int)(color.getGreen()*255) + ", " + (int)(color.getBlue()*255) + ", " + opacity + ")";
+        System.out.println(c);
+        return c;
     }
 }
