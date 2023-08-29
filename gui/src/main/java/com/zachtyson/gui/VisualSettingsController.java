@@ -9,6 +9,8 @@ import javafx.scene.paint.Color;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static com.zachtyson.gui.Main.writeJsonToFile;
+
 public class VisualSettingsController implements Initializable {
     @FXML
     public ColorPicker colorPicker1;
@@ -53,5 +55,19 @@ public class VisualSettingsController implements Initializable {
         colorPicker3.getCustomColors().addAll(colors);
         colorPicker4.getCustomColors().addAll(colors);
         colorPicker5.getCustomColors().addAll(colors);
+
+        saveColors.setOnAction(actionEvent -> {
+            UIColorsData uiColorsData = new UIColorsData(
+                    colorPicker1.getValue().toString(),
+                    colorPicker2.getValue().toString(),
+                    colorPicker3.getValue().toString(),
+                    colorPicker4.getValue().toString(),
+                    colorPicker5.getValue().toString()
+            );
+            ConfigData configData = ConfigData.getInstance();
+            configData.setUiColorsData(uiColorsData);
+            configData.writeToFile();
+
+        });
     }
 }
