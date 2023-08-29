@@ -15,15 +15,33 @@ public class ConfigData {
     public ApplicationData application = new ApplicationData("info", 25566, "127.0.0.1");
 
     @SerializedName("team_data")
-    public TeamData teamData;
+    public TeamData teamData = new TeamData("Team One", "Team Two", "teamOneBackup.png", "teamTwoBackup", "CT", 40, 15, 3, 30);
 
     private ConfigData(ApplicationData application, TeamData teamData, UIColorsData uiColorsData) {
-
+        if(application == null && teamData == null && uiColorsData == null) {
+            File f = new File("config.json");
+            if(f.exists()) {
+                try {
+                    importConfig(f);
+                } catch (RuntimeException e) {
+                    System.out.println("Error: Failed to import config.");
+                }
+            }
+        } else {
+            if(application != null) {
+                this.application = application;
+            }
+            if(teamData != null) {
+                this.teamData = teamData;
+            }
+            if(uiColorsData != null) {
+                this.uiColorsData = uiColorsData;
+            }
+        }
     }
 
     @SerializedName("ui_colors")
-    public UIColorsData uiColorsData;
-
+    public UIColorsData uiColorsData = new UIColorsData("rgb(213, 96, 233)", "rgb(0, 235, 176)", "rgba(108, 48, 58, 0.76)", "rgba(138, 48, 58, 0.7)", "rgba(133, 42, 52, 1)");
     public static ConfigData getInstance(ApplicationData application, TeamData teamData, UIColorsData uiColorsData) {
         if (singleInstance == null) {
             singleInstance = new ConfigData(application, teamData, uiColorsData);
@@ -33,6 +51,9 @@ public class ConfigData {
         }
         if(teamData != null) {
             singleInstance.teamData = teamData;
+        }
+        if(uiColorsData != null) {
+            singleInstance.uiColorsData = uiColorsData;
         }
         return singleInstance;
     }
