@@ -19,10 +19,10 @@ public class ConfigData {
             singleInstance = new ConfigData(application, teamData);
         }
         if(application == null) {
-            application = singleInstance.application;
+            singleInstance.application = application;
         }
         if(teamData == null) {
-            teamData = singleInstance.teamData;
+            singleInstance.teamData = teamData;
         }
         return singleInstance;
     }
