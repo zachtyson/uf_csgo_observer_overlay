@@ -66,12 +66,20 @@ public class ConfigData {
         this.teamData = teamData;
     }
 
+    public void setUiColorsData(UIColorsData uiColorsData) {
+        this.uiColorsData = uiColorsData;
+    }
+
     public ApplicationData getApplication() {
         return application;
     }
 
     public TeamData getTeamData() {
         return teamData;
+    }
+
+    public UIColorsData getUiColorsData() {
+        return uiColorsData;
     }
 
     public static ConfigData singleInstance = null;
