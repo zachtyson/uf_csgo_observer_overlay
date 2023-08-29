@@ -7,10 +7,12 @@ const { app, BrowserWindow } = require('electron');
 let mainWindow;
 let server;
 
+const port = process.argv[2] || process.env.PORT || 3000;
+
 function createWindow() {
     const reactApp = express();
     reactApp.use('/', express.static(path.join(__dirname, './build'))); // Serve your static React build
-    server = reactApp.listen(3000, () =>
+    server = reactApp.listen(port, () =>
         console.log('React App on localhost:3000'),
     );
 
