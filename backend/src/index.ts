@@ -220,7 +220,7 @@ function splitPlayersIntoTeams(jsonData: any): void {
 //     'weapon_incgrenade',
 // ];
 
-function getTotalUtility(allplayers: any[]): void {
+function getTotalUtilityAndValue(allplayers: any[]): void {
     const teamOneUtility = getTotalUtilityForTeam(teamOne);
     const teamTwoUtility = getTotalUtilityForTeam(teamTwo);
     // @ts-expect-error fix later
@@ -237,6 +237,12 @@ function getTotalUtility(allplayers: any[]): void {
         smoke: teamTwoUtility[2],
         fire: teamTwoUtility[3],
     };
+    const teamOneValue = getTotalEquipmentValueForTeam(teamOne);
+    const teamTwoValue = getTotalEquipmentValueForTeam(teamTwo);
+    // @ts-expect-error fix later
+    allplayers.teamOneUtility.value = teamOneValue;
+    // @ts-expect-error fix later
+    allplayers.teamTwoUtility.value = teamTwoValue;
 }
 
 function getTotalUtilityForTeam(team: any[]): number[] {
@@ -272,6 +278,23 @@ function getTotalUtilityForTeam(team: any[]): number[] {
         }
     }
     return [totalFlash, totalHE, totalSmoke, totalFire];
+}
+
+function getTotalEquipmentValueForTeam(team: any[]): number {
+    let totalValue = 0;
+    for (let i = 0; i < team.length; i++) {
+        const player = team[i];
+        const playerState = player.state;
+        if (playerState == null || playerState.equip_value == null) {
+            continue;
+        }
+        if (playerState.health <= 0) {
+            continue;
+        }
+        const currValue: number = playerState.equip_value;
+        totalValue += currValue;
+    }
+    return totalValue;
 }
 
 async function startServer(): Promise<void> {
@@ -323,7 +346,7 @@ async function startServer(): Promise<void> {
                             // log.info("[SYSTEM] Sent data to frontend via socket");
                             appendADR(jsonData);
                             splitPlayersIntoTeams(jsonData);
-                            getTotalUtility(jsonData.allplayers);
+                            getTotalUtilityAndValue(jsonData.allplayers);
                             io.emit('data', jsonData);
                             // console.log(playerADRStore);
                             // console.log(playerADR);
