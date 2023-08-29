@@ -112,4 +112,5 @@ export interface TeamUtility {
     he: number;
     smoke: number;
     fire: number;
+    value: number;
 }
