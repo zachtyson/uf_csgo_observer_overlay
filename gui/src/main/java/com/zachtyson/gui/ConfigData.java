@@ -18,8 +18,12 @@ public class ConfigData {
         if (singleInstance == null) {
             singleInstance = new ConfigData(application, teamData);
         }
-        singleInstance.application = application;
-        singleInstance.teamData = teamData;
+        if(application == null) {
+            application = singleInstance.application;
+        }
+        if(teamData == null) {
+            teamData = singleInstance.teamData;
+        }
         return singleInstance;
     }
 
