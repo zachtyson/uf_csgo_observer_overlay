@@ -87,6 +87,7 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
         }
     }, []);
     getBackupConfig();
+    //todo: somehow figure out how to get port parameter from GUI to here
     useEffect(() => {
         let socket: Socket;
         // eslint-disable-next-line prefer-const
