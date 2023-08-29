@@ -6,10 +6,14 @@
 
 <?import javafx.collections.FXCollections?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.zachtyson.gui.SettingsController">
-    <Label text="Port:"/>
-    <TextField text="25566" editable="false"/>
+    <Label text="Backend Server Port:"/>
+    <TextField text="25566"/>
     <Label text="Host:"/>
     <TextField text="127.0.0.1" editable="false"/>
+    <HBox>
+        <Label text="Frontend Browser Port:"/>
+        <TextField text="3000" fx:id="frontendPortField"/>
+    </HBox>
     <HBox spacing="10">
         <Label text="Team One Name:" />
         <TextField fx:id="teamOneNameField"/>
