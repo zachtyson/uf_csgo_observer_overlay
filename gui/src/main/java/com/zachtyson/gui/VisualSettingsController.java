@@ -74,7 +74,6 @@ public class VisualSettingsController implements Initializable {
     private String convertToRGBA(Color color) {
         double opacity = Math.round(color.getOpacity()*100.0)/100.0;
         String c = "rgba(" + (int)(color.getRed()*255) + ", " + (int)(color.getGreen()*255) + ", " + (int)(color.getBlue()*255) + ", " + opacity + ")";
-        System.out.println(c);
         return c;
     }
 }
