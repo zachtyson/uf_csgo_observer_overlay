@@ -212,7 +212,7 @@ export function Container({
     if (players == null) return <div></div>;
     const className = 'container ' + side + 'Container';
     let currentSpecPlayer: Player | null = null;
-    if (currentSpec != null && players != null && currentSpec.steamid !== '1') {
+    if (currentSpec != null && currentSpec.steamid !== '1') {
         for (let i = 0; i < players.length; i++) {
             if (players[i].observer_slot === currentSpec.observer_slot) {
                 currentSpecPlayer = players[i];
