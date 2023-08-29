@@ -9,8 +9,17 @@ public class ConfigData {
     @SerializedName("team_data")
     public TeamData teamData;
 
-    public ConfigData(ApplicationData application, TeamData teamData) {
+    private ConfigData(ApplicationData application, TeamData teamData) {
         this.application = application;
         this.teamData = teamData;
     }
+
+    public static ConfigData getInstance(ApplicationData application, TeamData teamData) {
+        if (singleInstance == null)
+            singleInstance = new ConfigData(application, teamData);
+
+        return singleInstance;
+    }
+
+    public static ConfigData singleInstance = null;
 }
