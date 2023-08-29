@@ -15,10 +15,26 @@ public class ConfigData {
     }
 
     public static ConfigData getInstance(ApplicationData application, TeamData teamData) {
-        if (singleInstance == null)
+        if (singleInstance == null) {
             singleInstance = new ConfigData(application, teamData);
-
+        }
         return singleInstance;
+    }
+
+    public void setApplication(ApplicationData application) {
+        this.application = application;
+    }
+
+    public void setTeamData(TeamData teamData) {
+        this.teamData = teamData;
+    }
+
+    public ApplicationData getApplication() {
+        return application;
+    }
+
+    public TeamData getTeamData() {
+        return teamData;
     }
 
     public static ConfigData singleInstance = null;
