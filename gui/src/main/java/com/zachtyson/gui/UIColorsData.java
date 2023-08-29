@@ -14,18 +14,17 @@ public class UIColorsData {
     public String tColor;
     @SerializedName("ctColor")
     public String ctColor;
+    @SerializedName("backgroundSolid")
+    public String backgroundSolid;
     @SerializedName("backgroundOpacity")
     public String backgroundOpacity;
     @SerializedName("backgroundOpacity2")
     public String backgroundOpacity2;
-    @SerializedName("backgroundSolid")
-    public String backgroundSolid;
-
-    public UIColorsData(String tColor, String ctColor, String backgroundOpacity, String backgroundOpacity2, String backgroundSolid) {
+    public UIColorsData(String tColor, String ctColor, String backgroundSolid, String backgroundOpacity2, String backgroundOpacity) {
         this.tColor = tColor;
         this.ctColor = ctColor;
+        this.backgroundSolid = backgroundSolid;
         this.backgroundOpacity = backgroundOpacity;
         this.backgroundOpacity2 = backgroundOpacity2;
-        this.backgroundSolid = backgroundSolid;
     }
 }
