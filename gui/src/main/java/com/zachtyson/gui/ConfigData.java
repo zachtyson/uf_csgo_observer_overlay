@@ -21,6 +21,10 @@ public class ConfigData {
         return singleInstance;
     }
 
+    public static ConfigData getInstance() {
+        return singleInstance;
+    }
+
     public void setApplication(ApplicationData application) {
         this.application = application;
     }
