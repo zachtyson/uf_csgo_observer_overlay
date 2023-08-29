@@ -50,7 +50,7 @@ public class SettingsController implements Initializable {
     public TextField overtimeLengthField;
     private String host = "127.0.0.1";
     private int port = 25566;
-    private void createConfigFile() {
+    public void createConfigFile() {
         try {
             ApplicationData applicationData = new ApplicationData("info", port, host);
             String teamOneName = teamOneNameField.getText();
@@ -65,11 +65,10 @@ public class SettingsController implements Initializable {
             int gameLength = Integer.parseInt(gameLengthField.getText());
             int overtimeHalfLength = Integer.parseInt(overtimeLengthField.getText());
             TeamData teamData = new TeamData(teamOneName, teamTwoName, teamOneLogo, teamTwoLogo, teamOneStartingSide, bombTime, halfLength, overtimeHalfLength, gameLength);
-            ConfigData configData = new ConfigData(applicationData, teamData);
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            gson.toJson(configData);
-            writeJsonToFile(gson.toJson(configData), "backend/config.json"); //this one doesn't work but the bottom one doesn't work unless this one is here
-            writeJsonToFile(gson.toJson(configData), "config.json");
+            ConfigData configData = ConfigData.getInstance();
+            configData.setApplication(applicationData);
+            configData.setTeamData(teamData);
+            configData.writeToFile();
             createButtonOutputArea.setText("Successfully created config.json");
         } catch (IOException e) {
             createButtonOutputArea.setText("Error getting file: " + e.getMessage());
@@ -86,77 +85,6 @@ public class SettingsController implements Initializable {
         importConfig.setOnAction(event -> handleImportConfig());
     }
 
-    public static class ConfigData {
-        @SerializedName("application")
-        public ApplicationData application;
-
-        @SerializedName("team_data")
-        public TeamData teamData;
-
-        public ConfigData(ApplicationData application, TeamData teamData) {
-            this.application = application;
-            this.teamData = teamData;
-        }
-    }
-
-    public static class TeamData {
-        @SerializedName("teamOneName")
-        public String teamOneName;
-
-        @SerializedName("teamOneLogo")
-        public String teamOneLogo;
-
-        @SerializedName("teamTwoName")
-        public String teamTwoName;
-
-        @SerializedName("teamTwoLogo")
-        public String teamTwoLogo;
-
-        @SerializedName("teamOneStartingSide")
-        public String teamOneStartingSide;
-
-        @SerializedName("bombTime")
-        public int bombTime;
-
-        @SerializedName("halfLength")
-        public int halfLength;
-
-        @SerializedName("roundLength")
-        public int overtimeHalfLength;
-
-        @SerializedName("gameLength")
-        public int gameLength;
-
-        public TeamData(String teamOneName, String teamTwoName, String teamOneLogo, String teamTwoLogo, String teamOneStartingSide, int bombTime, int halfLength, int overtimeHalfLength, int gameLength) {
-            this.teamOneName = teamOneName;
-            this.teamTwoName = teamTwoName;
-            this.teamOneLogo = teamOneLogo;
-            this.teamTwoLogo = teamTwoLogo;
-            this.teamOneStartingSide = teamOneStartingSide;
-            this.bombTime = bombTime;
-            this.halfLength = halfLength;
-            this.overtimeHalfLength = overtimeHalfLength;
-            this.gameLength = gameLength;
-        }
-
-    }
-
-    public static class ApplicationData {
-        @SerializedName("logLevel")
-        public String logLevel;
-
-        @SerializedName("port")
-        public int port;
-
-        @SerializedName("host")
-        public String host;
-
-        public ApplicationData(String logLevel, int port, String host) {
-            this.logLevel = logLevel;
-            this.port = port;
-            this.host = host;
-        }
-    }
 
     private String getBase64(File file) throws IOException {
         byte[] fileBytes = Files.readAllBytes(Path.of(file.getAbsolutePath()));
@@ -196,32 +124,9 @@ public class SettingsController implements Initializable {
     }
 
     public void handleImportConfig() {
+        ConfigData configData = ConfigData.getInstance();
         FileChooser importConfigChooser = new FileChooser();
         File selectedGameConfig = importConfigChooser.showOpenDialog(null);
-        if (selectedGameConfig != null) {
-            importConfig.setText(selectedGameConfig.getName());
-
-            try (FileReader reader = new FileReader(selectedGameConfig)) {
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                ConfigData configObj = gson.fromJson(reader, ConfigData.class);
-                String newConfigObj = gson.toJson(configObj);
-                writeJsonToFile(newConfigObj, "config.json");
-            } catch (JsonSyntaxException ex) {
-                System.out.println("Error: Invalid JSON syntax.");
-                ImportConfigOutputArea.setText("Error: Invalid JSON syntax.");
-            } catch (JsonIOException ex) {
-                System.out.println("Error: Invalid JSON IO.");
-                ImportConfigOutputArea.setText("Error: Failed to read JSON.");
-            } catch (NullPointerException ex) {
-                // User opened file chooser but didn't select a file
-                System.out.println("Error: No file selected.");
-            } catch (Exception ex) {
-                System.out.println("Error: Failed to import config.");
-                ImportConfigOutputArea.setText("Error: Failed to import config.");
-                ex.printStackTrace();
-            }
-        } else {
-            System.out.println("Error: No file selected.");
-        }
+        configData.importConfig(selectedGameConfig);
     }
 }

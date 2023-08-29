@@ -19,7 +19,6 @@ function AppWrapper(): JSX.Element {
     const [appConfiguration, setAppConfiguration] = useState<ConfigData | null>(
         null,
     );
-
     useEffect(() => {
         axios
             .get(ENDPOINT)

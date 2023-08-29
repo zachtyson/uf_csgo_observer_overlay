@@ -18,19 +18,13 @@ interface ApplicationData {
 export interface ConfigData {
     application_data: ApplicationData;
     team_data: TeamData;
+    ui_colors: UIColors;
 }
-// {
-//   "application": {
-//     "logLevel": "info",
-//     "port": 25566,
-//     "host": "127.0.0.1"
-//   },
-//   "team_data": {
-//     "teamOneName": "Devin",
-//     "teamTwoName": "Zach",
-//     "teamOneLogo": "logoOne.png",
-//     "teamTwoLogo": "logoTwo.jpg",
-//     "teamOneStartingSide": "CT",
-//     "bombTime": 40
-//   }
-// }
+
+export interface UIColors {
+    tColor: string;
+    ctColor: string;
+    backgroundOpacity: string;
+    backgroundSolid: string;
+    backgroundOpacity2: string;
+}

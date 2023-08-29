@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ColorPicker?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.zachtyson.gui.VisualSettingsController">
+    <HBox>
+        <Label text="T Side Color:"/>
+        <ColorPicker fx:id="colorPicker1"/>
+    </HBox>
+    <HBox>
+        <Label text="CT Side Color:"/>
+        <ColorPicker fx:id="colorPicker2"/>
+    </HBox>
+    <HBox>
+        <Label text="Background Solid:"/>
+        <ColorPicker fx:id="colorPicker3"/>
+    </HBox>
+    <HBox>
+        <Label text="Background Opacity:"/>
+        <ColorPicker fx:id="colorPicker4"/>
+    </HBox>
+    <HBox>
+        <Label text="Background Opacity 2:"/>
+        <ColorPicker fx:id="colorPicker5"/>
+    </HBox>
+    <Button text="Save" alignment="CENTER" fx:id="saveColors"/>
+</VBox>

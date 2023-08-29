@@ -11,6 +11,7 @@
         <Tab text="Start" fx:id="startTab"/>
         <Tab text="Settings" fx:id="settingsTab"/>
         <Tab text="Game Location" fx:id="gameLocationTab"/>
+        <Tab text="Visual Settings" fx:id="visualSettingsTab"/>
     </TabPane>
 </AnchorPane>
 
