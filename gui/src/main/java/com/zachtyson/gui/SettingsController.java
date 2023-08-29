@@ -65,7 +65,9 @@ public class SettingsController implements Initializable {
             int gameLength = Integer.parseInt(gameLengthField.getText());
             int overtimeHalfLength = Integer.parseInt(overtimeLengthField.getText());
             TeamData teamData = new TeamData(teamOneName, teamTwoName, teamOneLogo, teamTwoLogo, teamOneStartingSide, bombTime, halfLength, overtimeHalfLength, gameLength);
-            ConfigData configData = ConfigData.getInstance(applicationData, teamData,null);
+            ConfigData configData = ConfigData.getInstance();
+            configData.setApplication(applicationData);
+            configData.setTeamData(teamData);
             configData.writeToFile();
             createButtonOutputArea.setText("Successfully created config.json");
         } catch (IOException e) {

@@ -58,6 +58,13 @@ public class ConfigData {
         return singleInstance;
     }
 
+    public static ConfigData getInstance() {
+        if (singleInstance == null) {
+            singleInstance = new ConfigData(null, null, null);
+        }
+        return singleInstance;
+    }
+
     public boolean writeToFile() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String newConfigObj = gson.toJson(this);
