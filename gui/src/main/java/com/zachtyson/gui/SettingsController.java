@@ -66,10 +66,7 @@ public class SettingsController implements Initializable {
             int overtimeHalfLength = Integer.parseInt(overtimeLengthField.getText());
             TeamData teamData = new TeamData(teamOneName, teamTwoName, teamOneLogo, teamTwoLogo, teamOneStartingSide, bombTime, halfLength, overtimeHalfLength, gameLength);
             ConfigData configData = ConfigData.getInstance(applicationData, teamData,null);
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            gson.toJson(configData);
-            writeJsonToFile(gson.toJson(configData), "backend/config.json"); //this one doesn't work but the bottom one doesn't work unless this one is here
-            writeJsonToFile(gson.toJson(configData), "config.json");
+            configData.writeToFile();
             createButtonOutputArea.setText("Successfully created config.json");
         } catch (IOException e) {
             createButtonOutputArea.setText("Error getting file: " + e.getMessage());

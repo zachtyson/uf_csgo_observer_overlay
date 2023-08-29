@@ -58,6 +58,19 @@ public class ConfigData {
         return singleInstance;
     }
 
+    public boolean writeToFile() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String newConfigObj = gson.toJson(this);
+        try {
+            writeJsonToFile(newConfigObj, "config.json");
+            writeJsonToFile(newConfigObj, "backend/config.json");
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error: Failed to write to config.json");
+            return false;
+        }
+    }
+
     public void setApplication(ApplicationData application) {
         this.application = application;
     }
