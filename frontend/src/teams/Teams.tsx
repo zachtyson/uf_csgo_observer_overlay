@@ -13,6 +13,7 @@ import {
     type RootObject,
     type Player,
     type PhaseCountdowns,
+    type TeamUtility,
 } from '../data_interface';
 import { type TeamData } from '../config_interface';
 
@@ -30,6 +31,12 @@ interface ContainerProps {
     players: Player[] | null;
     side: string;
     currentSpec: Player | null;
+    phaseCountdowns: PhaseCountdowns | null;
+    teamUtility: TeamUtility | undefined;
+}
+
+interface TeamEquipmentProps {
+    teamUtility: TeamUtility | undefined;
     phaseCountdowns: PhaseCountdowns | null;
 }
 
@@ -209,11 +216,20 @@ function PlayerDiv({ player, side, currentSpec }: PlayerProps): JSX.Element {
     );
 }
 
+function TeamEquipment({
+    teamUtility,
+    phaseCountdowns,
+}: TeamEquipmentProps): JSX.Element {
+    if (teamUtility == null || phaseCountdowns == null) return <div></div>;
+    return <div></div>;
+}
+
 export function Container({
     players,
     side,
     currentSpec,
     phaseCountdowns,
+    teamUtility,
 }: ContainerProps): JSX.Element {
     if (players == null) return <div></div>;
     const className = 'container ' + side + 'Container';
@@ -227,6 +243,10 @@ export function Container({
     }
     return (
         <div className={className}>
+            <TeamEquipment
+                teamUtility={teamUtility}
+                phaseCountdowns={phaseCountdowns}
+            />
             {players.map((player) => (
                 <div key={player.id}>
                     {PlayerDiv({
@@ -254,6 +274,8 @@ const Teams: React.FC<TeamProps> = ({ data, config }) => {
     const leftPlayers = data.allplayers.teamOne;
     const rightPlayers = data.allplayers.teamTwo;
     const phaseCountdowns = data.phase_countdowns;
+    const leftTeamUtility = data.allplayers.teamOneUtility;
+    const rightTeamUtility = data.allplayers.teamTwoUtility;
     // eslint-disable-next-line no-console
     console.log(phaseCountdowns);
     return (
@@ -263,12 +285,14 @@ const Teams: React.FC<TeamProps> = ({ data, config }) => {
                 side={'left'}
                 currentSpec={currentSpec}
                 phaseCountdowns={phaseCountdowns}
+                teamUtility={leftTeamUtility}
             />
             <Container
                 players={rightPlayers}
                 side={'right'}
                 currentSpec={currentSpec}
                 phaseCountdowns={phaseCountdowns}
+                teamUtility={rightTeamUtility}
             />
         </div>
     );
