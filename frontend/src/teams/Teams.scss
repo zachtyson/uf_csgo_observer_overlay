@@ -245,8 +245,52 @@
 }
 
 .teamEquipment {
-    height: 8vh;
+    height: 10vh;
     width: 100%;
     background-color: var(--Background-solid);
     margin-bottom: 1vh;
+    img {
+        height: 2.5vh;
+        margin-left: 0.1vw;
+    }
+
+    .weapon_hegrenade {
+        height: 2vh;
+        margin-bottom: 0.1vh;
+        margin-left: 0.1vw;
+    }
+    .weapon_flashbang {
+        margin-right: 0.1vh;
+        margin-bottom: 0.1vh;
+    }
+    .weapon_incgrenade {
+        margin-right: 0.1vh;
+    }
+    .weapon_smokegrenade {
+        height: 2.3vh;
+        margin-bottom: 0.1vh;
+    }
+    .weapon_molotov {
+        height: 2.6vh;
+    }
+    .weapon_decoy {
+        height: 2.3vh;
+        margin-bottom: 0.1vh;
+    }
+    .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        width: 60%;
+        margin-left: 4%;
+    }
+    .column {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
 }

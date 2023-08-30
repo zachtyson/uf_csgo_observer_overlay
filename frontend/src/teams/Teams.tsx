@@ -16,6 +16,7 @@ import {
     type TeamUtility,
 } from '../data_interface';
 import { type TeamData } from '../config_interface';
+import { gunMap } from '../assets/Weapons';
 
 interface TeamProps {
     data: RootObject; // Update the type according to your data structure
@@ -223,16 +224,52 @@ function TeamEquipment({
     side,
 }: TeamEquipmentProps): JSX.Element {
     if (teamUtility == null || phaseCountdowns == null) return <div></div>;
-    const className = 'teamEquipment ' + side;
-    return (
-        <div className={className}>
-            <p className={side === 'right' ? 'rightContainerText' : ''}>
-                {teamUtility.value.toString()} {teamUtility.smoke.toString()}{' '}
-                {teamUtility.fire.toString()} {teamUtility.flash.toString()}{' '}
-                {teamUtility.he.toString()}
-            </p>
+    const c = 'teamEquipment ' + side;
+    const nades = (
+        <div className="row">
+            <div className="column">
+                <img
+                    alt="nades"
+                    className={`weapon_smokegrenade`}
+                    src={gunMap.get('weapon_smokegrenade')}
+                />
+                <p className={side === 'right' ? 'rightContainerText' : ''}>
+                    {teamUtility.smoke}
+                </p>
+            </div>
+            <div className="column">
+                <img
+                    alt="nades"
+                    className={`weapon_molotov`}
+                    src={gunMap.get('weapon_molotov')}
+                />
+                <p className={side === 'right' ? 'rightContainerText' : ''}>
+                    {teamUtility.fire}
+                </p>
+            </div>
+            <div className="column">
+                <img
+                    alt="nades"
+                    className={`weapon_hegrenade`}
+                    src={gunMap.get('weapon_hegrenade')}
+                />
+                <p className={side === 'right' ? 'rightContainerText' : ''}>
+                    {teamUtility.he}
+                </p>
+            </div>
+            <div className="column">
+                <img
+                    alt="nades"
+                    className={`weapon_flashbang`}
+                    src={gunMap.get('weapon_flashbang')}
+                />
+                <p className={side === 'right' ? 'rightContainerText' : ''}>
+                    {teamUtility.flash}
+                </p>
+            </div>
         </div>
     );
+    return <div className={c}>{nades}</div>;
 }
 
 export function Container({
