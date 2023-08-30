@@ -221,7 +221,7 @@ function TeamEquipment({
     phaseCountdowns,
 }: TeamEquipmentProps): JSX.Element {
     if (teamUtility == null || phaseCountdowns == null) return <div></div>;
-    return <div></div>;
+    return <div className="teamEquipment"></div>;
 }
 
 export function Container({
