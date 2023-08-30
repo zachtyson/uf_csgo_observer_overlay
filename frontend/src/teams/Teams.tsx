@@ -9,7 +9,11 @@ import {
     hasKit,
     getNades,
 } from './Equipment';
-import { type RootObject, type Player } from '../data_interface';
+import {
+    type RootObject,
+    type Player,
+    type PhaseCountdowns,
+} from '../data_interface';
 import { type TeamData } from '../config_interface';
 
 interface TeamProps {
@@ -26,6 +30,7 @@ interface ContainerProps {
     players: Player[] | null;
     side: string;
     currentSpec: Player | null;
+    phaseCountdowns: PhaseCountdowns | null;
 }
 
 function getHealthColor(health: number): string {
@@ -208,6 +213,7 @@ export function Container({
     players,
     side,
     currentSpec,
+    phaseCountdowns,
 }: ContainerProps): JSX.Element {
     if (players == null) return <div></div>;
     const className = 'container ' + side + 'Container';
@@ -247,17 +253,22 @@ const Teams: React.FC<TeamProps> = ({ data, config }) => {
     }, [data]);
     const leftPlayers = data.allplayers.teamOne;
     const rightPlayers = data.allplayers.teamTwo;
+    const phaseCountdowns = data.phase_countdowns;
+    // eslint-disable-next-line no-console
+    console.log(phaseCountdowns);
     return (
         <div>
             <Container
                 players={leftPlayers}
                 side={'left'}
                 currentSpec={currentSpec}
+                phaseCountdowns={phaseCountdowns}
             />
             <Container
                 players={rightPlayers}
                 side={'right'}
                 currentSpec={currentSpec}
+                phaseCountdowns={phaseCountdowns}
             />
         </div>
     );
