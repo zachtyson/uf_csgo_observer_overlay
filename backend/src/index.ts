@@ -212,6 +212,91 @@ function splitPlayersIntoTeams(jsonData: any): void {
     jsonData.allplayers.teamTwoSide = side === 'CT' ? 'T' : 'CT';
 }
 
+// const utilityTypes = [
+//     'weapon_flashbang',
+//     'weapon_hegrenade',
+//     'weapon_smokegrenade',
+//     'weapon_molotov',
+//     'weapon_incgrenade',
+// ];
+
+function getTotalUtilityAndValue(allplayers: any[]): void {
+    const teamOneUtility = getTotalUtilityForTeam(teamOne);
+    const teamTwoUtility = getTotalUtilityForTeam(teamTwo);
+    // @ts-expect-error fix later
+    allplayers.teamOneUtility = {
+        flash: teamOneUtility[0],
+        he: teamOneUtility[1],
+        smoke: teamOneUtility[2],
+        fire: teamOneUtility[3],
+    };
+    // @ts-expect-error fix later
+    allplayers.teamTwoUtility = {
+        flash: teamTwoUtility[0],
+        he: teamTwoUtility[1],
+        smoke: teamTwoUtility[2],
+        fire: teamTwoUtility[3],
+    };
+    const teamOneValue = getTotalEquipmentValueForTeam(teamOne);
+    const teamTwoValue = getTotalEquipmentValueForTeam(teamTwo);
+    // @ts-expect-error fix later
+    allplayers.teamOneUtility.value = teamOneValue;
+    // @ts-expect-error fix later
+    allplayers.teamTwoUtility.value = teamTwoValue;
+}
+
+function getTotalUtilityForTeam(team: any[]): number[] {
+    let totalFlash = 0;
+    let totalHE = 0;
+    let totalSmoke = 0;
+    let totalFire = 0;
+    for (let i = 0; i < team.length; i++) {
+        const player = team[i];
+        const weaponData = player.weapons;
+        for (const weaponKey in weaponData) {
+            if (Object.prototype.hasOwnProperty.call(weaponData, weaponKey)) {
+                const weapon = weaponData[weaponKey];
+                const weaponName = weapon.name;
+                switch (weaponName) {
+                    case 'weapon_flashbang':
+                        totalFlash += 1;
+                        break;
+                    case 'weapon_hegrenade':
+                        totalHE += 1;
+                        break;
+                    case 'weapon_smokegrenade':
+                        totalSmoke += 1;
+                        break;
+                    case 'weapon_molotov':
+                    case 'weapon_incgrenade':
+                        totalFire += 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    return [totalFlash, totalHE, totalSmoke, totalFire];
+}
+
+function getTotalEquipmentValueForTeam(team: any[]): number {
+    let totalValue = 0;
+    for (let i = 0; i < team.length; i++) {
+        const player = team[i];
+        const playerState = player.state;
+        if (playerState == null || playerState.equip_value == null) {
+            continue;
+        }
+        if (playerState.health <= 0) {
+            continue;
+        }
+        const currValue: number = playerState.equip_value;
+        totalValue += currValue;
+    }
+    return totalValue;
+}
+
 async function startServer(): Promise<void> {
     let config: any;
     try {
@@ -261,6 +346,7 @@ async function startServer(): Promise<void> {
                             // log.info("[SYSTEM] Sent data to frontend via socket");
                             appendADR(jsonData);
                             splitPlayersIntoTeams(jsonData);
+                            getTotalUtilityAndValue(jsonData.allplayers);
                             io.emit('data', jsonData);
                             // console.log(playerADRStore);
                             // console.log(playerADR);

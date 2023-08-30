@@ -89,6 +89,8 @@ export interface AllPlayers {
     teamTwo: Player[] | null;
     teamOneSide?: string;
     teamTwoSide?: string;
+    teamOneUtility?: TeamUtility;
+    teamTwoUtility?: TeamUtility;
 }
 
 export interface PhaseCountdowns {
@@ -103,4 +105,12 @@ export interface RootObject {
     round: Round;
     allplayers: AllPlayers;
     phase_countdowns: PhaseCountdowns;
+}
+
+export interface TeamUtility {
+    flash: number;
+    he: number;
+    smoke: number;
+    fire: number;
+    value: number;
 }

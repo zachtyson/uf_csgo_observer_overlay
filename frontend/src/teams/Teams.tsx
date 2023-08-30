@@ -9,8 +9,14 @@ import {
     hasKit,
     getNades,
 } from './Equipment';
-import { type RootObject, type Player } from '../data_interface';
+import {
+    type RootObject,
+    type Player,
+    type PhaseCountdowns,
+    type TeamUtility,
+} from '../data_interface';
 import { type TeamData } from '../config_interface';
+import { gunMap } from '../assets/Weapons';
 
 interface TeamProps {
     data: RootObject; // Update the type according to your data structure
@@ -26,6 +32,14 @@ interface ContainerProps {
     players: Player[] | null;
     side: string;
     currentSpec: Player | null;
+    phaseCountdowns: PhaseCountdowns | null;
+    teamUtility: TeamUtility | undefined;
+}
+
+interface TeamEquipmentProps {
+    teamUtility: TeamUtility | undefined;
+    phaseCountdowns: PhaseCountdowns | null;
+    side: string;
 }
 
 function getHealthColor(health: number): string {
@@ -204,15 +218,87 @@ function PlayerDiv({ player, side, currentSpec }: PlayerProps): JSX.Element {
     );
 }
 
+function TeamEquipment({
+    teamUtility,
+    phaseCountdowns,
+    side,
+}: TeamEquipmentProps): JSX.Element {
+    if (teamUtility == null || phaseCountdowns == null) return <div></div>;
+    const c = 'teamEquipment ' + side;
+    const nades = (
+        <div className="row">
+            <div className="column">
+                <img
+                    alt="nades"
+                    className={`weapon_smokegrenade`}
+                    src={gunMap.get('weapon_smokegrenade')}
+                />
+                <p className={side === 'right' ? 'rightContainerText' : ''}>
+                    {teamUtility.smoke}
+                </p>
+            </div>
+            <div className="column">
+                <img
+                    alt="nades"
+                    className={`weapon_molotov`}
+                    src={gunMap.get('weapon_molotov')}
+                />
+                <p className={side === 'right' ? 'rightContainerText' : ''}>
+                    {teamUtility.fire}
+                </p>
+            </div>
+            <div className="column">
+                <img
+                    alt="nades"
+                    className={`weapon_hegrenade`}
+                    src={gunMap.get('weapon_hegrenade')}
+                />
+                <p className={side === 'right' ? 'rightContainerText' : ''}>
+                    {teamUtility.he}
+                </p>
+            </div>
+            <div className="column">
+                <img
+                    alt="nades"
+                    className={`weapon_flashbang`}
+                    src={gunMap.get('weapon_flashbang')}
+                />
+                <p className={side === 'right' ? 'rightContainerText' : ''}>
+                    {teamUtility.flash}
+                </p>
+            </div>
+        </div>
+    );
+    const teamValue = (
+        <div className="value">
+            <p className={side === 'right' ? 'rightContainerText' : ''}>
+                Equipment Value
+            </p>
+            <p className={side === 'right' ? 'rightContainerText' : ''}>
+                ${teamUtility.value}
+            </p>
+        </div>
+    );
+    const id = phaseCountdowns.phase === 'freezetime' ? '' : 'hidden';
+    return (
+        <div className={c} id={id}>
+            {nades}
+            {teamValue}
+        </div>
+    );
+}
+
 export function Container({
     players,
     side,
     currentSpec,
+    phaseCountdowns,
+    teamUtility,
 }: ContainerProps): JSX.Element {
     if (players == null) return <div></div>;
     const className = 'container ' + side + 'Container';
     let currentSpecPlayer: Player | null = null;
-    if (currentSpec != null && players != null && currentSpec.steamid !== '1') {
+    if (currentSpec != null && currentSpec.steamid !== '1') {
         for (let i = 0; i < players.length; i++) {
             if (players[i].observer_slot === currentSpec.observer_slot) {
                 currentSpecPlayer = players[i];
@@ -221,6 +307,11 @@ export function Container({
     }
     return (
         <div className={className}>
+            <TeamEquipment
+                teamUtility={teamUtility}
+                phaseCountdowns={phaseCountdowns}
+                side={side}
+            />
             {players.map((player) => (
                 <div key={player.id}>
                     {PlayerDiv({
@@ -247,17 +338,26 @@ const Teams: React.FC<TeamProps> = ({ data, config }) => {
     }, [data]);
     const leftPlayers = data.allplayers.teamOne;
     const rightPlayers = data.allplayers.teamTwo;
+    const phaseCountdowns = data.phase_countdowns;
+    const leftTeamUtility = data.allplayers.teamOneUtility;
+    const rightTeamUtility = data.allplayers.teamTwoUtility;
+    // eslint-disable-next-line no-console
+    console.log(phaseCountdowns);
     return (
         <div>
             <Container
                 players={leftPlayers}
                 side={'left'}
                 currentSpec={currentSpec}
+                phaseCountdowns={phaseCountdowns}
+                teamUtility={leftTeamUtility}
             />
             <Container
                 players={rightPlayers}
                 side={'right'}
                 currentSpec={currentSpec}
+                phaseCountdowns={phaseCountdowns}
+                teamUtility={rightTeamUtility}
             />
         </div>
     );
