@@ -269,7 +269,23 @@ function TeamEquipment({
             </div>
         </div>
     );
-    return <div className={c}>{nades}</div>;
+    const teamValue = (
+        <div className="value">
+            <p className={side === 'right' ? 'rightContainerText' : ''}>
+                Equipment Value
+            </p>
+            <p className={side === 'right' ? 'rightContainerText' : ''}>
+                ${teamUtility.value}
+            </p>
+        </div>
+    );
+    const id = phaseCountdowns.phase === 'freezetime' ? '' : 'hidden';
+    return (
+        <div className={c} id={id}>
+            {nades}
+            {teamValue}
+        </div>
+    );
 }
 
 export function Container({

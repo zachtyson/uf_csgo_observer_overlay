@@ -249,6 +249,10 @@
     width: 100%;
     background-color: var(--Background-solid);
     margin-bottom: 1vh;
+    display: flex;
+    flex-direction: row;
+    transition: opacity 1s linear;
+
     img {
         height: 2.5vh;
         margin-left: 0.1vw;
@@ -292,5 +296,25 @@
         align-items: center;
         flex-direction: column;
     }
+    .value {
+        width: 40%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .value p {
+        margin: 0;
+        padding: 0;
+        line-height: 1;
+    }
 
+    .value p + p {
+        margin-top: 10%;
+    }
+
+    #hiddenTeamValue {
+        opacity: 0;
+    }
 }
