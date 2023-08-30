@@ -38,6 +38,7 @@ interface ContainerProps {
 interface TeamEquipmentProps {
     teamUtility: TeamUtility | undefined;
     phaseCountdowns: PhaseCountdowns | null;
+    side: string;
 }
 
 function getHealthColor(health: number): string {
@@ -219,9 +220,19 @@ function PlayerDiv({ player, side, currentSpec }: PlayerProps): JSX.Element {
 function TeamEquipment({
     teamUtility,
     phaseCountdowns,
+    side,
 }: TeamEquipmentProps): JSX.Element {
     if (teamUtility == null || phaseCountdowns == null) return <div></div>;
-    return <div className="teamEquipment"></div>;
+    const className = 'teamEquipment ' + side;
+    return (
+        <div className={className}>
+            <p className={side === 'right' ? 'rightContainerText' : ''}>
+                {teamUtility.value.toString()} {teamUtility.smoke.toString()}{' '}
+                {teamUtility.fire.toString()} {teamUtility.flash.toString()}{' '}
+                {teamUtility.he.toString()}
+            </p>
+        </div>
+    );
 }
 
 export function Container({
@@ -246,6 +257,7 @@ export function Container({
             <TeamEquipment
                 teamUtility={teamUtility}
                 phaseCountdowns={phaseCountdowns}
+                side={side}
             />
             {players.map((player) => (
                 <div key={player.id}>
