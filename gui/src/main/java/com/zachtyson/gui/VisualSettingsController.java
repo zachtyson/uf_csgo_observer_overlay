@@ -11,8 +11,6 @@ import javafx.scene.text.Font;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static com.zachtyson.gui.Main.writeJsonToFile;
-
 public class VisualSettingsController implements Initializable {
     @FXML
     public ColorPicker colorPicker1;
@@ -60,7 +58,7 @@ public class VisualSettingsController implements Initializable {
         colorPicker5.getCustomColors().addAll(colors);
 
         saveColors.setOnAction(actionEvent -> {
-            UIColorsData uiColorsData = new UIColorsData(
+            UIVisualData uiVisualData = new UIVisualData(
                     convertToRGBA(colorPicker1.getValue()),
                     convertToRGBA(colorPicker2.getValue()),
                     convertToRGBA(colorPicker3.getValue()),
@@ -68,7 +66,7 @@ public class VisualSettingsController implements Initializable {
                     convertToRGBA(colorPicker5.getValue())
             );
             ConfigData configData = ConfigData.getInstance();
-            configData.setUiColorsData(uiColorsData);
+            configData.setUiColorsData(uiVisualData);
             configData.writeToFile();
 
         });

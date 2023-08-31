@@ -17,8 +17,8 @@ public class ConfigData {
     @SerializedName("team_data")
     public TeamData teamData = new TeamData("Team One", "Team Two", "teamOneBackup.png", "teamTwoBackup", "CT", 40, 15, 3, 30);
 
-    private ConfigData(ApplicationData application, TeamData teamData, UIColorsData uiColorsData) {
-        if(application == null && teamData == null && uiColorsData == null) {
+    private ConfigData(ApplicationData application, TeamData teamData, UIVisualData uiVisualData) {
+        if(application == null && teamData == null && uiVisualData == null) {
             File f = new File("config.json");
             if(f.exists()) {
                 try {
@@ -34,17 +34,17 @@ public class ConfigData {
             if(teamData != null) {
                 this.teamData = teamData;
             }
-            if(uiColorsData != null) {
-                this.uiColorsData = uiColorsData;
+            if(uiVisualData != null) {
+                this.uiVisualData = uiVisualData;
             }
         }
     }
 
     @SerializedName("ui_colors")
-    public UIColorsData uiColorsData = new UIColorsData("rgb(213, 96, 233)", "rgb(0, 235, 176)", "rgba(108, 48, 58, 0.76)", "rgba(138, 48, 58, 0.7)", "rgba(133, 42, 52, 1)");
-    public static ConfigData getInstance(ApplicationData application, TeamData teamData, UIColorsData uiColorsData) {
+    public UIVisualData uiVisualData = new UIVisualData("rgb(213, 96, 233)", "rgb(0, 235, 176)", "rgba(108, 48, 58, 0.76)", "rgba(138, 48, 58, 0.7)", "rgba(133, 42, 52, 1)");
+    public static ConfigData getInstance(ApplicationData application, TeamData teamData, UIVisualData uiVisualData) {
         if (singleInstance == null) {
-            singleInstance = new ConfigData(application, teamData, uiColorsData);
+            singleInstance = new ConfigData(application, teamData, uiVisualData);
         }
         if(application != null) {
             singleInstance.application = application;
@@ -52,8 +52,8 @@ public class ConfigData {
         if(teamData != null) {
             singleInstance.teamData = teamData;
         }
-        if(uiColorsData != null) {
-            singleInstance.uiColorsData = uiColorsData;
+        if(uiVisualData != null) {
+            singleInstance.uiVisualData = uiVisualData;
         }
         return singleInstance;
     }
@@ -86,8 +86,8 @@ public class ConfigData {
         this.teamData = teamData;
     }
 
-    public void setUiColorsData(UIColorsData uiColorsData) {
-        this.uiColorsData = uiColorsData;
+    public void setUiColorsData(UIVisualData uiVisualData) {
+        this.uiVisualData = uiVisualData;
     }
 
     public ApplicationData getApplication() {
@@ -98,8 +98,8 @@ public class ConfigData {
         return teamData;
     }
 
-    public UIColorsData getUiColorsData() {
-        return uiColorsData;
+    public UIVisualData getUiColorsData() {
+        return uiVisualData;
     }
 
     public static ConfigData singleInstance = null;

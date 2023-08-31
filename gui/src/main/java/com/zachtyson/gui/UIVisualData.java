@@ -2,7 +2,7 @@ package com.zachtyson.gui;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UIColorsData {
+public class UIVisualData {
     //"ui_colors": {
     //        "tColor": "rgb(213, 96, 233)",
     //        "ctColor": "rgb(0, 235, 176)",
@@ -20,7 +20,7 @@ public class UIColorsData {
     public String backgroundOpacity;
     @SerializedName("backgroundOpacity2")
     public String backgroundOpacity2;
-    public UIColorsData(String tColor, String ctColor, String backgroundSolid, String backgroundOpacity2, String backgroundOpacity) {
+    public UIVisualData(String tColor, String ctColor, String backgroundSolid, String backgroundOpacity2, String backgroundOpacity) {
         this.tColor = tColor;
         this.ctColor = ctColor;
         this.backgroundSolid = backgroundSolid;
