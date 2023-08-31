@@ -71,7 +71,7 @@ public class VisualSettingsController implements Initializable {
             configData.writeToFile();
 
         });
-
+        fontComboBox.setValue("Arial Black");
         fontComboBox.getItems().addAll(Font.getFamilies());
     }
 
