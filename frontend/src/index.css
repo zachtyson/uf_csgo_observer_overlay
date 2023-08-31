@@ -1,39 +1,13 @@
 body {
     margin: 0;
-    font-family:
-        'Gobold Lowplus',
-        'Segoe UI Semibold',
-        Arial Black,
-        sans-serif,
-        'Segoe UI',
-        'Roboto',
-        'Oxygen',
-        'Ubuntu',
-        'Cantarell',
-        'Fira Sans',
-        'Droid Sans',
-        'Helvetica Neue',
-        sans-serif;
+    font-family: var(--Overlay-font);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: white;
 }
 
 p {
-    font-family:
-        'Gobold Lowplus',
-        'Segoe UI Semibold',
-        Arial Black,
-        sans-serif,
-        'Segoe UI',
-        'Roboto',
-        'Oxygen',
-        'Ubuntu',
-        'Cantarell',
-        'Fira Sans',
-        'Droid Sans',
-        'Helvetica Neue',
-        sans-serif;
+    font-family: var(--Overlay-font);
     color: white;
 }
 
