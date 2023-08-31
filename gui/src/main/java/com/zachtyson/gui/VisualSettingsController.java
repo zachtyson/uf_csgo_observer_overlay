@@ -63,7 +63,8 @@ public class VisualSettingsController implements Initializable {
                     convertToRGBA(colorPicker2.getValue()),
                     convertToRGBA(colorPicker3.getValue()),
                     convertToRGBA(colorPicker4.getValue()),
-                    convertToRGBA(colorPicker5.getValue())
+                    convertToRGBA(colorPicker5.getValue()),
+                    fontComboBox.getValue().toString()
             );
             ConfigData configData = ConfigData.getInstance();
             configData.setUiColorsData(uiVisualData);

@@ -20,11 +20,15 @@ public class UIVisualData {
     public String backgroundOpacity;
     @SerializedName("backgroundOpacity2")
     public String backgroundOpacity2;
-    public UIVisualData(String tColor, String ctColor, String backgroundSolid, String backgroundOpacity2, String backgroundOpacity) {
+    public UIVisualData(String tColor, String ctColor, String backgroundSolid, String backgroundOpacity2, String backgroundOpacity, String overlayFont) {
         this.tColor = tColor;
         this.ctColor = ctColor;
         this.backgroundSolid = backgroundSolid;
         this.backgroundOpacity = backgroundOpacity;
         this.backgroundOpacity2 = backgroundOpacity2;
+        this.overlayFont = overlayFont;
     }
+
+    @SerializedName("overlayFont")
+    public String overlayFont;
 }
