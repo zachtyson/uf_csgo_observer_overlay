@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -71,6 +72,8 @@ public class VisualSettingsController implements Initializable {
             configData.writeToFile();
 
         });
+
+        fontComboBox.getItems().addAll(Font.getFamilies());
     }
 
     private String convertToRGBA(Color color) {
