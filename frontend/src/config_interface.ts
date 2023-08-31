@@ -27,4 +27,5 @@ export interface UIColors {
     backgroundOpacity: string;
     backgroundSolid: string;
     backgroundOpacity2: string;
+    overlayFont: string;
 }

@@ -12,6 +12,7 @@ import './App.scss';
 const backupTeamOneLogo = require('./config/teamOneBackup.png');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const backupTeamTwoLogo = require('./config/teamTwoBackup.png');
+const defaultFont = `'Gobold Lowplus', 'Segoe UI Semibold', Arial Black, sans-serif, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;`;
 
 interface AppProps {
     appConfiguration: ConfigData | null;
@@ -111,14 +112,10 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
         backgroundOpacity: 'rgba(38, 48, 58, 0.76)',
         backgroundSolid: 'rgba(33, 42, 52, 1)',
         backgroundOpacity2: 'rgba(38, 48, 58, 0.7)',
+        overlayFont: defaultFont,
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [overlayFont, setOverlayFont] = useState<string>(
-        `'Gobold Lowplus', 'Segoe UI Semibold', Arial Black, sans-serif, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;`,
-    );
-
-    document.body.style.fontFamily = overlayFont;
+    document.body.style.fontFamily = colors.overlayFont;
 
     return (
         <div
@@ -130,7 +127,7 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
                 '--Background-opacity': colors.backgroundOpacity,
                 '--Background-solid': colors.backgroundSolid,
                 '--Background-opacity2': colors.backgroundOpacity2,
-                '--Overlay-font': overlayFont,
+                '--Overlay-font': colors.overlayFont,
             }}
         >
             <RoundWin data={response} config={config} />{' '}
