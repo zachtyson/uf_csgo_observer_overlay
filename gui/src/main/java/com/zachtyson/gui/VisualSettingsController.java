@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
@@ -24,6 +25,7 @@ public class VisualSettingsController implements Initializable {
     public ColorPicker colorPicker5;
     @FXML
     public Button saveColors;
+    public ComboBox fontComboBox;
 
     //        tColor: 'rgb(213, 96, 0)',
     //        ctColor: 'rgb(0, 135, 176)',
