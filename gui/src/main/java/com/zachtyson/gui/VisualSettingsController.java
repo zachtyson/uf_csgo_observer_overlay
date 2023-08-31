@@ -4,12 +4,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static com.zachtyson.gui.Main.writeJsonToFile;
 
 public class VisualSettingsController implements Initializable {
     @FXML
@@ -24,6 +24,7 @@ public class VisualSettingsController implements Initializable {
     public ColorPicker colorPicker5;
     @FXML
     public Button saveColors;
+    public ComboBox fontComboBox;
 
     //        tColor: 'rgb(213, 96, 0)',
     //        ctColor: 'rgb(0, 135, 176)',
@@ -57,18 +58,21 @@ public class VisualSettingsController implements Initializable {
         colorPicker5.getCustomColors().addAll(colors);
 
         saveColors.setOnAction(actionEvent -> {
-            UIColorsData uiColorsData = new UIColorsData(
+            UIVisualData uiVisualData = new UIVisualData(
                     convertToRGBA(colorPicker1.getValue()),
                     convertToRGBA(colorPicker2.getValue()),
                     convertToRGBA(colorPicker3.getValue()),
                     convertToRGBA(colorPicker4.getValue()),
-                    convertToRGBA(colorPicker5.getValue())
+                    convertToRGBA(colorPicker5.getValue()),
+                    fontComboBox.getValue().toString()
             );
             ConfigData configData = ConfigData.getInstance();
-            configData.setUiColorsData(uiColorsData);
+            configData.setUiColorsData(uiVisualData);
             configData.writeToFile();
 
         });
+        fontComboBox.setValue("Arial Black");
+        fontComboBox.getItems().addAll(Font.getFamilies());
     }
 
     private String convertToRGBA(Color color) {

@@ -3,14 +3,16 @@ import { io, type Socket } from 'socket.io-client';
 import Scoreboard from './scoreboard/Scoreboard';
 import Teams from './teams/Teams';
 import CurrentPlayer from './current_player/CurrentPlayer';
-import { type ConfigData, type UIColors } from './config_interface';
+import { type ConfigData, type UIVisualData } from './config_interface';
 import RoundWin from './round_win/RoundWin';
 import './_variables.scss';
+import './App.scss';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const backupTeamOneLogo = require('./config/teamOneBackup.png');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const backupTeamTwoLogo = require('./config/teamTwoBackup.png');
+const defaultFont = `'Gobold Lowplus', 'Segoe UI Semibold', Arial Black, sans-serif, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;`;
 
 interface AppProps {
     appConfiguration: ConfigData | null;
@@ -23,6 +25,7 @@ declare module 'react' {
         '--Background-opacity'?: string;
         '--Background-solid'?: string;
         '--Background-opacity2'?: string;
+        '--Overlay-font'?: string;
     }
 }
 
@@ -76,10 +79,10 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
             };
             setConfig(configData);
             if (
-                appConfiguration.ui_colors !== undefined &&
-                appConfiguration.ui_colors != null
+                appConfiguration.ui_visual_data !== undefined &&
+                appConfiguration.ui_visual_data != null
             ) {
-                setColors(appConfiguration.ui_colors);
+                setColors(appConfiguration.ui_visual_data);
             }
         } else {
             const configData = getBackupConfig();
@@ -103,13 +106,17 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
             socket.disconnect();
         };
     }, []);
-    const [colors, setColors] = useState<UIColors>({
+    const [colors, setColors] = useState<UIVisualData>({
         tColor: 'rgb(213, 96, 0)',
         ctColor: 'rgb(0, 135, 176)',
         backgroundOpacity: 'rgba(38, 48, 58, 0.76)',
         backgroundSolid: 'rgba(33, 42, 52, 1)',
         backgroundOpacity2: 'rgba(38, 48, 58, 0.7)',
+        overlayFont: defaultFont,
     });
+
+    document.body.style.fontFamily = colors.overlayFont;
+
     return (
         <div
             style={{
@@ -120,6 +127,7 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
                 '--Background-opacity': colors.backgroundOpacity,
                 '--Background-solid': colors.backgroundSolid,
                 '--Background-opacity2': colors.backgroundOpacity2,
+                '--Overlay-font': colors.overlayFont,
             }}
         >
             <RoundWin data={response} config={config} />{' '}

@@ -18,13 +18,14 @@ interface ApplicationData {
 export interface ConfigData {
     application_data: ApplicationData;
     team_data: TeamData;
-    ui_colors: UIColors;
+    ui_visual_data: UIVisualData;
 }
 
-export interface UIColors {
+export interface UIVisualData {
     tColor: string;
     ctColor: string;
     backgroundOpacity: string;
     backgroundSolid: string;
     backgroundOpacity2: string;
+    overlayFont: string;
 }
