@@ -3,7 +3,7 @@ import { io, type Socket } from 'socket.io-client';
 import Scoreboard from './scoreboard/Scoreboard';
 import Teams from './teams/Teams';
 import CurrentPlayer from './current_player/CurrentPlayer';
-import { type ConfigData, type UIColors } from './config_interface';
+import { type ConfigData, type UIVisualData } from './config_interface';
 import RoundWin from './round_win/RoundWin';
 import './_variables.scss';
 import './App.scss';
@@ -79,10 +79,10 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
             };
             setConfig(configData);
             if (
-                appConfiguration.ui_colors !== undefined &&
-                appConfiguration.ui_colors != null
+                appConfiguration.ui_visual_data !== undefined &&
+                appConfiguration.ui_visual_data != null
             ) {
-                setColors(appConfiguration.ui_colors);
+                setColors(appConfiguration.ui_visual_data);
             }
         } else {
             const configData = getBackupConfig();
@@ -106,7 +106,7 @@ const App: React.FC<AppProps> = ({ appConfiguration }) => {
             socket.disconnect();
         };
     }, []);
-    const [colors, setColors] = useState<UIColors>({
+    const [colors, setColors] = useState<UIVisualData>({
         tColor: 'rgb(213, 96, 0)',
         ctColor: 'rgb(0, 135, 176)',
         backgroundOpacity: 'rgba(38, 48, 58, 0.76)',

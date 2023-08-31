@@ -40,7 +40,7 @@ public class ConfigData {
         }
     }
 
-    @SerializedName("ui_colors")
+    @SerializedName("ui_visual_data")
     public UIVisualData uiVisualData = new UIVisualData("rgb(213, 96, 233)", "rgb(0, 235, 176)", "rgba(108, 48, 58, 0.76)", "rgba(138, 48, 58, 0.7)", "rgba(133, 42, 52, 1)","'Gobold Lowplus', 'Segoe UI Semibold', Arial Black, sans-serif, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu'");
     public static ConfigData getInstance(ApplicationData application, TeamData teamData, UIVisualData uiVisualData) {
         if (singleInstance == null) {
