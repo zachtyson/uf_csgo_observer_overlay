@@ -6,6 +6,7 @@ import CurrentPlayer from './current_player/CurrentPlayer';
 import { type ConfigData, type UIColors } from './config_interface';
 import RoundWin from './round_win/RoundWin';
 import './_variables.scss';
+import './App.scss';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const backupTeamOneLogo = require('./config/teamOneBackup.png');

@@ -24,6 +24,19 @@
   color: white;
 }
 
+body {
+  margin: 0;
+  font-family: var(--Overlay-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: white;
+}
+
+p {
+  font-family: var(--Overlay-font);
+  color: white;
+}
+
 .App-link {
   color: #61dafb;
 }
