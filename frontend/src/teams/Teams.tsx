@@ -155,7 +155,7 @@ function DeadPlayer({ player, side }: PlayerSideProps): JSX.Element {
 }
 
 function FlashedPlayer({ player, side }: PlayerSideProps): JSX.Element {
-    return <div></div>;
+    return <div className="flashedPlayer"></div>;
 }
 
 function PlayerDiv({ player, side, currentSpec }: PlayerProps): JSX.Element {
