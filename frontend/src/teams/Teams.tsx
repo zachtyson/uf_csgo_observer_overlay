@@ -154,6 +154,10 @@ function DeadPlayer({ player, side }: PlayerSideProps): JSX.Element {
     );
 }
 
+function FlashedPlayer({ player, side }: PlayerSideProps): JSX.Element {
+    return <div></div>;
+}
+
 function PlayerDiv({ player, side, currentSpec }: PlayerProps): JSX.Element {
     if (player.state.health === 0) {
         return <DeadPlayer player={player} side={side} />;
@@ -214,6 +218,7 @@ function PlayerDiv({ player, side, currentSpec }: PlayerProps): JSX.Element {
                     </div>
                 </div>
             </div>
+            {FlashedPlayer({ player, side })}
         </div>
     );
 }
