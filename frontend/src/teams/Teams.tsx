@@ -1,6 +1,6 @@
 import './Teams.scss';
 import React, { useEffect, useState } from 'react';
-import { ArmorHelmet, ArmorFull, Skull } from '../assets/Icons';
+import { ArmorHelmet, ArmorFull, Skull, Blind } from '../assets/Icons';
 
 import {
     getPrimaryWeapon,
@@ -157,13 +157,16 @@ function DeadPlayer({ player, side }: PlayerSideProps): JSX.Element {
 function FlashedPlayer({ player, side }: PlayerSideProps): JSX.Element {
     // if (player.state.flashed === undefined) return <div></div>;
     // if (player.state.flashed === 0) return <div></div>;
-    const flashedPercent = player.state.flashed / 255;
+    let flashedPercent = player.state.flashed / 255;
+    flashedPercent = 0.9;
     const flashedPercentString = flashedPercent.toString();
     return (
         <div
             className="flashedPlayer"
             style={{ opacity: flashedPercentString }}
-        ></div>
+        >
+            <Blind />
+        </div>
     );
 }
 
