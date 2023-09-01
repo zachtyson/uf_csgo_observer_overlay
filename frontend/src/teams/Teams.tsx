@@ -155,8 +155,9 @@ function DeadPlayer({ player, side }: PlayerSideProps): JSX.Element {
 }
 
 function FlashedPlayer({ player, side }: PlayerSideProps): JSX.Element {
-    // if (player.state.flashed === undefined) return <div></div>;
-    // if (player.state.flashed === 0) return <div></div>;
+    if (player.state.flashed === undefined) return <div></div>;
+    if (player.state.flashed === 0) return <div></div>;
+    if (player.state.health === 0) return <div></div>;
     const flashedPercent = player.state.flashed / 255;
     const flashedPercentString = flashedPercent.toString();
     return (
