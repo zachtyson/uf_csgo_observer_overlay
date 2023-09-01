@@ -321,11 +321,14 @@
 }
 
 .flashedPlayer {
-    background-color: red;
     height: 50%;
     width: 10%;
     position: absolute;
     margin-left: 100%;
     margin-top: 3.5%;
-    fill:red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    fill:white;
 }
