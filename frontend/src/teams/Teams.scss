@@ -47,6 +47,7 @@
     margin-bottom: 0.5vh;
     display: flex;
     flex-direction: row;
+    position: relative;
 }
 
 .healthBarSection {
@@ -317,4 +318,17 @@
     #hiddenTeamValue {
         opacity: 0;
     }
+}
+
+.flashedPlayer {
+    height: 50%;
+    width: 10%;
+    position: absolute;
+    margin-left: 100%;
+    margin-top: 3.5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    fill:white;
 }
