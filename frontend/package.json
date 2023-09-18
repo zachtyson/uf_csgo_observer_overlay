@@ -51,7 +51,7 @@
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^5.62.0",
-        "electron": "^25.5.0",
+        "electron": "^25.8.1",
         "electron-packager": "^17.1.1",
         "eslint": "^8.47.0",
         "eslint-config-prettier": "^9.0.0",
